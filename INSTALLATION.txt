@@ -1,0 +1,20 @@
+BACKYARD DE MAGNÉE — MISE À JOUR 2027
+
+1. SAUVEGARDE : téléchargez une copie du Google Sheets et de votre Code.gs actuel.
+2. GOOGLE APPS SCRIPT : remplacez le contenu du Code.gs par le fichier Code.gs livré séparément. N’ENVOYEZ PAS Code.gs SUR GITHUB.
+3. Exécutez initialiser() une fois : la fonction conserve les inscriptions existantes et crée les onglets manquants.
+4. Déployer > Gérer les déploiements > Modifier > Nouvelle version > Déployer. Conservez la même URL /exec.
+5. GITHUB : chargez les fichiers HTML, config.js et le dossier assets avec son contenu. Ne chargez ni Code.gs ni le dossier backend.
+6. Vérifiez les pages, les inscriptions, les commandes, l’espace organisateur et les e-mails avec des dossiers de TEST.
+7. Pour la remise à zéro après tests, utilisez votre fonction de remise à zéro seulement après sauvegarde.
+
+POINTS IMPORTANTS
+- L’inscription à une équipe de 4 est refusée côté serveur s’il reste moins de 4 places.
+- Les commandes supporters n’occupent pas de places de course.
+- La liste d’attente ne réserve aucune place et n’envoie pas de mail automatique. L’organisateur doit contacter les personnes manuellement.
+- Les revenus sont calculés sur les paiements MARQUÉS payés, pas directement vérifiés auprès de la banque.
+- Le QR EPC utilise la bibliothèque qrcodejs chargée en ligne ; en cas d’échec, les coordonnées de virement restent affichées. Vérifiez la compatibilité avec votre application bancaire.
+- La sauvegarde JSON contient des données personnelles : stockez-la de manière privée.
+- L’historique conserve 12 versions antérieures par page ; les paramètres bancaires ne sont pas consignés dans l’audit.
+- Le GPX dans assets/parcours.gpx est une copie statique. Une modification depuis l’organisateur met à jour le GPX dynamique, mais PAS cette copie GitHub : remplacez également le fichier sur GitHub si nécessaire.
+- Les tests NFC nécessitent le lecteur et les badges physiques. Le site n’émule pas la lecture NFC.
