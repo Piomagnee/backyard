@@ -96,7 +96,7 @@
           </form>
         </div>
       </section>
-</main>
+<section class="section" id="commande-supporters"><h2>Commander des pains saucisse sans courir</h2><p>Ouvert à tous, même sans inscription à la course. <strong>4 € par pain saucisse.</strong> Paiement par virement après la commande.</p><form id="sausageform" class="panel" style="max-width:700px"><div class="row"><div><label for="psfirst">Prénom</label><input id="psfirst" required maxlength="60"></div><div><label for="pslast">Nom</label><input id="pslast" required maxlength="60"></div></div><div class="row"><div><label for="psemail">E-mail</label><input id="psemail" type="email" required maxlength="150"></div><div><label for="psphone">Téléphone</label><input id="psphone" type="tel" required maxlength="30"></div></div><label for="psquantity">Nombre de pains saucisse (4 € pièce)</label><input id="psquantity" type="number" min="1" max="100" value="1" required><p id="pstotal" class="notice">Total : 4 €</p><label><input type="checkbox" required> J'accepte l'utilisation de mes coordonnées pour cette commande.</label><button id="pssubmit" type="submit">Enregistrer ma commande</button><div id="psresult" role="status" aria-live="polite"></div></form></section></main>
     <footer>
       <div class="footerinner">
         <div class="footeridentity">
@@ -199,5 +199,7 @@ $('#form').addEventListener('submit', async event => {
 choose('solo');
 refresh();
 </script>
-  </body>
+  <script>
+(function(){const f=document.getElementById('sausageform'),q=document.getElementById('psquantity'),total=document.getElementById('pstotal'),out=document.getElementById('psresult'),btn=document.getElementById('pssubmit');q.addEventListener('input',()=>total.textContent='Total : '+(Number(q.value)||0)*4+' €');f.addEventListener('submit',async e=>{e.preventDefault();btn.disabled=true;out.textContent='Enregistrement en cours…';try{const d=await api('sausage-order',{first:document.getElementById('psfirst').value,last:document.getElementById('pslast').value,email:document.getElementById('psemail').value,phone:document.getElementById('psphone').value,quantity:Number(q.value)});out.textContent='Commande reçue ! Référence : '+d.id+' — Montant : '+d.amount+' € — IBAN : '+d.iban+' — Bénéficiaire : '+d.beneficiary+' — Communication : '+d.id+'. Un e-mail récapitulatif est programmé.';f.reset();total.textContent='Total : 4 €';}catch(err){out.textContent='Erreur : '+err.message;}finally{btn.disabled=false;}});})();
+</script></body>
 </html>
