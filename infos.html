@@ -7,7 +7,28 @@ async function api(path,body,method){if(!window.BACKYARD_CONFIG.apiUrl){if(path=
 function gpxDownload(text){const link=$('#gpxlink');if(!link)return;let blob=new Blob([text],{type:'application/gpx+xml'});link.href=URL.createObjectURL(blob);link.download='Backyard_Magnee_2027.gpx'}
 async function getGpx(){if(window.BACKYARD_CONFIG.apiUrl){let d=await api('gpx');if(d.gpx){gpxDownload(d.gpx);return d.gpx}}let r=await fetch('assets/parcours.gpx');if(!r.ok)throw Error('GPX indisponible');return r.text()}
 function renderPlainContent(value){const e=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));return value.split(/\n\s*\n/).filter(Boolean).map(block=>block.startsWith('## ')?'<h2>'+e(block.slice(3))+'</h2>':'<p>'+e(block).replace(/\n/g,'<br>')+'</p>').join('')}
-function updateManagedContent(){let el=$('#managedContent');if(!el)return;let page=el.dataset.page;if(state.contents&&state.contents[page])el.innerHTML=renderPlainContent(state.contents[page])}
+function updateManagedContent(){
+ const root=$('#managedContent');
+ if(!root)return;
+ const page=root.dataset.page;
+ const raw=state.contents&&state.contents[page];
+ if(typeof raw!=='string'||!raw.trim())return;
+ const blocks=raw.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+ const parsed=blocks.map(block=>{let lines=block.replace(/^##\s*/, '').split('\n');return {title:(lines.shift()||'').trim(),body:lines.join('\n').trim()}});
+ // Preserve the original DOM and every CSS class: only edit text nodes.
+ if(page==='reglement'){
+  const cards=[...root.querySelectorAll('.rule')];
+  if(parsed.length!==cards.length){console.warn('Règlement : structure différente, mise en page conservée.');return}
+  parsed.forEach((part,i)=>{const h=cards[i].querySelector('h3'),p=cards[i].querySelector('p');if(h&&p){h.textContent=part.title;p.textContent=part.body}});
+ }else if(page==='infos'){
+  const facts=[...root.querySelectorAll('.fact')];
+  const faqs=[...document.querySelectorAll('main details')].filter(x=>!root.contains(x));
+  if(parsed.length!==facts.length+faqs.length){console.warn('Infos : structure différente, mise en page conservée.');return}
+  facts.forEach((card,i)=>{const h=card.querySelector('strong'),p=card.querySelector('p');if(h&&p){h.textContent=parsed[i].title;p.textContent=parsed[i].body}});
+  faqs.forEach((card,i)=>{const p=card.querySelector('p');if(p)p.textContent=parsed[facts.length+i].body});
+ }
+}
+
 function updateTotal(){if(!$('#total'))return;let total=(kind==='solo'?25:100)+(Number($('#extras').value)||0)*4;$('#total').textContent='Total à payer : '+total+' €'}
 async function refresh(){try{state=await api('state');updateManagedContent();if($('#available'))$('#available').textContent=state.remaining+' / 250';if($('#caplabel'))$('#caplabel').textContent='Places disponibles';if($('#opening'))$('#opening').textContent=state.open?'Inscriptions ouvertes':'Les inscriptions ne sont pas encore ouvertes.';if($('#when'))$('#when').textContent=state.date+' · '+state.location+' · Course : 10 h–22 h · Retrait des badges : 8 h 30–9 h 30.';if($('#eventinfo'))$('#eventinfo').textContent=state.date+' · '+state.location;if($('#description')&&state.description)$('#description').textContent=state.description;if($('#gpxlink')&&state.hasGpx){$('#gpxlink').classList.remove('hidden');loadTrack()}updateButton()}catch(e){if($('#opening'))$('#opening').textContent='Les inscriptions sont momentanément indisponibles.'}}
 async function loadTrack(){try{let xml=new DOMParser().parseFromString(await getGpx(),'application/xml');let pts=[...xml.getElementsByTagNameNS('*','trkpt'),...xml.getElementsByTagNameNS('*','rtept')].map(n=>[Number(n.getAttribute('lon')),Number(n.getAttribute('lat'))]).filter(p=>p.every(Number.isFinite));if(pts.length<2){$('#gpxstatus').textContent='GPX disponible au téléchargement. Aucun tracé affichable.';return}let xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),c=Math.cos((y0+y1)/2*Math.PI/180),scale=Math.min(560/((x1-x0)*c||1),290/(y1-y0||1));$('#track').setAttribute('points',pts.map(p=>[300+(p[0]-(x0+x1)/2)*c*scale,165-(p[1]-(y0+y1)/2)*scale].join(',')).join(' '));$('#map').classList.remove('hidden');$('#gpxstatus').textContent='Parcours officiel · GPX téléchargeable'}catch(e){$('#gpxstatus').textContent='Le tracé ne peut pas être affiché. Le fichier reste téléchargeable.'}}
