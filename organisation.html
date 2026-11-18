@@ -206,18 +206,36 @@
                     <div>
                       <label for="mailtype">Choisir le mail</label>
                       <select id="mailtype" onchange="selectMailTemplate()">
-                        <option value="received">Demande reçue</option>
-                        <option value="confirmed">Inscription confirmée</option>
-                        <option value="j14">Rappel J−14 · 17 avril</option>
-                        <option value="j1">Rappel J−1 · 30 avril</option>
-                        <option value="supporter_received">Pains saucisse — demande reçue</option>
-                        <option value="supporter_confirmed"
-                          >Pains saucisse — commande confirmée</option
-                        >
+                        <optgroup label="Inscriptions et rappels">
+                          <option value="received"
+                            >Demande d’inscription reçue / place récupérée</option
+                          >
+                          <option value="confirmed">Inscription confirmée après paiement</option>
+                          <option value="j14">Rappel J−14 · 17 avril</option>
+                          <option value="j1">Rappel J−1 · 30 avril</option>
+                        </optgroup>
+                        <optgroup label="Liste d’attente et places libérées">
+                          <option value="waitlist_received"
+                            >Inscription sur la liste d’attente</option
+                          >
+                          <option value="waitlist_offer"
+                            >Place libérée — proposition valable 24 h</option
+                          >
+                        </optgroup>
+                        <optgroup label="Annulation et remboursement">
+                          <option value="cancelled">Annulation du dossier et remboursement</option>
+                        </optgroup>
+                        <optgroup label="Commandes de pains saucisse">
+                          <option value="supporter_received">Pains saucisse — demande reçue</option>
+                          <option value="supporter_confirmed"
+                            >Pains saucisse — commande confirmée</option
+                          >
+                        </optgroup>
                       </select>
                     </div>
                   </div>
-                  <label for="mailsubject">Objet</label>
+                  <p class="notice" id="mail-template-help" role="status"></p
+                  ><label for="mailsubject">Objet</label>
                   <input id="mailsubject" maxlength="250" />
                   <label for="mailbody">Texte du mail</label>
                   <textarea id="mailbody" maxlength="15000" rows="18"></textarea>
@@ -1397,7 +1415,27 @@
       }
       function selectMailTemplate() {
         if (!$("#mailtype")) return;
-        let t = emailTemplates[$("#mailtype").value];
+        const type = $("#mailtype").value;
+        const explanations = {
+          received:
+            "Envoyé après une demande d’inscription, y compris après l’acceptation d’une place proposée depuis la liste d’attente. Ce mail donne les instructions de paiement ; il ne confirme pas encore l’inscription.",
+          confirmed:
+            "Envoyé après votre validation du paiement, pour une inscription publique ou une place récupérée depuis la liste d’attente.",
+          j14: "Rappel prévu le 17 avril 2027 pour les inscriptions payées dont la confirmation a été envoyée.",
+          j1: "Rappel prévu le 30 avril 2027 pour les inscriptions payées dont la confirmation a été envoyée.",
+          waitlist_received:
+            "Accusé de réception de la demande de liste d’attente. Il précise que la personne sera contactée si des places peuvent être proposées et disposera alors d’environ 24 h pour répondre.",
+          waitlist_offer:
+            "Envoyé lorsque vous attribuez des places à une demande depuis la gestion de la liste d’attente. Le lien personnel permet de compléter l’inscription avant l’échéance indiquée. Conservez {{lien_offre}} et {{date_limite}} dans le texte.",
+          cancelled:
+            "Envoyé après l’annulation du dossier. {{remboursement_info}} précise si un remboursement est à effectuer ou déjà marqué effectué.",
+          supporter_received:
+            "Envoyé après une commande de pains saucisse indépendante. Il récapitule la quantité, le montant et les instructions de virement.",
+          supporter_confirmed:
+            "Envoyé après votre validation du paiement de la commande de pains saucisse.",
+        };
+        $("#mail-template-help").textContent = explanations[type] || "";
+        let t = emailTemplates[type];
         if (!t) {
           $("#mailtemplatemsg").textContent =
             "Actualisez le déploiement Apps Script puis reconnectez-vous pour charger ce modèle.";
