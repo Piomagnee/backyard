@@ -282,18 +282,18 @@
                   </div>
                   <div class="panel hidden" id="contentpreview"></div>
                   <p id="contentmsg" role="status"></p>
-                </details>
-                <div class="content-history" id="page-history">
-                  <h3>Historique des contenus</h3>
-                  <p class="small">Jusqu’à 12 versions précédentes sont conservées. Sélectionnez une version pour la prévisualiser avant restauration.</p>
-                  <button class="outline" onclick="loadContentHistory()" type="button">Charger les versions précédentes</button>
-                  <select aria-label="Versions précédentes" id="content-history-select"></select>
-                  <div class="actionrow">
-                    <button class="outline" onclick="previewHistoricalContent()" type="button">Prévisualiser cette version</button>
-                    <button onclick="restoreHistoricalContent()" type="button">Restaurer la version sélectionnée</button>
+                  <div class="content-history" id="page-history">
+                    <h3>Historique des contenus</h3>
+                    <p class="small">Jusqu’à 12 versions précédentes sont conservées. Sélectionnez une version pour la prévisualiser avant restauration.</p>
+                    <button class="outline" onclick="loadContentHistory()" type="button">Charger les versions précédentes</button>
+                    <select aria-label="Versions précédentes" id="content-history-select"></select>
+                    <div class="actionrow">
+                      <button class="outline" onclick="previewHistoricalContent()" type="button">Prévisualiser cette version</button>
+                      <button onclick="restoreHistoricalContent()" type="button">Restaurer la version sélectionnée</button>
+                    </div>
+                    <p id="history-feedback" role="status"></p>
                   </div>
-                  <p id="history-feedback" role="status"></p>
-                </div>
+                </details>
               </section>
               
               <section class="admin-workspace" id="admin-settings">
