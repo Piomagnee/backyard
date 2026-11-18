@@ -5,7 +5,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width,initial-scale=1" name="viewport"/>
     <meta content="Backyard des Pionniers de Magnée, le 1er mai 2027 : 12 heures sur une boucle de 4,1 km. Solo ou relais de 2 à 6, 20 € par personne." name="description"/>
-    <title>organisation · Backyard Magnée</title>
+    <title>Organisation · Backyard Magnée</title>
     <link href="assets/style.css" rel="stylesheet"/>
     <script src="config.js">
       
@@ -88,7 +88,9 @@
         </nav>
       </div>
     </header>
+    
     <main>
+      
       <section class="section" id="admin">
         <div class="eyebrow">
           Espace organisation
@@ -108,7 +110,6 @@
                 CENTRE DE CONTRÔLE · BACKYARD 2027
               </div>
               <h2>Vue d’ensemble</h2>
-              <p>Gérez les inscriptions, les commandes, les paiements et les communications depuis un seul espace.</p>
             </div>
             <span class="admin-secure">● Espace organisateur</span>
           </div>
@@ -164,9 +165,7 @@
                         <th>Actions</th>
                       </tr>
                     </thead>
-                    <tbody id="records">
-                      
-                    </tbody>
+                    <tbody id="records"></tbody>
                   </table>
                 </div>
               </section>
@@ -178,6 +177,7 @@
                     <p>Quantités à prévoir et commandes des supporters.</p>
                   </div>
                 </div>
+                
                 <section class="panel admin-food-card" id="sausage-admin">
                   <h3>Pains saucisse à prévoir</h3>
                   <div class="notice" id="sausage-totals">Chargement…
@@ -196,13 +196,12 @@
                           <th>Action</th>
                         </tr>
                       </thead>
-                      <tbody id="sausage-orders">
-                        
-                      </tbody>
+                      <tbody id="sausage-orders"> </tbody>
                     </table>
                   </div>
                   <p id="sausage-feedback" role="status"></p>
                 </section>
+                
               </section>
               
               <section class="admin-workspace" id="admin-email">
@@ -411,7 +410,6 @@
                   </div>
                 </div>
                 <button class="outline" onclick="exportFullBackup()" type="button">Télécharger la sauvegarde JSON</button>
-                <ul class="admin-history" id="admin-audit-list"></ul>
                 <h3>Liste d’attente</h3>
                 <div class="scroll">
                   <table>
