@@ -129,6 +129,7 @@
               <a href="#admin-site">Contenus du site</a>
               <a href="#admin-settings">Paramètres &amp; GPX</a>
               <a href="#admin-results">Résultats</a>
+              <a href="#admin-waitlist-section">Liste d’attente</a>
               <a class="" href="#admin-history">Historique &amp; sauvegardes</a>
             </nav>
             <div class="admin-main">
@@ -373,28 +374,36 @@
                   </form>
                 </details>
               </section>
+              <section class="admin-workspace" id="admin-waitlist-section">
+                <details>
+                  <summary>Liste d’attente</summary>
+              
+                  <div class="scroll">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Référence</th>
+                          <th>Demande</th>
+                          <th>Format</th>
+                          <th>Contact</th>
+                        </tr>
+                      </thead>
+                      <tbody id="admin-waitlist"></tbody>
+                    </table>
+                  </div>
+                </details>
+              </section>
               
               <section class="admin-workspace" id="admin-history">
-                <div class="admin-section-head">
-                  <div>
-                    <h3>Historique et sauvegardes</h3>
+                <details>
+                  <summary>Historique et sauvegardes</summary>
+              
+                  <div class="adminbar">
+                    <button class="outline"onclick="exportFullBackup()"type="button">Télécharger la sauvegarde JSON</button>
                   </div>
-                </div>
-                <button class="outline" onclick="exportFullBackup()" type="button">Télécharger la sauvegarde JSON</button>
-                <h3>Liste d’attente</h3>
-                <div class="scroll">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Référence</th>
-                        <th>Demande</th>
-                        <th>Format</th>
-                        <th>Contact</th>
-                      </tr>
-                    </thead>
-                    <tbody id="admin-waitlist"></tbody>
-                  </table>
-                </div>
+              
+                  <ul class="admin-history" id="admin-audit-list"></ul>
+                </details>
               </section>
               
             </div>
@@ -402,6 +411,7 @@
         </div>
         <p id="adminmsg" role="status"></p>
       </section>
+      
     </main>
     <footer>
       <div class="footerinner">
