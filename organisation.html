@@ -202,6 +202,14 @@
                       Activation en attente de la connexion email et de la planification.
                     </span>
                   </div>
+                  <div class="notice">
+                    <strong>Modèles de référence actualisés</strong>
+                    <p>Les neuf modèles reprennent les informations et conditions actuelles. La mise à jour sauvegarde vos textes existants et n’envoie aucun mail.</p>
+                    <div class="adminbar">
+                      <button type="button" onclick="updateAllMailTemplates(this)">Mettre les 9 mails à jour</button>
+                      <button type="button" class="outline" id="restore-mail-backup" onclick="restoreMailTemplates(this)">Restaurer la sauvegarde des mails</button>
+                    </div>
+                  </div>
                   <div class="row">
                     <div>
                       <label for="mailtype">Choisir le mail</label>
@@ -867,7 +875,8 @@
         records = d.records;
         renderSausageAdmin(d);
         emailTemplates = { ...d.templates };
-        initialEmailTemplates = JSON.parse(JSON.stringify(d.templates));
+        initialEmailTemplates = JSON.parse(JSON.stringify(d.templateDefaults || d.templates));
+        if ($("#restore-mail-backup")) $("#restore-mail-backup").disabled = !d.hasTemplateBackup;
         pageContents = { ...DEFAULT_PAGE_CONTENTS, ...d.contents };
         selectMailTemplate();
         selectContentPage();
@@ -1452,7 +1461,47 @@
         emailTemplates[type] = { ...initialEmailTemplates[type] };
         selectMailTemplate();
         $("#mailtemplatemsg").textContent =
-          "Modèle chargé à la connexion restauré. Enregistrez pour le conserver.";
+          "Modèle de référence à jour chargé. Enregistrez pour le conserver.";
+      }
+      async function updateAllMailTemplates(button) {
+        if (
+          !confirm(
+            "Remplacer les neuf modèles par les textes à jour ? Les textes actuels seront sauvegardés. Aucun mail ne sera envoyé.",
+          )
+        )
+          return;
+        button.disabled = true;
+        try {
+          const response = await api("templates-refresh", { confirmed: true });
+          await loadAdmin();
+          $("#mailtemplatemsg").textContent = response.message;
+          showFeedback(response.message, "success");
+        } catch (error) {
+          $("#mailtemplatemsg").textContent = error.message;
+          showFeedback(error.message, "error");
+        } finally {
+          button.disabled = false;
+        }
+      }
+      async function restoreMailTemplates(button) {
+        if (
+          !confirm(
+            "Restaurer les textes de la dernière sauvegarde ? Les textes actuels seront conservés en sauvegarde. Aucun mail ne sera envoyé.",
+          )
+        )
+          return;
+        button.disabled = true;
+        try {
+          const response = await api("templates-restore", {});
+          await loadAdmin();
+          $("#mailtemplatemsg").textContent = response.message;
+          showFeedback(response.message, "success");
+        } catch (error) {
+          $("#mailtemplatemsg").textContent = error.message;
+          showFeedback(error.message, "error");
+        } finally {
+          button.disabled = false;
+        }
       }
       async function saveMailTemplate() {
         try {
