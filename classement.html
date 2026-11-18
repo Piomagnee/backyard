@@ -1153,39 +1153,28 @@
               teams.get(id).members.push(person);
             });
           element.innerHTML =
-            "<h3>Solo (" +
+            "<h3>Individuels (" +
             solos.length +
             ")</h3><ul>" +
             solos
               .map(
-                (person) =>
-                  "<li>" + escape(person.first) + " " + escape(person.last) + " — Solo</li>",
+                (person) => "<li>" + escape(person.first) + " - " + escape(person.last) + "</li>",
               )
               .join("") +
-            "</ul><h3>Équipes de 2 à 6 (" +
+            "</ul><h3>Équipes (" +
             teams.size +
-            ")</h3>" +
+            ")</h3><ul>" +
             Array.from(teams.values())
               .map(
                 (team) =>
-                  "<h4>" +
-                  escape(team.name) +
-                  " (" +
-                  team.members.length +
-                  " coureurs)</h4><ul>" +
+                  "<li>" +
                   team.members
-                    .map(
-                      (person) =>
-                        "<li>" +
-                        escape(person.first) +
-                        " " +
-                        escape(person.last) +
-                        " — Équipe</li>",
-                    )
-                    .join("") +
-                  "</ul>",
+                    .map((person) => escape(person.first) + " - " + escape(person.last))
+                    .join(", ") +
+                  "</li>",
               )
-              .join("");
+              .join("") +
+            "</ul>";
         } catch (error) {
           element.textContent = "Impossible de charger les participants : " + error.message;
         }

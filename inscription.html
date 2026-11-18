@@ -1,233 +1,668 @@
 <!DOCTYPE html>
 
 <html lang="fr">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Backyard des Pionniers de Magnée, le 1er mai 2027 : 12 heures sur une boucle de 4,1 km. Solo ou relais de 2 à 6, 20 € par personne." name="description"/>
-<title>inscription · Backyard Magnée</title>
-<link href="assets/style.css" rel="stylesheet"/>
-<script src="config.js">
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script></head>
-<body>
-<header>
-<div class="headerinner">
-<a class="brand" href="index.html">
-<img alt="Logo des Pionniers de Magnée" src="assets/logo-pionniers.png"/>
-<span>Backyard de Magnée<small>Organisée par les Pionniers · 110M</small></span>
-</a>
-<nav aria-label="Navigation principale">
-<a href="index.html">Accueil</a>
-<a href="parcours.html">Parcours</a>
-<a href="infos.html">Infos pratiques</a>
-<a href="reglement.html">Règlement</a>
-<a href="classement.html">Classement</a>
-<a class="btn" href="inscription.html">S’inscrire</a>
-</nav>
-</div>
-</header>
-<main>
-<div class="pagehead">
-<div class="crumb">
-<a href="index.html">Accueil
-          </a>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <meta
+      content="Backyard des Pionniers de Magnée, le 1er mai 2027 : 12 heures sur une boucle de 4,1 km. Solo ou relais de 2 à 6, 20 € par personne."
+      name="description"
+    />
+    <title>inscription · Backyard Magnée</title>
+    <link href="assets/style.css" rel="stylesheet" />
+    <script src="config.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script
+    ><style>
+      .waiting-banner,
+      .waitlist-panel > .panel {
+        border: 2px solid #921e27;
+        background: #fff9f8;
+        border-radius: 8px;
+        padding: 24px;
+        min-width: 0;
+      }
+      .waiting-banner h2 {
+        margin: 12px 0;
+      }
+      .waiting-banner p {
+        max-width: 720px;
+      }
+      .waitlist-panel {
+        max-width: 1140px;
+        scroll-margin-top: 110px;
+      }
+      .waitlist-panel form {
+        max-width: 740px;
+      }
+      .waitlist-panel h2 {
+        color: #921e27;
+      }
+      .waiting-form-alert {
+        padding: 18px;
+        background: #fff3ef;
+        border: 1px solid #921e27;
+        border-radius: 6px;
+        margin: 18px 0;
+      }
+      .waiting-form-alert strong {
+        display: block;
+        color: #921e27;
+      }
+      .waiting-form-alert p {
+        margin: 8px 0 14px;
+        font-size: 13px;
+      }
+      #waitlist-submit {
+        margin-top: 18px;
+      }
+      #waitlist-banner {
+        padding-bottom: 0;
+      }
+      @media (max-width: 650px) {
+        .waiting-banner,
+        .waitlist-panel > .panel {
+          padding: 18px;
+        }
+        .waiting-banner button,
+        .waiting-form-alert button,
+        #waitlist-submit {
+          width: 100%;
+        }
+        .waitlist-panel {
+          scroll-margin-top: 20px;
+        }
+      }
+    </style></head
+  >
+  <body>
+    <header>
+      <div class="headerinner">
+        <a class="brand" href="index.html">
+          <img alt="Logo des Pionniers de Magnée" src="assets/logo-pionniers.png" />
+          <span>Backyard de Magnée<small>Organisée par les Pionniers · 110M</small></span>
+        </a>
+        <nav aria-label="Navigation principale">
+          <a href="index.html">Accueil</a>
+          <a href="parcours.html">Parcours</a>
+          <a href="infos.html">Infos pratiques</a>
+          <a href="reglement.html">Règlement</a>
+          <a href="classement.html">Classement</a>
+          <a class="btn" href="inscription.html">S’inscrire</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="pagehead">
+        <div class="crumb">
+          <a href="index.html">Accueil </a>
           / Inscription
         </div>
-<h1>Inscription
-        </h1>
-<p class="lede">Choisissez votre format et renseignez les coureurs.
-        </p>
-</div>
-<section class="section register" id="inscription">
-<div class="split">
-<aside>
-<h2>Tarif et conditions</h2>
-<table class="tariffs">
-<tr><th>Individuel</th><td>20 €</td></tr><tr><th>Équipe de 2 à 6</th><td>40 à 120 €</td></tr>
-</table>
-<p style="margin-top:18px">Inclus pour chaque coureur : ravitaillement en fin de boucle, un pain saucisse et une médaille.</p>
-<p class="small">Une inscription individuelle réserve une place ; une équipe en réserve de deux à six selon son effectif, sur un maximum de 250 coureurs.</p>
-<div class="notice">Votre inscription sera confirmée par email après réception et vérification du paiement.</div>
-<details>
-<summary>Conditions à retenir
-              </summary>
-<p>Course le 1er mai 2027 de 10 h à 22 h. Retrait des badges de 8 h 30 à 9 h 30. Dernière boucle badgée à l’arrivée avant 22 h.</p>
-<p>Aucune annulation ni aucun remboursement possibles. Prévoyez une frontale et des vêtements visibles dans le noir.</p>
-<a class="small" href="reglement.html">Lire le règlement complet</a>
-</details>
-<p class="small" style="margin-top:20px">Les informations du formulaire servent à gérer votre participation et à vous contacter. Les coordonnées ne sont pas affichées publiquement.</p>
-</aside>
-<form class="panel" id="form">
-<div class="choice">
-<button class="active" id="solo" onclick="choose('solo')" type="button">Individuel<small>1 coureur</small></button>
-<button id="team" onclick="choose('team')" type="button">Équipe de 2 à 6<small>2 à 6 coureurs en relais</small></button>
-</div>
-<div class="hidden" id="teamfield"><label for="teamsize">Nombre de coureurs dans l’équipe</label><select id="teamsize" onchange="renderRunners()"><option value="2">2 coureurs — 40 €</option><option value="3">3 coureurs — 60 €</option><option value="4">4 coureurs — 80 €</option><option value="5">5 coureurs — 100 €</option><option value="6">6 coureurs — 120 €</option></select>
-<label>Nom de l’équipe</label>
-<input id="teamname" maxlength="80"/>
-</div>
-<div id="runners">
-</div>
-<p class="small" style="margin-top:20px">Vous pouvez ajouter des pains saucisse pour vos supporters. Les portions des coureurs sont déjà comprises.</p>
-<label for="extras">Pains saucisse supplémentaires pour vos supporters · 4 € pièce</label>
-<input id="extras" max="1000" min="0" oninput="updateTotal()" required="" step="1" type="number" value="0"/>
-<p class="small">Indiquez seulement les portions supplémentaires. Les pains saucisse des coureurs sont déjà compris.</p>
-<div class="row">
-<div>
-<label>Email de contact</label>
-<input id="email" maxlength="150" required="" type="email"/>
-</div>
-<div>
-<label>Téléphone de contact</label>
-<input id="phone" maxlength="30" required="" type="tel"/>
-</div>
-</div>
-<label>
-<input required="" type="checkbox"/>J’accepte l’utilisation de ces informations pour la gestion de la course et je confirme avoir l’accord des coureurs inscrits. J’ai pris connaissance du règlement, notamment de l’absence d’annulation et de remboursement.
-            </label>
-<div class="notice" id="total">Total : 20 €
-            </div>
-<div aria-label="Étapes de confirmation" class="status-steps"><span>1. Demande reçue</span><span>2. Paiement en attente</span><span>3. Inscription confirmée</span></div><div class="notice" id="opening">Préparation des inscriptions…
-            </div><div class="capacity-banner" id="capacity-detail">Vérification des places disponibles…</div>
-<button disabled="" id="submit" type="submit">Enregistrer mon inscription
-            </button>
-<div aria-live="polite" id="result" role="status">
-</div>
-</form>
-</div>
-</section><section class="section register sausage-register" id="commande-supporters"><div class="sausage-heading"><div class="eyebrow">Pour les accompagnants et visiteurs</div><h2>Commander des pains saucisse</h2><p class="lede">Vous ne courez pas ? Commandez vos pains saucisse directement ici, sans inscription à la course.</p></div><div class="split"><aside><div class="sausage-side"><div class="eyebrow">Commande indépendante</div><h3>Pour tous les supporters.</h3><p>Les pains saucisse sont disponibles à <strong>4 € pièce</strong>. Il n’est pas nécessaire de participer à la course.</p><div class="sausage-price"><strong>4 €</strong><span>par pain saucisse</span></div><p class="small">Le paiement se fait par virement. Vous recevrez une référence de commande et les informations nécessaires après validation du formulaire.</p><div class="notice">Cette commande ne réserve aucune place de coureur.</div></div></aside><form class="panel" id="sausageform"><h3>Votre commande</h3><p class="small">Renseignez vos coordonnées et la quantité souhaitée.</p><div class="row"><div><label for="psfirst">Prénom</label><input id="psfirst" maxlength="60" required=""/></div><div><label for="pslast">Nom</label><input id="pslast" maxlength="60" required=""/></div></div><div class="row"><div><label for="psemail">E-mail</label><input id="psemail" maxlength="150" required="" type="email"/></div><div><label for="psphone">Téléphone</label><input id="psphone" maxlength="30" required="" type="tel"/></div></div><label for="psquantity">Nombre de pains saucisse</label><input id="psquantity" max="100" min="1" required="" type="number" value="1"/><p class="notice" id="pstotal">Total : 4 €</p><label class="consent"><input required="" type="checkbox"/> J’accepte l’utilisation de mes coordonnées pour le suivi de cette commande.</label><button id="pssubmit" type="submit">Enregistrer ma commande</button><div aria-live="polite" id="psresult" role="status"></div></form></div></section><section class="section waitlist-panel hidden" id="waitlist-section"><div class="panel"><h2>Liste d’attente</h2><p>Plus assez de places pour votre format ? Inscrivez-vous sur la liste d’attente. Cette demande ne réserve pas de place et ne constitue pas une inscription.</p><form id="waitlist-form"><div class="row"><div><label for="wlfirst">Prénom</label><input id="wlfirst" maxlength="60" required=""/></div><div><label for="wllast">Nom</label><input id="wllast" maxlength="60" required=""/></div></div><div class="row"><div><label for="wlemail">E-mail</label><input id="wlemail" required="" type="email"/></div><div><label for="wlphone">Téléphone</label><input id="wlphone" required="" type="tel"/></div></div><label for="wlkind">Format souhaité</label><select id="wlkind" onchange="document.getElementById('wlteamfield').classList.toggle('hidden',this.value!=='team')"><option value="solo">Individuel</option><option value="team">Équipe de 2 à 6</option></select><div id="wlteamfield" class="hidden"><label for="wlseats">Nombre de coureurs souhaité</label><select id="wlseats"><option value="2">2 coureurs</option><option value="3">3 coureurs</option><option value="4">4 coureurs</option><option value="5">5 coureurs</option><option value="6">6 coureurs</option></select></div><button type="submit">Rejoindre la liste d’attente</button><p id="wlresult" role="status"></p></form></div></section>
-</main>
-<footer>
-<div class="footerinner">
-<div class="footeridentity">
-<img alt="Pionniers 110M" src="assets/logo-pionniers.png"/>
-<div><strong>Pionniers de Magnée</strong><small>1er mai 2027 · Locaux scouts de Magnée</small>
-</div>
-</div>
-<div class="footerlinks">
-<a href="mailto:guillaumedesmare@gmail.com">Contacter l’organisation</a>
-<a href="reglement.html">Règlement</a>
-<a href="organisation.html">Espace organisateur</a>
-</div>
-</div>
-</footer>
-<script>
-'use strict';
-let kind = 'solo';
-let state = {open:false, remaining:0};
-const $ = selector => document.querySelector(selector);
-const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-
-function updateTotal() {
-  const extras = Math.max(0, Number($('#extras').value) || 0);
-  $('#total').textContent = 'Total à payer : ' + (runnerCount() * 20 + extras * 4) + ' €';
-}
-function updateButton() {
-  $('#submit').disabled = !state.open || state.remaining < runnerCount();
-}
-function choose(selected) {
-  kind = selected;
-  $('#solo').classList.toggle('active', kind === 'solo');
-  $('#team').classList.toggle('active', kind === 'team');
-  $('#teamfield').classList.toggle('hidden', kind !== 'team');
-  $('#teamname').required = kind === 'team';
-  renderRunners();
-}
-function runnerCount() {
-  return kind === 'solo' ? 1 : Number($('#teamsize').value);
-}
-function renderRunners() {
-  const previous = [...document.querySelectorAll('.runner')].map(row =>
-    [...row.querySelectorAll('input')].map(input => input.value));
-  $('#runners').innerHTML = Array.from({length:runnerCount()}, (_, i) => `
-    <div class="runner">
-      <label>Coureur ${i+1}</label>
-      <div class="row">
-        <input placeholder="Prénom" aria-label="Prénom coureur ${i+1}" required maxlength="60">
-        <input placeholder="Nom" aria-label="Nom coureur ${i+1}" required maxlength="60">
+        <h1>Inscription </h1>
+        <p class="lede">Choisissez votre format et renseignez les coureurs. </p>
       </div>
-      <p class="small">Le ravitaillement en fin de boucle, un pain saucisse et une médaillee sont inclus pour ce coureur.</p>
-    </div>`).join('');
-  document.querySelectorAll('.runner').forEach((row,i) => {
-    row.querySelectorAll('input').forEach((input,j) => { input.value = previous[i]?.[j] || ''; });
-  });
-  updateTotal();
-  updateButton();
-  if (typeof updateCapacity === 'function') updateCapacity();
-}
+      <section class="section hidden" id="waitlist-banner" aria-live="polite">
+        <div class="waiting-banner">
+          <span class="pill">Liste d’attente</span>
+          <h2 id="waitlist-banner-title">La course est complète</h2>
+          <p id="waitlist-banner-text"></p>
+          <button type="button" onclick="goToWaitlist()">Rejoindre la liste d’attente</button>
+        </div>
+      </section>
+      <section class="section register" id="inscription">
+        <div class="split">
+          <aside>
+            <h2>Tarif et conditions</h2>
+            <table class="tariffs">
+              <tr><th>Individuel</th><td>20 €</td></tr
+              ><tr><th>Équipe de 2 à 6</th><td>40 à 120 €</td></tr>
+            </table>
+            <p style="margin-top: 18px"
+              >Inclus pour chaque coureur : ravitaillement en fin de boucle, un pain saucisse et une
+              médaille.</p
+            >
+            <p class="small"
+              >Une inscription individuelle réserve une place ; une équipe en réserve de deux à six
+              selon son effectif, sur un maximum de 250 coureurs.</p
+            >
+            <div class="notice"
+              >Votre inscription sera confirmée par email après réception et vérification du
+              paiement.</div
+            >
+            <details>
+              <summary>Conditions à retenir </summary>
+              <p
+                >Course le 1er mai 2027 de 10 h à 22 h. Retrait des badges de 8 h 30 à 9 h 30.
+                Dernière boucle badgée à l’arrivée avant 22 h.</p
+              >
+              <p
+                >Aucune annulation ni aucun remboursement possibles. Prévoyez une frontale et des
+                vêtements visibles dans le noir.</p
+              >
+              <a class="small" href="reglement.html">Lire le règlement complet</a>
+            </details>
+            <p class="small" style="margin-top: 20px"
+              >Les informations du formulaire servent à gérer votre participation et à vous
+              contacter. Les coordonnées ne sont pas affichées publiquement.</p
+            >
+          </aside>
+          <form class="panel" id="form">
+            <div class="choice">
+              <button class="active" id="solo" onclick="choose('solo')" type="button"
+                >Individuel<small>1 coureur</small></button
+              >
+              <button id="team" onclick="choose('team')" type="button"
+                >Équipe de 2 à 6<small>2 à 6 coureurs en relais</small></button
+              >
+            </div>
+            <div class="hidden" id="teamfield"
+              ><label for="teamsize">Nombre de coureurs dans l’équipe</label
+              ><select id="teamsize" onchange="renderRunners()"
+                ><option value="2">2 coureurs — 40 €</option
+                ><option value="3">3 coureurs — 60 €</option
+                ><option value="4">4 coureurs — 80 €</option
+                ><option value="5">5 coureurs — 100 €</option
+                ><option value="6">6 coureurs — 120 €</option></select
+              >
+              <label>Nom de l’équipe</label>
+              <input id="teamname" maxlength="80" />
+            </div>
+            <div id="runners"> </div>
+            <p class="small" style="margin-top: 20px"
+              >Vous pouvez ajouter des pains saucisse pour vos supporters. Les portions des coureurs
+              sont déjà comprises.</p
+            >
+            <label for="extras"
+              >Pains saucisse supplémentaires pour vos supporters · 4 € pièce</label
+            >
+            <input
+              id="extras"
+              max="1000"
+              min="0"
+              oninput="updateTotal()"
+              required=""
+              step="1"
+              type="number"
+              value="0"
+            />
+            <p class="small"
+              >Indiquez seulement les portions supplémentaires. Les pains saucisse des coureurs sont
+              déjà compris.</p
+            >
+            <div class="row">
+              <div>
+                <label>Email de contact</label>
+                <input id="email" maxlength="150" required="" type="email" />
+              </div>
+              <div>
+                <label>Téléphone de contact</label>
+                <input id="phone" maxlength="30" required="" type="tel" />
+              </div>
+            </div>
+            <label>
+              <input required="" type="checkbox" />J’accepte l’utilisation de ces informations pour
+              la gestion de la course et je confirme avoir l’accord des coureurs inscrits. J’ai pris
+              connaissance du règlement, notamment de l’absence d’annulation et de remboursement.
+            </label>
+            <div class="notice" id="total">Total : 20 € </div>
+            <div aria-label="Étapes de confirmation" class="status-steps"
+              ><span>1. Demande reçue</span><span>2. Paiement en attente</span
+              ><span>3. Inscription confirmée</span></div
+            ><div class="notice" id="opening">Préparation des inscriptions… </div
+            ><div class="capacity-banner" id="capacity-detail"
+              >Vérification des places disponibles…</div
+            >
+            <div class="waiting-form-alert hidden" id="waitlist-form-alert">
+              <strong id="waitlist-form-message"></strong>
+              <p>Votre choix et vos coordonnées peuvent être repris dans la liste d’attente.</p>
+              <button type="button" onclick="goToWaitlist()"
+                >Continuer sur la liste d’attente</button
+              >
+            </div>
+            <button disabled="" id="submit" type="submit">Enregistrer mon inscription </button>
+            <div aria-live="polite" id="result" role="status"> </div>
+          </form>
+        </div> </section
+      ><section class="section waitlist-panel hidden" id="waitlist-section"
+        ><div class="panel"
+          ><span class="eyebrow">Si une place se libère</span
+          ><h2 id="waitlist-title">Rejoindre la liste d’attente</h2
+          ><p
+            >Plus assez de places pour votre format ? Inscrivez-vous sur la liste d’attente. Cette
+            demande ne réserve pas de place et ne constitue pas une inscription. Aucun paiement
+            n’est demandé à ce stade.</p
+          ><form id="waitlist-form"
+            ><div class="row"
+              ><div
+                ><label for="wlfirst">Prénom</label
+                ><input id="wlfirst" maxlength="60" required="" /></div
+              ><div
+                ><label for="wllast">Nom</label
+                ><input id="wllast" maxlength="60" required="" /></div></div
+            ><div class="row"
+              ><div
+                ><label for="wlemail">E-mail</label
+                ><input id="wlemail" maxlength="150" required="" type="email" /></div
+              ><div
+                ><label for="wlphone">Téléphone</label
+                ><input id="wlphone" maxlength="30" required="" type="tel" /></div></div
+            ><label for="wlkind">Format souhaité</label
+            ><select
+              id="wlkind"
+              onchange="
+                document
+                  .getElementById('wlteamfield')
+                  .classList.toggle('hidden', this.value !== 'team')
+              "
+              ><option value="solo">Individuel</option
+              ><option value="team">Équipe de 2 à 6</option></select
+            ><div id="wlteamfield" class="hidden"
+              ><label for="wlseats">Nombre de coureurs souhaité</label
+              ><select id="wlseats"
+                ><option value="2">2 coureurs</option
+                ><option value="3">3 coureurs</option
+                ><option value="4">4 coureurs</option
+                ><option value="5">5 coureurs</option
+                ><option value="6">6 coureurs</option></select
+              ></div
+            ><button id="waitlist-submit" type="submit"
+              >Enregistrer ma demande sur la liste d’attente</button
+            ><p id="wlresult" role="status"></p></form></div
+      ></section>
+      <section class="section register sausage-register" id="commande-supporters"
+        ><div class="sausage-heading"
+          ><div class="eyebrow">Pour les accompagnants et visiteurs</div
+          ><h2>Commander des pains saucisse</h2
+          ><p class="lede"
+            >Vous ne courez pas ? Commandez vos pains saucisse directement ici, sans inscription à
+            la course.</p
+          ></div
+        ><div class="split"
+          ><aside
+            ><div class="sausage-side"
+              ><div class="eyebrow">Commande indépendante</div><h3>Pour tous les supporters.</h3
+              ><p
+                >Les pains saucisse sont disponibles à <strong>4 € pièce</strong>. Il n’est pas
+                nécessaire de participer à la course.</p
+              ><div class="sausage-price"><strong>4 €</strong><span>par pain saucisse</span></div
+              ><p class="small"
+                >Le paiement se fait par virement. Vous recevrez une référence de commande et les
+                informations nécessaires après validation du formulaire.</p
+              ><div class="notice">Cette commande ne réserve aucune place de coureur.</div></div
+            ></aside
+          ><form class="panel" id="sausageform"
+            ><h3>Votre commande</h3
+            ><p class="small">Renseignez vos coordonnées et la quantité souhaitée.</p
+            ><div class="row"
+              ><div
+                ><label for="psfirst">Prénom</label
+                ><input id="psfirst" maxlength="60" required="" /></div
+              ><div
+                ><label for="pslast">Nom</label
+                ><input id="pslast" maxlength="60" required="" /></div></div
+            ><div class="row"
+              ><div
+                ><label for="psemail">E-mail</label
+                ><input id="psemail" maxlength="150" required="" type="email" /></div
+              ><div
+                ><label for="psphone">Téléphone</label
+                ><input id="psphone" maxlength="30" required="" type="tel" /></div></div
+            ><label for="psquantity">Nombre de pains saucisse</label
+            ><input id="psquantity" max="100" min="1" required="" type="number" value="1" /><p
+              class="notice"
+              id="pstotal"
+              >Total : 4 €</p
+            ><label class="consent"
+              ><input required="" type="checkbox" /> J’accepte l’utilisation de mes coordonnées pour
+              le suivi de cette commande.</label
+            ><button id="pssubmit" type="submit">Enregistrer ma commande</button
+            ><div aria-live="polite" id="psresult" role="status"></div></form></div></section
+    ></main>
+    <footer>
+      <div class="footerinner">
+        <div class="footeridentity">
+          <img alt="Pionniers 110M" src="assets/logo-pionniers.png" />
+          <div
+            ><strong>Pionniers de Magnée</strong
+            ><small>1er mai 2027 · Locaux scouts de Magnée</small>
+          </div>
+        </div>
+        <div class="footerlinks">
+          <a href="mailto:guillaumedesmare@gmail.com">Contacter l’organisation</a>
+          <a href="reglement.html">Règlement</a>
+          <a href="organisation.html">Espace organisateur</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      "use strict";
+      let kind = "solo";
+      let state = { open: false, remaining: 0 };
+      const $ = (selector) => document.querySelector(selector);
+      const esc = (value) =>
+        String(value ?? "").replace(
+          /[&<>"']/g,
+          (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
+        );
 
-async function api(action, data) {
-  const url = window.BACKYARD_CONFIG?.apiUrl;
-  if (!url) throw new Error('Le service d’inscription n’est pas connecté. Vérifiez config.js.');
-  const response = await fetch(url, {
-    method:'POST', redirect:'follow',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify({action, method:data ? 'POST' : 'GET', key:'', data:data || {}})
-  });
-  let result;
-  try { result = await response.json(); }
-  catch { throw new Error('Réponse du service illisible. Vérifiez le déploiement Apps Script et ses autorisations.'); }
-  if (!response.ok || result.ok === false) throw new Error(result.error || 'Erreur du service d’inscription.');
-  return result;
-}
-async function refresh() {
-  $('#opening').textContent = 'Vérification des inscriptions…';
-  try {
-    state = await api('state');
-    $('#opening').textContent = state.open
-      ? `Inscriptions ouvertes · ${state.remaining} place(s) disponible(s).`
-      : 'Les inscriptions ne sont pas encore ouvertes.';
-  } catch (error) {
-    state = {open:false, remaining:0};
-    $('#opening').textContent = 'Connexion indisponible : ' + error.message;
-  }
-  updateButton();
-}
-$('#form').addEventListener('submit', async event => {
-  event.preventDefault();
-  $('#submit').disabled = true;
-  $('#result').textContent = 'Enregistrement de votre demande en cours…';
-  try {
-    const runners = [...document.querySelectorAll('.runner')].map(row => {
-      const fields = row.querySelectorAll('input');
-      return {first:fields[0].value.trim(), last:fields[1].value.trim()};
-    });
-    const result = await api('register', {
-      kind, team:$('#teamname').value.trim(), email:$('#email').value.trim(),
-      phone:$('#phone').value.trim(), extraSausages:Number($('#extras').value), runners
-    });
-    $('#result').innerHTML = `<div class="success"><b>Demande reçue · ${esc(result.id)}</b>
-      <p>Votre place est réservée en attente de paiement. Un e-mail de demande reçue est placé dans la file d’envoi.</p>
-      <p>Virement : ${esc(result.amount)} €<br>IBAN : ${esc(result.iban)}<br>
-      Bénéficiaire : ${esc(result.beneficiary)}<br>Communication : <b>${esc(result.id)}</b></p>
-      <p>Conservez ces informations. Vous recevrez le mail de confirmation après vérification du paiement.</p></div>`;
-    $('#form').reset();
-    choose('solo');
-  } catch (error) {
-    $('#result').textContent = 'Inscription non confirmée : ' + error.message;
-  } finally {
-    await refresh();
-  }
-});
-choose('solo');
-refresh();
-</script>
-<script>
-(function(){const f=document.getElementById('sausageform'),q=document.getElementById('psquantity'),total=document.getElementById('pstotal'),out=document.getElementById('psresult'),btn=document.getElementById('pssubmit');q.addEventListener('input',()=>total.textContent='Total : '+(Number(q.value)||0)*4+' €');f.addEventListener('submit',async e=>{e.preventDefault();btn.disabled=true;out.textContent='Enregistrement en cours…';try{const d=await api('sausage-order',{first:document.getElementById('psfirst').value,last:document.getElementById('pslast').value,email:document.getElementById('psemail').value,phone:document.getElementById('psphone').value,quantity:Number(q.value)});out.textContent='Commande reçue ! Référence : '+d.id+' — Montant : '+d.amount+' € — IBAN : '+d.iban+' — Bénéficiaire : '+d.beneficiary+' — Communication : '+d.id+'. Un e-mail récapitulatif est programmé.';f.reset();total.textContent='Total : 4 €';}catch(err){out.textContent='Erreur : '+err.message;}finally{btn.disabled=false;}});})();
-</script><script>(function(){
-const opening=document.getElementById('opening'),capacity=document.getElementById('capacity-detail'),wait=document.getElementById('waitlist-section');
-window.updateCapacity = function(){
-  const rem=Number(state?.remaining); if(!Number.isFinite(rem))return;
-  capacity.textContent=state.open ? `${rem} place(s) disponible(s) sur 250 · `+(rem>=2?`Équipes de 2 à ${Math.min(6,rem)} possibles`:rem===1?'Solo uniquement':'Complet') : 'Inscriptions non ouvertes';
-  wait.classList.toggle('hidden',!state.open||rem>=6);
-};
-const observer=new MutationObserver(updateCapacity);
-observer.observe(opening,{childList:true,characterData:true,subtree:true});
-updateCapacity();
-document.getElementById('waitlist-form').addEventListener('submit',async e=>{e.preventDefault();const f=e.currentTarget,el=document.getElementById('wlresult');try{const d=await api('waitlist',{kind:document.getElementById('wlkind').value,seats:document.getElementById('wlkind').value==='team'?Number(document.getElementById('wlseats').value):1,first:document.getElementById('wlfirst').value,last:document.getElementById('wllast').value,email:document.getElementById('wlemail').value,phone:document.getElementById('wlphone').value});el.textContent=d.message+' Référence : '+d.id;f.reset();document.getElementById('wlteamfield').classList.add('hidden')}catch(err){el.textContent=err.message}});
-function epc(iban,beneficiary,amount,reference){const i=String(iban||'').replace(/\s/g,'').toUpperCase();if(!/^BE\d{14}$/.test(i)||!beneficiary)return '';return ['BCD','002','1','SCT','',''+beneficiary.slice(0,70),i,'EUR'+Number(amount).toFixed(2),'','',''+reference.slice(0,140),''].join('\n')}
-function drawQR(target,data){if(!target||!data||typeof QRCode==='undefined')return;target.innerHTML='';const label=document.createElement('p');label.className='small';label.textContent='QR de virement SEPA — vérifiez les données dans votre application bancaire.';const q=document.createElement('div');target.append(q,label);new QRCode(q,{text:data,width:160,height:160,correctLevel:QRCode.CorrectLevel.M});}
-const res=document.getElementById('result'),obs=new MutationObserver(()=>{const box=res.querySelector('.success');if(!box||box.dataset.qr)return;box.dataset.qr='1';const text=box.innerText;const amount=(text.match(/Virement\s*:\s*([\d.,]+)\s*€/i)||[])[1];const iban=(text.match(/IBAN\s*:\s*([^\n]+)/i)||[])[1];const beneficiary=(text.match(/Bénéficiaire\s*:\s*([^\n]+)/i)||[])[1];const reference=(text.match(/BM-[A-Z0-9]+/)||[])[0];if(!amount||!iban||!reference)return;const wrap=document.createElement('div');wrap.className='payment-qr';box.append(wrap);drawQR(wrap,epc(iban,beneficiary,Number(amount.replace(',','.')),reference))});obs.observe(res,{childList:true,subtree:true});
-})();</script></body>
+      function updateTotal() {
+        const extras = Math.max(0, Number($("#extras").value) || 0);
+        $("#total").textContent = "Total à payer : " + (runnerCount() * 20 + extras * 4) + " €";
+      }
+      function updateButton() {
+        $("#submit").disabled = !state.open || state.remaining < runnerCount();
+        if (typeof updateCapacity === "function") updateCapacity();
+      }
+      function choose(selected) {
+        kind = selected;
+        $("#solo").classList.toggle("active", kind === "solo");
+        $("#team").classList.toggle("active", kind === "team");
+        $("#teamfield").classList.toggle("hidden", kind !== "team");
+        $("#teamname").required = kind === "team";
+        renderRunners();
+      }
+      function runnerCount() {
+        return kind === "solo" ? 1 : Number($("#teamsize").value);
+      }
+      function renderRunners() {
+        const previous = [...document.querySelectorAll(".runner")].map((row) =>
+          [...row.querySelectorAll("input")].map((input) => input.value),
+        );
+        $("#runners").innerHTML = Array.from(
+          { length: runnerCount() },
+          (_, i) => `
+    <div class="runner">
+      <label>Coureur ${i + 1}</label>
+      <div class="row">
+        <input placeholder="Prénom" aria-label="Prénom coureur ${i + 1}" required maxlength="60">
+        <input placeholder="Nom" aria-label="Nom coureur ${i + 1}" required maxlength="60">
+      </div>
+      <p class="small">Un pain saucisse et une médaille sont inclus pour ce coureur.</p>
+    </div>`,
+        ).join("");
+        document.querySelectorAll(".runner").forEach((row, i) => {
+          row.querySelectorAll("input").forEach((input, j) => {
+            input.value = previous[i]?.[j] || "";
+          });
+        });
+        updateTotal();
+        updateButton();
+        if (typeof updateCapacity === "function") updateCapacity();
+      }
+
+      function paymentQRData(data) {
+        const iban = String(data.iban || "")
+          .replace(/\s/g, "")
+          .toUpperCase();
+        const beneficiary = String(data.beneficiary || "")
+          .replace(/[\r\n]/g, " ")
+          .trim();
+        const reference = String(data.id || "")
+          .replace(/[\r\n]/g, " ")
+          .trim();
+        const amount = Number(data.amount);
+        if (
+          !/^BE\d{14}$/.test(iban) ||
+          !beneficiary ||
+          !reference ||
+          !Number.isFinite(amount) ||
+          amount <= 0
+        )
+          return "";
+        return [
+          "BCD",
+          "002",
+          "1",
+          "SCT",
+          "",
+          beneficiary.slice(0, 70),
+          iban,
+          "EUR" + amount.toFixed(2),
+          "",
+          "",
+          reference.slice(0, 140),
+          "",
+        ].join("\n");
+      }
+      function renderPaymentSummary(target, data, title) {
+        target.innerHTML = `<div class="success"><strong>${esc(title)} · ${esc(data.id)}</strong>
+    <p>Demande enregistrée. La confirmation sera envoyée après réception et vérification du paiement.</p>
+    <p>Virement : <strong>${esc(Number(data.amount).toLocaleString("fr-BE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))} €</strong><br>
+    IBAN : ${esc(data.iban)}<br>Bénéficiaire : ${esc(data.beneficiary)}<br>
+    Communication : <strong>${esc(data.id)}</strong></p>
+    <div class="payment-qr"></div>
+    <p class="small">Conservez votre référence. Un mail récapitulatif est placé dans la file d’envoi.</p></div>`;
+        const container = target.querySelector(".payment-qr");
+        const dataText = paymentQRData(data);
+        if (!dataText || typeof QRCode === "undefined") {
+          container.textContent =
+            "QR indisponible : utilisez les informations de virement ci-dessus.";
+          return;
+        }
+        const qr = document.createElement("div");
+        const label = document.createElement("p");
+        label.className = "small";
+        label.textContent =
+          "QR de virement SEPA — vérifiez le montant, le bénéficiaire et la référence dans votre application bancaire.";
+        container.append(qr, label);
+        try {
+          new QRCode(qr, {
+            text: dataText,
+            width: 160,
+            height: 160,
+            correctLevel: QRCode.CorrectLevel.M,
+          });
+        } catch (error) {
+          container.textContent =
+            "Le QR ne peut pas être affiché. Les informations de virement ci-dessus restent disponibles.";
+        }
+      }
+      async function api(action, data) {
+        const url = window.BACKYARD_CONFIG?.apiUrl;
+        if (!url)
+          throw new Error("Le service d’inscription n’est pas connecté. Vérifiez config.js.");
+        const response = await fetch(url, {
+          method: "POST",
+          redirect: "follow",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action,
+            method: data ? "POST" : "GET",
+            key: "",
+            data: data || {},
+          }),
+        });
+        let result;
+        try {
+          result = await response.json();
+        } catch {
+          throw new Error(
+            "Réponse du service illisible. Vérifiez le déploiement Apps Script et ses autorisations.",
+          );
+        }
+        if (!response.ok || result.ok === false)
+          throw new Error(result.error || "Erreur du service d’inscription.");
+        return result;
+      }
+      async function refresh() {
+        $("#opening").textContent = "Vérification des inscriptions…";
+        try {
+          state = await api("state");
+          $("#opening").textContent = state.open
+            ? `Inscriptions ouvertes · ${state.remaining} place(s) disponible(s).`
+            : "Les inscriptions ne sont pas encore ouvertes.";
+        } catch (error) {
+          state = { open: false, remaining: 0 };
+          $("#opening").textContent = "Connexion indisponible : " + error.message;
+        }
+        updateButton();
+      }
+      $("#form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        $("#submit").disabled = true;
+        $("#result").textContent = "Enregistrement de votre demande en cours…";
+        try {
+          const runners = [...document.querySelectorAll(".runner")].map((row) => {
+            const fields = row.querySelectorAll("input");
+            return { first: fields[0].value.trim(), last: fields[1].value.trim() };
+          });
+          const result = await api("register", {
+            kind,
+            team: $("#teamname").value.trim(),
+            email: $("#email").value.trim(),
+            phone: $("#phone").value.trim(),
+            extraSausages: Number($("#extras").value),
+            runners,
+          });
+          renderPaymentSummary($("#result"), result, "Demande d’inscription reçue");
+          $("#form").reset();
+          choose("solo");
+        } catch (error) {
+          $("#result").textContent = "Inscription non confirmée : " + error.message;
+        } finally {
+          await refresh();
+        }
+      });
+      choose("solo");
+      refresh();
+    </script>
+    <script>
+      (function () {
+        const form = document.getElementById("sausageform"),
+          quantity = document.getElementById("psquantity"),
+          total = document.getElementById("pstotal"),
+          result = document.getElementById("psresult"),
+          button = document.getElementById("pssubmit");
+        quantity.addEventListener(
+          "input",
+          () => (total.textContent = "Total : " + (Number(quantity.value) || 0) * 4 + " €"),
+        );
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          button.disabled = true;
+          result.textContent = "Enregistrement en cours…";
+          try {
+            const response = await api("sausage-order", {
+              first: document.getElementById("psfirst").value,
+              last: document.getElementById("pslast").value,
+              email: document.getElementById("psemail").value,
+              phone: document.getElementById("psphone").value,
+              quantity: Number(quantity.value),
+            });
+            renderPaymentSummary(result, response, "Commande de pains saucisse reçue");
+            form.reset();
+            total.textContent = "Total : 4 €";
+          } catch (error) {
+            result.textContent = "Erreur : " + error.message;
+          } finally {
+            button.disabled = false;
+          }
+        });
+      })();</script
+    ><script>
+      function syncWaitlistKind() {
+        document
+          .getElementById("wlteamfield")
+          .classList.toggle("hidden", document.getElementById("wlkind").value !== "team");
+      }
+      function goToWaitlist() {
+        const wanted = runnerCount();
+        document.getElementById("wlkind").value = kind;
+        document.getElementById("wlseats").value = String(kind === "team" ? wanted : 2);
+        const firstRunner = document.querySelector(".runner");
+        const inputs = firstRunner ? firstRunner.querySelectorAll("input") : [];
+        const values = {
+          wlfirst: inputs[0]?.value,
+          wllast: inputs[1]?.value,
+          wlemail: document.getElementById("email").value,
+          wlphone: document.getElementById("phone").value,
+        };
+        Object.entries(values).forEach(([id, value]) => {
+          if (value?.trim()) document.getElementById(id).value = value.trim();
+        });
+        syncWaitlistKind();
+        const section = document.getElementById("waitlist-section");
+        section.classList.remove("hidden");
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.getElementById("wlfirst").focus({ preventScroll: true });
+      }
+      window.updateCapacity = function () {
+        const remaining = Number(state?.remaining);
+        if (!Number.isFinite(remaining)) return;
+        const full = state.open && remaining === 0;
+        const unavailable = state.open && remaining < runnerCount();
+        document.getElementById("capacity-detail").textContent = state.open
+          ? `${remaining} place(s) disponible(s) sur 250 · ` +
+            (remaining >= 2
+              ? `Équipes de 2 à ${Math.min(6, remaining)} possibles`
+              : remaining === 1
+                ? "Solo uniquement"
+                : "Complet")
+          : "Inscriptions non ouvertes";
+        document
+          .getElementById("waitlist-section")
+          .classList.toggle("hidden", !state.open || remaining >= 6);
+        document.getElementById("waitlist-banner").classList.toggle("hidden", !unavailable);
+        document.getElementById("waitlist-form-alert").classList.toggle("hidden", !unavailable);
+        document.getElementById("waitlist-banner-title").textContent = full
+          ? "La course est complète"
+          : "Plus assez de places pour votre équipe";
+        document.getElementById("waitlist-banner-text").textContent = full
+          ? "Les 250 places sont réservées. Inscrivez-vous sur la liste d’attente si une place se libère. Aucun paiement n’est demandé."
+          : `Il reste ${remaining} place(s), mais votre équipe compte ${runnerCount()} coureurs. Vous pouvez demander cet effectif sur la liste d’attente.`;
+        document.getElementById("waitlist-form-message").textContent = full
+          ? "Inscriptions complètes : continuez sur la liste d’attente."
+          : "Votre équipe dépasse le nombre de places restantes.";
+        document.getElementById("waitlist-title").textContent = full
+          ? "Course complète — rejoignez la liste d’attente"
+          : "Liste d’attente pour les formats complets";
+      };
+      const capacityObserver = new MutationObserver(updateCapacity);
+      capacityObserver.observe(document.getElementById("opening"), {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+      updateCapacity();
+      document.getElementById("wlkind").onchange = syncWaitlistKind;
+      document.getElementById("waitlist-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const form = event.currentTarget,
+          button = document.getElementById("waitlist-submit"),
+          result = document.getElementById("wlresult");
+        const selectedKind = document.getElementById("wlkind").value;
+        const seats =
+          selectedKind === "team" ? Number(document.getElementById("wlseats").value) : 1;
+        if (!state.open) {
+          result.textContent = "La liste d’attente n’est pas ouverte.";
+          return;
+        }
+        if (Number(state.remaining) >= seats) {
+          result.textContent =
+            "Des places sont disponibles pour ce format. Utilisez le formulaire d’inscription ci-dessus.";
+          return;
+        }
+        button.disabled = true;
+        result.textContent = "Enregistrement de votre demande…";
+        try {
+          const response = await api("waitlist", {
+            kind: selectedKind,
+            seats,
+            first: document.getElementById("wlfirst").value.trim(),
+            last: document.getElementById("wllast").value.trim(),
+            email: document.getElementById("wlemail").value.trim(),
+            phone: document.getElementById("wlphone").value.trim(),
+          });
+          result.textContent = response.message + " Référence : " + response.id;
+          result.className = "success";
+          form.reset();
+          syncWaitlistKind();
+        } catch (error) {
+          result.className = "notice";
+          result.textContent = error.message;
+        } finally {
+          button.disabled = false;
+        }
+      });
+    </script></body
+  >
 </html>

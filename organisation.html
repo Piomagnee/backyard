@@ -209,6 +209,10 @@
                         <option value="confirmed">Inscription confirmée</option>
                         <option value="j14">Rappel J−14 · 17 avril</option>
                         <option value="j1">Rappel J−1 · 30 avril</option>
+                        <option value="supporter_received">Pains saucisse — demande reçue</option>
+                        <option value="supporter_confirmed"
+                          >Pains saucisse — commande confirmée</option
+                        >
                       </select>
                     </div>
                   </div>
@@ -219,7 +223,8 @@
                   <p class="small"
                     >Variables : {{contact_nom}}, {{reference}}, {{format}}, {{coureurs}},
                     {{montant}}, {{supplements}}, {{iban}}, {{beneficiaire}}, {{lien_parcours}},
-                    {{lien_reglement}}, {{lien_infos}}, {{contact_organisation}}.</p
+                    {{lien_reglement}}, {{lien_infos}}, {{contact_organisation}}. Pour les pains
+                    saucisse : {{quantite}}, {{prix_unitaire}}.</p
                   >
                   <div class="adminbar">
                     <button onclick="saveMailTemplate()">Enregistrer ce modèle</button>
@@ -1386,6 +1391,12 @@
       function selectMailTemplate() {
         if (!$("#mailtype")) return;
         let t = emailTemplates[$("#mailtype").value];
+        if (!t) {
+          $("#mailtemplatemsg").textContent =
+            "Actualisez le déploiement Apps Script puis reconnectez-vous pour charger ce modèle.";
+          return;
+        }
+        $("#mailtemplatemsg").textContent = "";
         $("#mailsubject").value = t.subject;
         $("#mailbody").value = t.body;
         $("#mailpreview").classList.add("hidden");
@@ -1411,8 +1422,22 @@
         }
       }
       function previewMail() {
-        $("#mailpreviewsubject").textContent = fillVariables($("#mailsubject").value, MAIL_EXAMPLE);
-        $("#mailpreviewbody").textContent = fillVariables($("#mailbody").value, MAIL_EXAMPLE);
+        const supporter = $("#mailtype").value.startsWith("supporter_");
+        const example = supporter
+          ? {
+              ...MAIL_EXAMPLE,
+              contact_nom: "Camille Martin",
+              reference: "PS-EXEMPLE",
+              format: "Commande de pains saucisse",
+              coureurs: "",
+              montant: "12,00",
+              supplements: "0",
+              quantite: "3",
+              prix_unitaire: "4,00",
+            }
+          : MAIL_EXAMPLE;
+        $("#mailpreviewsubject").textContent = fillVariables($("#mailsubject").value, example);
+        $("#mailpreviewbody").textContent = fillVariables($("#mailbody").value, example);
         $("#mailpreview").classList.remove("hidden");
         showFeedback("Prévisualisation affichée (aucun e-mail envoyé).", "success");
       }
@@ -1592,6 +1617,18 @@
                 )
                 .join("")}
             </div>
+        
+            <p style="
+              margin:14px 0 0;
+              font-size:12px;
+              line-height:1.7;
+              color:#69716c;
+            ">
+              Toutes les valeurs indiquent des
+              <strong>quantités de pains saucisse</strong>.
+              Le total additionne les pains inclus, les suppléments
+              et les commandes sans inscription.
+            </p>
           `;
 
         const statutsPaiement = {
