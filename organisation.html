@@ -145,65 +145,64 @@
                 </div>
                 <div class="admin-kpis" id="admin-kpis"></div>
               </section>
-              
+           
               <section class="admin-workspace" id="admin-registrations">
-                <div class="admin-section-head">
-                  <div>
-                    <h3>Inscriptions des coureurs</h3>
-                    <p>Consultez les dossiers, vérifiez les paiements et exportez les données.</p>
-                  </div>
-                </div>
-                <div class="admin-table scroll">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Dossier</th>
-                        <th>Coureurs / équipe</th>
-                        <th>Contact</th>
-                        <th>Options / total</th>
-                        <th>Paiement</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody id="records"></tbody>
-                  </table>
-                </div>
-              </section>
-              
-              <section class="admin-workspace" id="admin-food">
-                <div class="admin-section-head">
-                  <div>
-                    <h3>Pains saucisse</h3>
-                    <p>Quantités à prévoir et commandes des supporters.</p>
-                  </div>
-                </div>
-                
-                <section class="panel admin-food-card" id="sausage-admin">
-                  <h3>Pains saucisse à prévoir</h3>
-                  <div class="notice" id="sausage-totals">Chargement…
-                  </div>
-                  <h3>Commandes des supporters (sans inscription)</h3>
-                  <div class="scroll">
+                <details>
+                  <summary>Inscriptions des coureurs</summary>
+                  <p class="small">Consultez les dossiers, vérifiez les paiements et exportez les données.</p>
+                  <div class="admin-table scroll">
                     <table>
                       <thead>
                         <tr>
-                          <th>Référence</th>
-                          <th>Nom</th>
+                          <th>Dossier</th>
+                          <th>Coureurs / équipe</th>
                           <th>Contact</th>
-                          <th>Quantité</th>
-                          <th>Montant</th>
-                          <th>Statut</th>
-                          <th>Action</th>
+                          <th>Options / total</th>
+                          <th>Paiement</th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
-                      <tbody id="sausage-orders"> </tbody>
+                      <tbody id="records"></tbody>
                     </table>
                   </div>
-                  <p id="sausage-feedback" role="status"></p>
-                </section>
-                
+                </details>
               </section>
               
+              <section class="admin-workspace" id="admin-food">
+                <details>
+                  <summary>Pains saucisse</summary>
+              
+                  <section class="panel admin-food-card" id="sausage-admin">
+                    <h3>Pains saucisse à prévoir</h3>
+              
+                    <div class="notice" id="sausage-totals">
+                      Chargement…
+                    </div>
+              
+                    <h3>Commandes des supporters (sans inscription)</h3>
+              
+                    <div class="scroll">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Référence</th>
+                            <th>Nom</th>
+                            <th>Contact</th>
+                            <th>Quantité</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody id="sausage-orders"></tbody>
+                      </table>
+                    </div>
+              
+                    <p id="sausage-feedback" role="status"></p>
+                  </section>
+                </details>
+              </section>
+                            
               <section class="admin-workspace" id="admin-email">
                 <details>
                   <summary>Mails automatiques</summary>
