@@ -1,73 +1,1085 @@
 <!DOCTYPE html>
 
-<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Backyard des Pionniers de Magnée, le 1er mai 2027 : 12 heures sur une boucle de 4,1 km. Solo ou relais de 2 à 6, 20 € par personne." name="description"/><title>parcours · Backyard Magnée</title><link href="assets/style.css" rel="stylesheet"/><link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/><script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="config.js"></script></head><body><header><div class="headerinner"><a class="brand" href="index.html"><img alt="Logo des Pionniers de Magnée" src="assets/logo-pionniers.png"/><span>Backyard de Magnée<small>Organisée par les Pionniers · 110M</small></span></a><nav aria-label="Navigation principale"><a href="index.html">Accueil</a><a aria-current="page" href="parcours.html">Parcours</a><a href="infos.html">Infos pratiques</a><a href="reglement.html">Règlement</a><a href="classement.html">Classement</a><a class="btn" href="inscription.html">S’inscrire</a></nav></div></header><main><div class="pagehead"><div class="crumb"><a href="index.html">Accueil</a> / Parcours</div><h1>Parcours et GPX</h1><p class="lede">Une boucle d’environ 4,1 km et 100 m D+, au départ des locaux scouts de Magnée.</p></div><section class="section"><div class="split"><div><h2>Le parcours</h2><p id="description" style="white-space:pre-line">Une boucle d’environ 4,1 km et 100 m D+, à répéter pendant 12 heures. Retrouvez le tracé et le profil altimétrique ci-dessous.</p><p>Départ et arrivée : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.</p><div class="route-meta"><div><strong>4,1 KM</strong><span>Distance par boucle</span></div><div><strong>≈ 100 M</strong><span>Dénivelé positif</span></div><div><strong>12 H</strong><span>Durée de l’épreuve</span></div></div><p class="small">Distance et dénivelé approximatifs, établis à partir du GPX.</p><h3>Le profil du parcours</h3><svg aria-label="Profil altimétrique issu du GPX" class="profile" role="img" viewbox="0 0 600 110"><polygon fill="#9f171b15" points="0,105 0,17.28912319644843 4.958677685950414,16.859045504994498 9.917355371900827,16.37347391786905 14.87603305785124,15.915649278579394 19.834710743801654,15.915649278579394 24.793388429752067,15.874028856825745 29.75206611570248,15.874028856825745 34.710743801652896,15.72142064372916 39.66942148760331,15.4439511653718 44.62809917355372,15.235849056603797 49.586776859504134,15.041620421753564 54.54545454545455,15 59.50413223140496,15.749167591564955 64.46280991735537,17.968923418423955 69.42148760330579,19.80022197558266 74.3801652892562,21.243063263041137 79.33884297520662,23.93451720310773 84.29752066115702,30.26082130965589 89.25619834710744,32.07824639289677 94.21487603305785,36.50388457269699 99.17355371900827,31.00998890122088 104.13223140495867,29.06770255271921 109.0909090909091,22.602663706992246 114.04958677685951,18.967813540510562 119.00826446280992,17.857935627081105 123.96694214876034,17.733074361820158 128.92561983471074,17.746947835738098 133.88429752066116,17.622086570477308 138.84297520661158,18.42674805771361 143.80165289256198,18.412874583795755 148.7603305785124,18.038290788013313 153.7190082644628,18.71809100998891 158.67768595041323,23.24084350721428 163.63636363636363,26.112652608213075 168.59504132231405,28.59600443951166 173.55371900826444,29.178690344062183 178.51239669421489,30.080466148723637 183.47107438016528,31.412319644839116 188.4297520661157,33.13263041065481 193.38842975206612,32.203107658157606 198.34710743801654,32.203107658157606 203.30578512396693,32.84128745837959 208.26446280991735,32.84128745837959 213.22314049586777,33.909544950055476 218.1818181818182,34.11764705882348 223.14049586776858,36.11542730299666 228.09917355371903,37.11431742508322 233.05785123966942,38.04384017758047 238.01652892561984,42.45560488346279 242.97520661157023,44.61986681465036 247.93388429752068,54.428412874583756 252.89256198347107,62.4889012208657 257.8512396694215,62.4889012208657 262.8099173553719,62.54439511653717 267.7685950413223,73.64317425083239 272.7272727272727,76.66759156492785 277.68595041322317,77.26415094339619 282.64462809917353,77.91620421753603 287.60330578512395,79.44228634850165 292.56198347107437,80.5799112097669 297.5206611570248,81.13485016648167 302.4793388429752,82.45283018867926 307.4380165289256,85.57436182019974 312.39669421487605,85.5882352941176 317.35537190082647,86.1431742508324 322.31404958677683,87.16981132075469 327.27272727272725,88.19644839067698 332.23140495867773,89.83351831298556 337.1900826446281,90 342.1487603305785,89.9583795782464 347.1074380165289,73.96226415094335 352.06611570247935,70.35516093229742 357.02479338842977,69.21753607103217 361.98347107438013,60.57436182019978 366.94214876033055,48.65704772475025 371.90082644628103,42.483351831298585 376.8595041322314,41.66481687014431 381.8181818181818,40.26359600443951 386.77685950413223,32.18923418423971 391.73553719008265,27.597114317425095 396.6942148760331,27.513873473917876 401.6528925619835,26.098779134295306 406.61157024793386,32.036625971143124 411.57024793388433,38.002219755826864 416.5289256198347,48.44894561598224 421.4876033057851,59.617092119866825 426.44628099173553,63.79300776914539 431.40495867768595,65.4023307436182 436.3636363636364,67.85793562708102 441.3223140495868,71.40954495005545 446.28099173553716,75.7796892341842 451.23966942148763,73.10210876803548 456.19834710743805,72.76914539400664 461.1570247933884,71.53440621531628 466.11570247933884,70.49389567147611 471.0743801652893,68.53773584905659 476.0330578512397,65.36071032186454 480.9917355371901,65.0416204217536 485.95041322314046,64.22308546059934 490.90909090909093,63.418423973362906 495.86776859504135,63.3906770255272 500.8264462809917,62.4750277469478 505.78512396694214,60.782463928967786 510.7438016528926,55.052719200887886 515.702479338843,49.961154273029926 520.6611570247934,47.39456159822417 525.6198347107438,45.382907880133175 530.5785123966942,43.98168701442842 535.5371900826447,38.12708102108768 540.4958677685951,36.30965593784684 545.4545454545454,30.635405105438444 550.4132231404959,23.324084350721492 555.3719008264463,23.83740288568258 560.3305785123966,23.809655937846784 565.2892561983471,23.67092119866814 570.2479338842976,23.102108768035478 575.2066115702479,18.177025527191958 580.1652892561983,17.733074361820158 585.1239669421487,17.733074361820158 590.0826446280992,17.469478357380723 595.0413223140496,17.469478357380723 600,17.28912319644843 600,105"></polygon><polyline fill="none" points="0,17.28912319644843 4.958677685950414,16.859045504994498 9.917355371900827,16.37347391786905 14.87603305785124,15.915649278579394 19.834710743801654,15.915649278579394 24.793388429752067,15.874028856825745 29.75206611570248,15.874028856825745 34.710743801652896,15.72142064372916 39.66942148760331,15.4439511653718 44.62809917355372,15.235849056603797 49.586776859504134,15.041620421753564 54.54545454545455,15 59.50413223140496,15.749167591564955 64.46280991735537,17.968923418423955 69.42148760330579,19.80022197558266 74.3801652892562,21.243063263041137 79.33884297520662,23.93451720310773 84.29752066115702,30.26082130965589 89.25619834710744,32.07824639289677 94.21487603305785,36.50388457269699 99.17355371900827,31.00998890122088 104.13223140495867,29.06770255271921 109.0909090909091,22.602663706992246 114.04958677685951,18.967813540510562 119.00826446280992,17.857935627081105 123.96694214876034,17.733074361820158 128.92561983471074,17.746947835738098 133.88429752066116,17.622086570477308 138.84297520661158,18.42674805771361 143.80165289256198,18.412874583795755 148.7603305785124,18.038290788013313 153.7190082644628,18.71809100998891 158.67768595041323,23.24084350721428 163.63636363636363,26.112652608213075 168.59504132231405,28.59600443951166 173.55371900826444,29.178690344062183 178.51239669421489,30.080466148723637 183.47107438016528,31.412319644839116 188.4297520661157,33.13263041065481 193.38842975206612,32.203107658157606 198.34710743801654,32.203107658157606 203.30578512396693,32.84128745837959 208.26446280991735,32.84128745837959 213.22314049586777,33.909544950055476 218.1818181818182,34.11764705882348 223.14049586776858,36.11542730299666 228.09917355371903,37.11431742508322 233.05785123966942,38.04384017758047 238.01652892561984,42.45560488346279 242.97520661157023,44.61986681465036 247.93388429752068,54.428412874583756 252.89256198347107,62.4889012208657 257.8512396694215,62.4889012208657 262.8099173553719,62.54439511653717 267.7685950413223,73.64317425083239 272.7272727272727,76.66759156492785 277.68595041322317,77.26415094339619 282.64462809917353,77.91620421753603 287.60330578512395,79.44228634850165 292.56198347107437,80.5799112097669 297.5206611570248,81.13485016648167 302.4793388429752,82.45283018867926 307.4380165289256,85.57436182019974 312.39669421487605,85.5882352941176 317.35537190082647,86.1431742508324 322.31404958677683,87.16981132075469 327.27272727272725,88.19644839067698 332.23140495867773,89.83351831298556 337.1900826446281,90 342.1487603305785,89.9583795782464 347.1074380165289,73.96226415094335 352.06611570247935,70.35516093229742 357.02479338842977,69.21753607103217 361.98347107438013,60.57436182019978 366.94214876033055,48.65704772475025 371.90082644628103,42.483351831298585 376.8595041322314,41.66481687014431 381.8181818181818,40.26359600443951 386.77685950413223,32.18923418423971 391.73553719008265,27.597114317425095 396.6942148760331,27.513873473917876 401.6528925619835,26.098779134295306 406.61157024793386,32.036625971143124 411.57024793388433,38.002219755826864 416.5289256198347,48.44894561598224 421.4876033057851,59.617092119866825 426.44628099173553,63.79300776914539 431.40495867768595,65.4023307436182 436.3636363636364,67.85793562708102 441.3223140495868,71.40954495005545 446.28099173553716,75.7796892341842 451.23966942148763,73.10210876803548 456.19834710743805,72.76914539400664 461.1570247933884,71.53440621531628 466.11570247933884,70.49389567147611 471.0743801652893,68.53773584905659 476.0330578512397,65.36071032186454 480.9917355371901,65.0416204217536 485.95041322314046,64.22308546059934 490.90909090909093,63.418423973362906 495.86776859504135,63.3906770255272 500.8264462809917,62.4750277469478 505.78512396694214,60.782463928967786 510.7438016528926,55.052719200887886 515.702479338843,49.961154273029926 520.6611570247934,47.39456159822417 525.6198347107438,45.382907880133175 530.5785123966942,43.98168701442842 535.5371900826447,38.12708102108768 540.4958677685951,36.30965593784684 545.4545454545454,30.635405105438444 550.4132231404959,23.324084350721492 555.3719008264463,23.83740288568258 560.3305785123966,23.809655937846784 565.2892561983471,23.67092119866814 570.2479338842976,23.102108768035478 575.2066115702479,18.177025527191958 580.1652892561983,17.733074361820158 585.1239669421487,17.733074361820158 590.0826446280992,17.469478357380723 595.0413223140496,17.469478357380723 600,17.28912319644843" stroke="#9f171b" stroke-width="2"></polyline></svg><p class="small">Altitude : 211–265 m · Profil indicatif du parcours.</p></div><div class="panel"><h3>Carte et fichier GPX</h3><p id="gpxstatus">Le fichier GPX sera ajouté par l’organisation.</p><div aria-label="Carte interactive du parcours GPX" class="route-map hidden" id="map" role="region" style="height:440px;position:relative;z-index:0"></div><button class="outline hidden" id="recenter" style="margin:12px 0" type="button">Recentrer sur le parcours</button><a class="btn hidden" download="Backyard_Magnee_2027.gpx" href="assets/parcours.gpx" id="gpxlink">Télécharger le GPX</a><p class="small">Fond de carte topographique Esri. Utilisez + / − pour zoomer et faites glisser la carte pour vous déplacer.</p></div></div><div class="steps"><div class="step"><b>01 / À MI-PARCOURS</b><h3>Badgez au point de contrôle</h3><p>Le bracelet ou badge de course sert à enregistrer votre passage au milieu de la boucle.</p></div><div class="step"><b>02 / FIN DE BOUCLE</b><h3>Badgez à l’arrivée</h3><p>Un second passage au lecteur est nécessaire à la fin de chaque boucle. Les passages à mi-parcours et à l’arrivée servent à sa validation. La dernière boucle doit être badgée à l’arrivée avant 22 h ; à 22 h ou après, elle ne compte pas.</p></div><div class="step"><b>03 / PUIS REPARTEZ</b><h3>Solo ou relais</h3><p>Les départs sont libres entre 10 h et 22 h. En équipe de 2 à 6, un ou plusieurs équipiers peuvent courir ensemble, mais une même boucle compte pour un seul tour d’équipe.</p></div></div></section></main><footer><div class="footerinner"><div class="footeridentity"><img alt="Pionniers 110M" src="assets/logo-pionniers.png"/><div><strong>Pionniers de Magnée</strong><small>1er mai 2027 · Locaux scouts de Magnée</small></div></div><div class="footerlinks"><a href="mailto:guillaumedesmare@gmail.com">Contacter l’organisation</a><a href="reglement.html">Règlement</a><a href="organisation.html">Espace organisateur</a></div></div></footer><script>const DEFAULT_MAIL_TEMPLATES={"received":{"label":"Demande d’inscription reçue","subject":"Demande reçue — Backyard de Magnée — {{reference}}","body":"Bonjour {{contact_nom}},\n\nNous avons bien reçu votre demande d’inscription. Votre dossier est enregistré, mais votre inscription n’est pas encore confirmée.\n\nPour régler votre dossier, effectuez un virement de {{montant}} € :\nIBAN : {{iban}}\nBénéficiaire : {{beneficiaire}}\nCommunication : {{reference}}\n\nLa confirmation sera envoyée uniquement après réception et vérification du paiement par l’organisation.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée"},"confirmed":{"label":"Inscription confirmée après paiement","subject":"Inscription confirmée — Backyard de Magnée — {{reference}}","body":"Bonjour {{contact_nom}},\n\nVotre paiement a été reçu et vérifié par l’organisation. Votre inscription est confirmée.\n\nConservez votre référence de dossier et présentez-vous au retrait des badges entre 8 h 30 et 9 h 30.\nDeux rappels sont prévus : le 17 avril et le 30 avril 2027.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée"},"j14":{"label":"Rappel à deux semaines · 17 avril 2027","subject":"Dans deux semaines — Backyard de Magnée — {{reference}}","body":"Bonjour {{contact_nom}},\n\nLa Backyard de Magnée aura lieu dans deux semaines. Votre inscription est confirmée.\n\nLes départs seront libres entre 10 h et 22 h, sur une boucle d’environ 4,1 km et 100 m D+. En équipe de 2 à 6, plusieurs membres peuvent courir ensemble ; une boucle compte pour un seul tour d’équipe.\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité. La dernière boucle doit être terminée et badgée à l’arrivée avant 22 h ; à 22 h ou après, elle ne compte pas.\n\nLe classement en direct sera visible uniquement sur l’écran sur place. Les résultats seront publiés sur le site après vérification.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée"},"j1":{"label":"Rappel la veille · 30 avril 2027","subject":"À demain — Backyard de Magnée — {{reference}}","body":"Bonjour {{contact_nom}},\n\nNous vous attendons demain pour la Backyard de Magnée. Votre inscription est confirmée.\n\nÀ retenir :\n• Retrait des badges de 8 h 30 à 9 h 30.\n• Course et départs libres de 10 h à 22 h.\n• Badgeage à mi-parcours et à la fin de chaque boucle.\n• Dernière arrivée badgée avant 22 h impérativement.\n• Lampe frontale et vêtements visibles dans le noir à prévoir.\n\nPour les équipes : un ou plusieurs coureurs peuvent courir ensemble, mais une boucle compte pour un seul tour d’équipe.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée"}};const DEFAULT_PAGE_CONTENTS={"infos":"## Supporters et convivialité\n\nVenez aussi encourager les coureurs\nLes supporters sont les bienvenus. Un bar est présent pendant tout l’événement. Des pains saucisse supplémentaires peuvent être ajoutés à l’inscription pour eux, à 4 € pièce.\n\n## Participation et sécurité\n\nParticipation et équipement\nAucune annulation ni aucun remboursement possibles. Prévoyez une frontale et des vêtements visibles dans le noir.\n\n## Date\n\nSamedi 1er mai 2027\nCourse de 10 h à 22 h. Retrait des badges de 8 h 30 à 9 h 30. Départs libres sur la boucle.\n\n## Camp de base\n\nLocaux scouts de Magnée\nRue du Village 17, 4623 Magnée, Belgique. Les indications de parking et d’accès restent à préciser.\n\n## Inscription\n\n20 € par personne\nSolo : 20 €. Relais de 2 à 6 : de 40 à 120 €. Le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur sont compris.\n\n## Ce qui est compris et les suppléments\n\nMédaille incluse · Pain saucisse supplémentaire 4 €\nUn pain saucisse et une médaille sont compris pour chaque coureur dans les 20 €, avec un pain saucisse et une médaille par membre de l’équipe. Seuls les pains saucisse supplémentaires pour les supporters sont facturés en plus : 4 € pièce.\n\n## Capacité\n\n250 coureurs au total\nUne équipe occupe autant de places que de coureurs inscrits (de 2 à 6). Les demandes en attente de paiement sont incluses dans cette jauge.\n\n## Contact\n\nPionniers de Magnée\nguillaumedesmare@gmail.com · Un contact par dossier pour les confirmations et rappels.\n\n## Quand mon inscription est-elle confirmée ?\n\nLa demande enregistre les coureurs et réserve les places. Après votre virement, l’organisation vérifie le paiement. Le mail de confirmation est envoyé après cette validation. Conservez la référence et les instructions affichées à la fin du formulaire.\n\n## Peut-on ajouter des pains saucisse pour les supporters ?\n\nOui. Un pain saucisse et une médaille par coureur sont déjà compris. Indiquez simplement le nombre de pains saucisse supplémentaires pour vos supporters ; ils sont facturés 4 € pièce. Le total se met à jour avant l’enregistrement.\n\n## Comment fonctionne le relais ?\n\nL’équipe comprend de 2 à 6 coureurs nominatifs. Un ou plusieurs membres peuvent être en course ensemble, mais une boucle réalisée ensemble compte pour un seul tour d’équipe. Les départs sont libres entre 10 h et 22 h.\n\n## Comment les tours sont-ils validés ?\n\nLe dispositif prévu prévoit un contrôle par badge à mi-parcours et à l’arrivée de chaque boucle. Les passages sont vérifiés pour déterminer les boucles retenues au classement.\n\n## Quand recevrai-je les rappels ?\n\nDeux rappels sont prévus pour les inscriptions confirmées : le 17 avril 2027 et le 30 avril 2027. Pour les équipes, ils sont envoyés au contact renseigné dans le dossier.\n\n## Peut-on venir encourager les coureurs ?\n\nOui, les supporters sont les bienvenus pour encourager les coureurs. Un bar est présent pendant tout l’événement. Vous pouvez ajouter des pains saucisse pour vos supporters lors de l’inscription, à 4 € pièce. Les indications de stationnement seront précisées avant la course.\n\n## Où trouver les résultats ?\n\nAprès l’événement, la page Classement présentera séparément les solos et les équipes, avec les tours validés, la distance estimée et le meilleur tour. Pendant la course, le classement en direct est affiché uniquement sur un écran sur place. Les résultats définitifs seront publiés sur ce site par l’organisation après l’événement.\n\n## Que faire pour modifier ou annuler mon dossier ?\n\nL’inscription ne peut pas être annulée et aucun remboursement n’est possible. Pour toute autre question concernant votre dossier, contactez l’organisation en indiquant sa référence.","reglement":"## Format et durée\n\nL’épreuve se déroule le 1er mai 2027 sur une durée de 12 heures. L’objectif est de réaliser le plus de boucles possible sur le parcours fourni. La course commence à 10 h et se termine à 22 h. Le retrait des badges est organisé de 8 h 30 à 9 h 30. Les départs sur la boucle sont libres.\n\n## Parcours et distance\n\nLa boucle mesure environ 4,1 km et comporte environ 100 m de dénivelé positif, d’après le GPX. La distance et le dénivelé cumulés affichés au classement sont des estimations calculées à partir de ces valeurs par tour.\n\n## Participation en relais\n\nLe format équipe comprend de 2 à 6 coureurs. Un ou plusieurs équipiers peuvent courir ensemble sur une même boucle, mais celle-ci compte pour un seul tour d’équipe. Les tours ne sont donc pas multipliés par le nombre de membres présents sur le parcours.\n\n## Contrôle des passages\n\nLe dispositif prévu comprend un badgeage à mi-parcours et à la fin de chaque boucle. Seules les boucles validées par l’organisation seront retenues au classement. En cas de passage manquant, signalez-le à l’organisation pour vérification. Pour être comptabilisée, la dernière boucle doit être terminée et badgée au point d’arrivée avant 22 h. Un badgeage à 22 h ou après ne valide pas la boucle, même si elle a été commencée avant la fin de la course.\n\n## Présentation du classement\n\nPendant l’événement, le classement en direct est affiché uniquement sur un écran sur place. Le classement définitif est publié sur ce site après l’événement, à partir des résultats vérifiés du système de badges. Les solos et les équipes disposent de tableaux distincts. Le classement est ordonné par nombre de boucles validées décroissant. À égalité de tours, le meilleur tour le plus rapide départage les coureurs ou équipes. Si le nombre de tours et le meilleur temps sont identiques, le rang est ex æquo. Un meilleur tour non renseigné est affiché après les temps connus à nombre de tours égal, dans l’attente de vérification.\n\n## Conditions d’inscription\n\nAucune annulation d’inscription ni aucun remboursement ne sont possibles.\n\n## Inscription et règlement\n\nLe tarif est de 20 € par personne, avec ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur inclus. Une équipe de 2 à 6 coureurs règle de 40 à 120 € hors suppléments pour les supporters, avec un pain saucisse et une médaille par coureur inclus. Des pains saucisse supplémentaires peuvent être ajoutés pour les supporters à 4 € pièce. La confirmation intervient après réception et vérification du paiement.\n\n## Capacité et dossiers en attente\n\nLa limite est fixée à 250 personnes, solos et équipiers confondus. Une demande en attente réserve ses places jusqu’à sa confirmation ou son annulation par l’organisation. Une équipe ne peut être enregistrée que s’il reste suffisamment de places pour tous ses membres.\n\n## Visibilité et équipement\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité."};const MAIL_EXAMPLE={"contact_nom":"Camille Martin","reference":"BM-EXEMPLE","format":"Équipe de 4","coureurs":"Camille Martin, Alex Dupont, Lou Bernard, Sam Petit","montant":"88,00","supplements":"2","iban":"[IBAN à compléter]","beneficiaire":"Pionniers de Magnée","lien_parcours":"https://votre-compte.github.io/votre-depot/parcours.html","lien_reglement":"https://votre-compte.github.io/votre-depot/reglement.html","lien_infos":"https://votre-compte.github.io/votre-depot/infos.html","contact_organisation":"guillaumedesmare@gmail.com"};
+<html lang="fr"
+  ><head
+    ><meta charset="utf-8" /><meta
+      content="width=device-width,initial-scale=1"
+      name="viewport" /><meta
+      content="Backyard des Pionniers de Magnée, le 1er mai 2027 : 12 heures sur une boucle de 4,1 km. Solo ou relais de 2 à 6, 20 € par personne."
+      name="description" /><title>parcours · Backyard Magnée</title
+    ><link href="assets/style.css" rel="stylesheet" /><link
+      crossorigin=""
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      rel="stylesheet" /><script
+      crossorigin=""
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    ></script
+    ><script src="config.js"></script></head
+  ><body
+    ><header
+      ><div class="headerinner"
+        ><a class="brand" href="index.html"
+          ><img alt="Logo des Pionniers de Magnée" src="assets/logo-pionniers.png" /><span
+            >Backyard de Magnée<small>Organisée par les Pionniers · 110M</small></span
+          ></a
+        ><nav aria-label="Navigation principale"
+          ><a href="index.html">Accueil</a><a aria-current="page" href="parcours.html">Parcours</a
+          ><a href="infos.html">Infos pratiques</a><a href="reglement.html">Règlement</a
+          ><a href="classement.html">Classement</a
+          ><a class="btn" href="inscription.html">S’inscrire</a></nav
+        ></div
+      ></header
+    ><main
+      ><div class="pagehead"
+        ><div class="crumb"><a href="index.html">Accueil</a> / Parcours</div><h1>Parcours et GPX</h1
+        ><p class="lede"
+          >Une boucle d’environ 4,1 km et 100 m D+, au départ des locaux scouts de Magnée.</p
+        ></div
+      ><section class="section"
+        ><div class="split"
+          ><div
+            ><h2>Le parcours</h2
+            ><p id="description" style="white-space: pre-line"
+              >Une boucle d’environ 4,1 km et 100 m D+, à répéter pendant 12 heures. Retrouvez le
+              tracé et le profil altimétrique ci-dessous.</p
+            ><p>Départ et arrivée : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.</p
+            ><div class="route-meta"
+              ><div><strong>4,1 KM</strong><span>Distance par boucle</span></div
+              ><div><strong>≈ 100 M</strong><span>Dénivelé positif</span></div
+              ><div><strong>12 H</strong><span>Durée de l’épreuve</span></div></div
+            ><p class="small">Distance et dénivelé approximatifs, établis à partir du GPX.</p
+            ><h3>Le profil du parcours</h3
+            ><svg
+              aria-label="Profil altimétrique issu du GPX"
+              class="profile"
+              role="img"
+              viewbox="0 0 600 110"
+            >
+              <polygon
+                fill="#9f171b15"
+                points="0,105 0,17.28912319644843 4.958677685950414,16.859045504994498 9.917355371900827,16.37347391786905 14.87603305785124,15.915649278579394 19.834710743801654,15.915649278579394 24.793388429752067,15.874028856825745 29.75206611570248,15.874028856825745 34.710743801652896,15.72142064372916 39.66942148760331,15.4439511653718 44.62809917355372,15.235849056603797 49.586776859504134,15.041620421753564 54.54545454545455,15 59.50413223140496,15.749167591564955 64.46280991735537,17.968923418423955 69.42148760330579,19.80022197558266 74.3801652892562,21.243063263041137 79.33884297520662,23.93451720310773 84.29752066115702,30.26082130965589 89.25619834710744,32.07824639289677 94.21487603305785,36.50388457269699 99.17355371900827,31.00998890122088 104.13223140495867,29.06770255271921 109.0909090909091,22.602663706992246 114.04958677685951,18.967813540510562 119.00826446280992,17.857935627081105 123.96694214876034,17.733074361820158 128.92561983471074,17.746947835738098 133.88429752066116,17.622086570477308 138.84297520661158,18.42674805771361 143.80165289256198,18.412874583795755 148.7603305785124,18.038290788013313 153.7190082644628,18.71809100998891 158.67768595041323,23.24084350721428 163.63636363636363,26.112652608213075 168.59504132231405,28.59600443951166 173.55371900826444,29.178690344062183 178.51239669421489,30.080466148723637 183.47107438016528,31.412319644839116 188.4297520661157,33.13263041065481 193.38842975206612,32.203107658157606 198.34710743801654,32.203107658157606 203.30578512396693,32.84128745837959 208.26446280991735,32.84128745837959 213.22314049586777,33.909544950055476 218.1818181818182,34.11764705882348 223.14049586776858,36.11542730299666 228.09917355371903,37.11431742508322 233.05785123966942,38.04384017758047 238.01652892561984,42.45560488346279 242.97520661157023,44.61986681465036 247.93388429752068,54.428412874583756 252.89256198347107,62.4889012208657 257.8512396694215,62.4889012208657 262.8099173553719,62.54439511653717 267.7685950413223,73.64317425083239 272.7272727272727,76.66759156492785 277.68595041322317,77.26415094339619 282.64462809917353,77.91620421753603 287.60330578512395,79.44228634850165 292.56198347107437,80.5799112097669 297.5206611570248,81.13485016648167 302.4793388429752,82.45283018867926 307.4380165289256,85.57436182019974 312.39669421487605,85.5882352941176 317.35537190082647,86.1431742508324 322.31404958677683,87.16981132075469 327.27272727272725,88.19644839067698 332.23140495867773,89.83351831298556 337.1900826446281,90 342.1487603305785,89.9583795782464 347.1074380165289,73.96226415094335 352.06611570247935,70.35516093229742 357.02479338842977,69.21753607103217 361.98347107438013,60.57436182019978 366.94214876033055,48.65704772475025 371.90082644628103,42.483351831298585 376.8595041322314,41.66481687014431 381.8181818181818,40.26359600443951 386.77685950413223,32.18923418423971 391.73553719008265,27.597114317425095 396.6942148760331,27.513873473917876 401.6528925619835,26.098779134295306 406.61157024793386,32.036625971143124 411.57024793388433,38.002219755826864 416.5289256198347,48.44894561598224 421.4876033057851,59.617092119866825 426.44628099173553,63.79300776914539 431.40495867768595,65.4023307436182 436.3636363636364,67.85793562708102 441.3223140495868,71.40954495005545 446.28099173553716,75.7796892341842 451.23966942148763,73.10210876803548 456.19834710743805,72.76914539400664 461.1570247933884,71.53440621531628 466.11570247933884,70.49389567147611 471.0743801652893,68.53773584905659 476.0330578512397,65.36071032186454 480.9917355371901,65.0416204217536 485.95041322314046,64.22308546059934 490.90909090909093,63.418423973362906 495.86776859504135,63.3906770255272 500.8264462809917,62.4750277469478 505.78512396694214,60.782463928967786 510.7438016528926,55.052719200887886 515.702479338843,49.961154273029926 520.6611570247934,47.39456159822417 525.6198347107438,45.382907880133175 530.5785123966942,43.98168701442842 535.5371900826447,38.12708102108768 540.4958677685951,36.30965593784684 545.4545454545454,30.635405105438444 550.4132231404959,23.324084350721492 555.3719008264463,23.83740288568258 560.3305785123966,23.809655937846784 565.2892561983471,23.67092119866814 570.2479338842976,23.102108768035478 575.2066115702479,18.177025527191958 580.1652892561983,17.733074361820158 585.1239669421487,17.733074361820158 590.0826446280992,17.469478357380723 595.0413223140496,17.469478357380723 600,17.28912319644843 600,105"
+              ></polygon>
+              <polyline
+                fill="none"
+                points="0,17.28912319644843 4.958677685950414,16.859045504994498 9.917355371900827,16.37347391786905 14.87603305785124,15.915649278579394 19.834710743801654,15.915649278579394 24.793388429752067,15.874028856825745 29.75206611570248,15.874028856825745 34.710743801652896,15.72142064372916 39.66942148760331,15.4439511653718 44.62809917355372,15.235849056603797 49.586776859504134,15.041620421753564 54.54545454545455,15 59.50413223140496,15.749167591564955 64.46280991735537,17.968923418423955 69.42148760330579,19.80022197558266 74.3801652892562,21.243063263041137 79.33884297520662,23.93451720310773 84.29752066115702,30.26082130965589 89.25619834710744,32.07824639289677 94.21487603305785,36.50388457269699 99.17355371900827,31.00998890122088 104.13223140495867,29.06770255271921 109.0909090909091,22.602663706992246 114.04958677685951,18.967813540510562 119.00826446280992,17.857935627081105 123.96694214876034,17.733074361820158 128.92561983471074,17.746947835738098 133.88429752066116,17.622086570477308 138.84297520661158,18.42674805771361 143.80165289256198,18.412874583795755 148.7603305785124,18.038290788013313 153.7190082644628,18.71809100998891 158.67768595041323,23.24084350721428 163.63636363636363,26.112652608213075 168.59504132231405,28.59600443951166 173.55371900826444,29.178690344062183 178.51239669421489,30.080466148723637 183.47107438016528,31.412319644839116 188.4297520661157,33.13263041065481 193.38842975206612,32.203107658157606 198.34710743801654,32.203107658157606 203.30578512396693,32.84128745837959 208.26446280991735,32.84128745837959 213.22314049586777,33.909544950055476 218.1818181818182,34.11764705882348 223.14049586776858,36.11542730299666 228.09917355371903,37.11431742508322 233.05785123966942,38.04384017758047 238.01652892561984,42.45560488346279 242.97520661157023,44.61986681465036 247.93388429752068,54.428412874583756 252.89256198347107,62.4889012208657 257.8512396694215,62.4889012208657 262.8099173553719,62.54439511653717 267.7685950413223,73.64317425083239 272.7272727272727,76.66759156492785 277.68595041322317,77.26415094339619 282.64462809917353,77.91620421753603 287.60330578512395,79.44228634850165 292.56198347107437,80.5799112097669 297.5206611570248,81.13485016648167 302.4793388429752,82.45283018867926 307.4380165289256,85.57436182019974 312.39669421487605,85.5882352941176 317.35537190082647,86.1431742508324 322.31404958677683,87.16981132075469 327.27272727272725,88.19644839067698 332.23140495867773,89.83351831298556 337.1900826446281,90 342.1487603305785,89.9583795782464 347.1074380165289,73.96226415094335 352.06611570247935,70.35516093229742 357.02479338842977,69.21753607103217 361.98347107438013,60.57436182019978 366.94214876033055,48.65704772475025 371.90082644628103,42.483351831298585 376.8595041322314,41.66481687014431 381.8181818181818,40.26359600443951 386.77685950413223,32.18923418423971 391.73553719008265,27.597114317425095 396.6942148760331,27.513873473917876 401.6528925619835,26.098779134295306 406.61157024793386,32.036625971143124 411.57024793388433,38.002219755826864 416.5289256198347,48.44894561598224 421.4876033057851,59.617092119866825 426.44628099173553,63.79300776914539 431.40495867768595,65.4023307436182 436.3636363636364,67.85793562708102 441.3223140495868,71.40954495005545 446.28099173553716,75.7796892341842 451.23966942148763,73.10210876803548 456.19834710743805,72.76914539400664 461.1570247933884,71.53440621531628 466.11570247933884,70.49389567147611 471.0743801652893,68.53773584905659 476.0330578512397,65.36071032186454 480.9917355371901,65.0416204217536 485.95041322314046,64.22308546059934 490.90909090909093,63.418423973362906 495.86776859504135,63.3906770255272 500.8264462809917,62.4750277469478 505.78512396694214,60.782463928967786 510.7438016528926,55.052719200887886 515.702479338843,49.961154273029926 520.6611570247934,47.39456159822417 525.6198347107438,45.382907880133175 530.5785123966942,43.98168701442842 535.5371900826447,38.12708102108768 540.4958677685951,36.30965593784684 545.4545454545454,30.635405105438444 550.4132231404959,23.324084350721492 555.3719008264463,23.83740288568258 560.3305785123966,23.809655937846784 565.2892561983471,23.67092119866814 570.2479338842976,23.102108768035478 575.2066115702479,18.177025527191958 580.1652892561983,17.733074361820158 585.1239669421487,17.733074361820158 590.0826446280992,17.469478357380723 595.0413223140496,17.469478357380723 600,17.28912319644843"
+                stroke="#9f171b"
+                stroke-width="2"
+              ></polyline></svg
+            ><p class="small">Altitude : 211–265 m · Profil indicatif du parcours.</p></div
+          ><div class="panel"
+            ><h3>Carte et fichier GPX</h3
+            ><p id="gpxstatus">Le fichier GPX sera ajouté par l’organisation.</p
+            ><div
+              aria-label="Carte interactive du parcours GPX"
+              class="route-map hidden"
+              id="map"
+              role="region"
+              style="height: 440px; position: relative; z-index: 0"
+            ></div
+            ><button class="outline hidden" id="recenter" style="margin: 12px 0" type="button"
+              >Recentrer sur le parcours</button
+            ><a
+              class="btn hidden"
+              download="Backyard_Magnee_2027.gpx"
+              href="assets/parcours.gpx"
+              id="gpxlink"
+              >Télécharger le GPX</a
+            ><p class="small"
+              >Fond de carte topographique Esri. Utilisez + / − pour zoomer et faites glisser la
+              carte pour vous déplacer.</p
+            ></div
+          ></div
+        ><div class="steps"
+          ><div class="step"
+            ><b>01 / À MI-PARCOURS</b><h3>Badgez au point de contrôle</h3
+            ><p
+              >Le bracelet ou badge de course sert à enregistrer votre passage au milieu de la
+              boucle.</p
+            ></div
+          ><div class="step"
+            ><b>02 / FIN DE BOUCLE</b><h3>Badgez à l’arrivée</h3
+            ><p
+              >Un second passage au lecteur est nécessaire à la fin de chaque boucle. Les passages à
+              mi-parcours et à l’arrivée servent à sa validation. La dernière boucle doit être
+              badgée à l’arrivée avant 22 h ; à 22 h ou après, elle ne compte pas.</p
+            ></div
+          ><div class="step"
+            ><b>03 / PUIS REPARTEZ</b><h3>Solo ou relais</h3
+            ><p
+              >Les départs sont libres entre 10 h et 22 h. En équipe de 2 à 6, un ou plusieurs
+              équipiers peuvent courir ensemble, mais une même boucle compte pour un seul tour
+              d’équipe.</p
+            ></div
+          ></div
+        ></section
+      ></main
+    ><footer
+      ><div class="footerinner"
+        ><div class="footeridentity"
+          ><img alt="Pionniers 110M" src="assets/logo-pionniers.png" /><div
+            ><strong>Pionniers de Magnée</strong
+            ><small>1er mai 2027 · Locaux scouts de Magnée</small></div
+          ></div
+        ><div class="footerlinks"
+          ><a href="mailto:guillaumedesmare@gmail.com">Contacter l’organisation</a
+          ><a href="reglement.html">Règlement</a
+          ><a href="organisation.html">Espace organisateur</a></div
+        ></div
+      ></footer
+    ><script>
+      const DEFAULT_MAIL_TEMPLATES = {
+        "received": {
+          "label": "Demande d’inscription reçue",
+          "subject": "Demande reçue — Backyard de Magnée — {{reference}}",
+          "body":
+            "Bonjour {{contact_nom}},\n\nNous avons bien reçu votre demande d’inscription. Votre dossier est enregistré, mais votre inscription n’est pas encore confirmée.\n\nPour régler votre dossier, effectuez un virement de {{montant}} € :\nIBAN : {{iban}}\nBénéficiaire : {{beneficiaire}}\nCommunication : {{reference}}\n\nLa confirmation sera envoyée uniquement après réception et vérification du paiement par l’organisation.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée",
+        },
+        "confirmed": {
+          "label": "Inscription confirmée après paiement",
+          "subject": "Inscription confirmée — Backyard de Magnée — {{reference}}",
+          "body":
+            "Bonjour {{contact_nom}},\n\nVotre paiement a été reçu et vérifié par l’organisation. Votre inscription est confirmée.\n\nConservez votre référence de dossier et présentez-vous au retrait des badges entre 8 h 30 et 9 h 30.\nDeux rappels sont prévus : le 17 avril et le 30 avril 2027.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée",
+        },
+        "j14": {
+          "label": "Rappel à deux semaines · 17 avril 2027",
+          "subject": "Dans deux semaines — Backyard de Magnée — {{reference}}",
+          "body":
+            "Bonjour {{contact_nom}},\n\nLa Backyard de Magnée aura lieu dans deux semaines. Votre inscription est confirmée.\n\nLes départs seront libres entre 10 h et 22 h, sur une boucle d’environ 4,1 km et 100 m D+. En équipe de 2 à 6, plusieurs membres peuvent courir ensemble ; une boucle compte pour un seul tour d’équipe.\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité. La dernière boucle doit être terminée et badgée à l’arrivée avant 22 h ; à 22 h ou après, elle ne compte pas.\n\nLe classement en direct sera visible uniquement sur l’écran sur place. Les résultats seront publiés sur le site après vérification.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée",
+        },
+        "j1": {
+          "label": "Rappel la veille · 30 avril 2027",
+          "subject": "À demain — Backyard de Magnée — {{reference}}",
+          "body":
+            "Bonjour {{contact_nom}},\n\nNous vous attendons demain pour la Backyard de Magnée. Votre inscription est confirmée.\n\nÀ retenir :\n• Retrait des badges de 8 h 30 à 9 h 30.\n• Course et départs libres de 10 h à 22 h.\n• Badgeage à mi-parcours et à la fin de chaque boucle.\n• Dernière arrivée badgée avant 22 h impérativement.\n• Lampe frontale et vêtements visibles dans le noir à prévoir.\n\nPour les équipes : un ou plusieurs coureurs peuvent courir ensemble, mais une boucle compte pour un seul tour d’équipe.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée",
+        },
+      };
+      const DEFAULT_PAGE_CONTENTS = {
+        "infos":
+          "## Supporters et convivialité\n\nVenez aussi encourager les coureurs\nLes supporters sont les bienvenus. Un bar est présent pendant tout l’événement. Des pains saucisse supplémentaires peuvent être ajoutés à l’inscription pour eux, à 4 € pièce.\n\n## Participation et sécurité\n\nParticipation et équipement\nAnnulation avec remboursement possible jusqu’au 24 avril 2027 à 10 h, heure belge. Prévoyez une frontale et des vêtements visibles dans le noir.\n\n## Date\n\nSamedi 1er mai 2027\nCourse de 10 h à 22 h. Retrait des badges de 8 h 30 à 9 h 30. Départs libres sur la boucle.\n\n## Camp de base\n\nLocaux scouts de Magnée\nRue du Village 17, 4623 Magnée, Belgique. Les indications de parking et d’accès restent à préciser.\n\n## Inscription\n\n20 € par personne\nSolo : 20 €. Relais de 2 à 6 : de 40 à 120 €. Le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur sont compris.\n\n## Ce qui est compris et les suppléments\n\nMédaille incluse · Pain saucisse supplémentaire 4 €\nUn pain saucisse et une médaille sont compris pour chaque coureur dans les 20 €, avec un pain saucisse et une médaille par membre de l’équipe. Seuls les pains saucisse supplémentaires pour les supporters sont facturés en plus : 4 € pièce.\n\n## Capacité\n\n250 coureurs au total\nUne équipe occupe autant de places que de coureurs inscrits (de 2 à 6). Les demandes en attente de paiement sont incluses dans cette jauge.\n\n## Contact\n\nPionniers de Magnée\nguillaumedesmare@gmail.com · Un contact par dossier pour les confirmations et rappels.\n\n## Quand mon inscription est-elle confirmée ?\n\nLa demande enregistre les coureurs et réserve les places. Après votre virement, l’organisation vérifie le paiement. Le mail de confirmation est envoyé après cette validation. Conservez la référence et les instructions affichées à la fin du formulaire.\n\n## Peut-on ajouter des pains saucisse pour les supporters ?\n\nOui. Un pain saucisse et une médaille par coureur sont déjà compris. Indiquez simplement le nombre de pains saucisse supplémentaires pour vos supporters ; ils sont facturés 4 € pièce. Le total se met à jour avant l’enregistrement.\n\n## Comment fonctionne le relais ?\n\nL’équipe comprend de 2 à 6 coureurs nominatifs. Un ou plusieurs membres peuvent être en course ensemble, mais une boucle réalisée ensemble compte pour un seul tour d’équipe. Les départs sont libres entre 10 h et 22 h.\n\n## Comment les tours sont-ils validés ?\n\nLe dispositif prévu prévoit un contrôle par badge à mi-parcours et à l’arrivée de chaque boucle. Les passages sont vérifiés pour déterminer les boucles retenues au classement.\n\n## Quand recevrai-je les rappels ?\n\nDeux rappels sont prévus pour les inscriptions confirmées : le 17 avril 2027 et le 30 avril 2027. Pour les équipes, ils sont envoyés au contact renseigné dans le dossier.\n\n## Peut-on venir encourager les coureurs ?\n\nOui, les supporters sont les bienvenus pour encourager les coureurs. Un bar est présent pendant tout l’événement. Vous pouvez ajouter des pains saucisse pour vos supporters lors de l’inscription, à 4 € pièce. Les indications de stationnement seront précisées avant la course.\n\n## Où trouver les résultats ?\n\nAprès l’événement, la page Classement présentera séparément les solos et les équipes, avec les tours validés, la distance estimée et le meilleur tour. Pendant la course, le classement en direct est affiché uniquement sur un écran sur place. Les résultats définitifs seront publiés sur ce site par l’organisation après l’événement.\n\n## Que faire pour modifier ou annuler mon dossier ?\n\nL’inscription peut être annulée avec remboursement jusqu’au 24 avril 2027 à 10 h, heure belge. Utilisez votre lien personnel reçu par mail ou contactez l’organisation. Pour toute autre question concernant votre dossier, contactez l’organisation en indiquant sa référence.",
+        "reglement":
+          "## Format et durée\n\nL’épreuve se déroule le 1er mai 2027 sur une durée de 12 heures. L’objectif est de réaliser le plus de boucles possible sur le parcours fourni. La course commence à 10 h et se termine à 22 h. Le retrait des badges est organisé de 8 h 30 à 9 h 30. Les départs sur la boucle sont libres.\n\n## Parcours et distance\n\nLa boucle mesure environ 4,1 km et comporte environ 100 m de dénivelé positif, d’après le GPX. La distance et le dénivelé cumulés affichés au classement sont des estimations calculées à partir de ces valeurs par tour.\n\n## Participation en relais\n\nLe format équipe comprend de 2 à 6 coureurs. Un ou plusieurs équipiers peuvent courir ensemble sur une même boucle, mais celle-ci compte pour un seul tour d’équipe. Les tours ne sont donc pas multipliés par le nombre de membres présents sur le parcours.\n\n## Contrôle des passages\n\nLe dispositif prévu comprend un badgeage à mi-parcours et à la fin de chaque boucle. Seules les boucles validées par l’organisation seront retenues au classement. En cas de passage manquant, signalez-le à l’organisation pour vérification. Pour être comptabilisée, la dernière boucle doit être terminée et badgée au point d’arrivée avant 22 h. Un badgeage à 22 h ou après ne valide pas la boucle, même si elle a été commencée avant la fin de la course.\n\n## Présentation du classement\n\nPendant l’événement, le classement en direct est affiché uniquement sur un écran sur place. Le classement définitif est publié sur ce site après l’événement, à partir des résultats vérifiés du système de badges. Les solos et les équipes disposent de tableaux distincts. Le classement est ordonné par nombre de boucles validées décroissant. À égalité de tours, le meilleur tour le plus rapide départage les coureurs ou équipes. Si le nombre de tours et le meilleur temps sont identiques, le rang est ex æquo. Un meilleur tour non renseigné est affiché après les temps connus à nombre de tours égal, dans l’attente de vérification.\n\n## Conditions d’inscription\n\nL’annulation et le remboursement du dossier sont possibles jusqu’au 24 avril 2027 à 10 h, heure belge. Le remboursement est traité par l’organisation.\n\n## Inscription et règlement\n\nLe tarif est de 20 € par personne, avec ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur inclus. Une équipe de 2 à 6 coureurs règle de 40 à 120 € hors suppléments pour les supporters, avec un pain saucisse et une médaille par coureur inclus. Des pains saucisse supplémentaires peuvent être ajoutés pour les supporters à 4 € pièce. La confirmation intervient après réception et vérification du paiement.\n\n## Capacité et dossiers en attente\n\nLa limite est fixée à 250 personnes, solos et équipiers confondus. Une demande en attente réserve ses places jusqu’à sa confirmation ou son annulation par l’organisation. Une équipe ne peut être enregistrée que s’il reste suffisamment de places pour tous ses membres.\n\n## Visibilité et équipement\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité.",
+      };
+      const MAIL_EXAMPLE = {
+        "contact_nom": "Camille Martin",
+        "reference": "BM-EXEMPLE",
+        "format": "Équipe de 4",
+        "coureurs": "Camille Martin, Alex Dupont, Lou Bernard, Sam Petit",
+        "montant": "88,00",
+        "supplements": "2",
+        "iban": "[IBAN à compléter]",
+        "beneficiaire": "Pionniers de Magnée",
+        "lien_parcours": "https://votre-compte.github.io/votre-depot/parcours.html",
+        "lien_reglement": "https://votre-compte.github.io/votre-depot/reglement.html",
+        "lien_infos": "https://votre-compte.github.io/votre-depot/infos.html",
+        "contact_organisation": "guillaumedesmare@gmail.com",
+      };
 
-let kind='solo',state={},key='',records=[];const $=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function choose(k){if(!$('#runners'))return;kind=k;$('#solo').classList.toggle('active',k==='solo');$('#team').classList.toggle('active',k==='team');$('#teamfield').classList.toggle('hidden',k==='solo');$('#teamname').required=k==='team';$('#runners').innerHTML=Array.from({length:k==='solo'?1:Number($('#teamsize')?.value||2)},(_,i)=>'<div class="runner"><label>Coureur '+(i+1)+'</label><div class="row"><input placeholder="Prénom" aria-label="Prénom coureur '+(i+1)+'" required maxlength="60"><input placeholder="Nom" aria-label="Nom coureur '+(i+1)+'" required maxlength="60"></div><p class="small">Un pain saucisse et une médaille sont inclus pour ce coureur.</p></div>').join('');updateButton();updateTotal()}
-function updateButton(){if(!$('#submit'))return;$('#submit').disabled=!state.open||state.remaining<(kind==='solo'?1:Number($('#teamsize')?.value||2))}
-async function api(path,body,method){if(!window.BACKYARD_CONFIG.apiUrl){if(path==='state')return {...window.BACKYARD_CONFIG.defaults,open:false,remaining:250,hasGpx:true};if(path==='results')return {status:'upcoming',rows:[]};throw Error('Le service d’inscription n’est pas encore connecté. Renseignez apiUrl dans config.js après le déploiement Apps Script.')}let r=await fetch(window.BACKYARD_CONFIG.apiUrl,{method:'POST',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:path,method:method||(body?'POST':'GET'),key:key||'',data:body||{}})});let d;try{d=await r.json()}catch{throw Error('Réponse du service illisible. Vérifiez le déploiement Apps Script.')}if(!r.ok||d.ok===false)throw Error(d.error||'Erreur du service');return d}
-function gpxDownload(text){const link=$('#gpxlink');if(!link)return;let blob=new Blob([text],{type:'application/gpx+xml'});link.href=URL.createObjectURL(blob);link.download='Backyard_Magnee_2027.gpx'}
-async function getGpx(){if(window.BACKYARD_CONFIG.apiUrl){let d=await api('gpx');if(d.gpx){gpxDownload(d.gpx);return d.gpx}}let r=await fetch('assets/parcours.gpx');if(!r.ok)throw Error('GPX indisponible');return r.text()}
-function renderPlainContent(value){const e=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));return value.split(/\n\s*\n/).filter(Boolean).map(block=>block.startsWith('## ')?'<h2>'+e(block.slice(3))+'</h2>':'<p>'+e(block).replace(/\n/g,'<br>')+'</p>').join('')}
-function updateManagedContent(){
- const root=$('#managedContent');
- if(!root)return;
- const page=root.dataset.page;
- const raw=state.contents&&state.contents[page];
- if(typeof raw!=='string'||!raw.trim())return;
- const blocks=raw.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
- const parsed=blocks.map(block=>{let lines=block.replace(/^##\s*/, '').split('\n');return {title:(lines.shift()||'').trim(),body:lines.join('\n').trim()}});
- // Preserve the original DOM and every CSS class: only edit text nodes.
- if(page==='reglement'){
-  const cards=[...root.querySelectorAll('.rule')];
-  if(parsed.length!==cards.length){console.warn('Règlement : structure différente, mise en page conservée.');return}
-  parsed.forEach((part,i)=>{const h=cards[i].querySelector('h3'),p=cards[i].querySelector('p');if(h&&p){h.textContent=part.title;p.textContent=part.body}});
- }else if(page==='infos'){
-  const facts=[...root.querySelectorAll('.fact')];
-  const faqs=[...document.querySelectorAll('main details')].filter(x=>!root.contains(x));
-  if(parsed.length!==facts.length+faqs.length){console.warn('Infos : structure différente, mise en page conservée.');return}
-  facts.forEach((card,i)=>{const h=card.querySelector('strong'),p=card.querySelector('p');if(h&&p){h.textContent=parsed[i].title;p.textContent=parsed[i].body}});
-  faqs.forEach((card,i)=>{const p=card.querySelector('p');if(p)p.textContent=parsed[facts.length+i].body});
- }
-}
+      let kind = "solo",
+        state = {},
+        key = "",
+        records = [];
+      const $ = (s) => document.querySelector(s);
+      const esc = (s) =>
+        String(s ?? "").replace(
+          /[&<>"']/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+        );
+      function choose(k) {
+        if (!$("#runners")) return;
+        kind = k;
+        $("#solo").classList.toggle("active", k === "solo");
+        $("#team").classList.toggle("active", k === "team");
+        $("#teamfield").classList.toggle("hidden", k === "solo");
+        $("#teamname").required = k === "team";
+        $("#runners").innerHTML = Array.from(
+          { length: k === "solo" ? 1 : Number($("#teamsize")?.value || 2) },
+          (_, i) =>
+            '<div class="runner"><label>Coureur ' +
+            (i + 1) +
+            '</label><div class="row"><input placeholder="Prénom" aria-label="Prénom coureur ' +
+            (i + 1) +
+            '" required maxlength="60"><input placeholder="Nom" aria-label="Nom coureur ' +
+            (i + 1) +
+            '" required maxlength="60"></div><p class="small">Un pain saucisse et une médaille sont inclus pour ce coureur.</p></div>',
+        ).join("");
+        updateButton();
+        updateTotal();
+      }
+      function updateButton() {
+        if (!$("#submit")) return;
+        $("#submit").disabled =
+          !state.open ||
+          state.remaining < (kind === "solo" ? 1 : Number($("#teamsize")?.value || 2));
+      }
+      async function api(path, body, method) {
+        if (!window.BACKYARD_CONFIG.apiUrl) {
+          if (path === "state")
+            return {
+              ...window.BACKYARD_CONFIG.defaults,
+              open: false,
+              remaining: 250,
+              hasGpx: true,
+            };
+          if (path === "results") return { status: "upcoming", rows: [] };
+          throw Error(
+            "Le service d’inscription n’est pas encore connecté. Renseignez apiUrl dans config.js après le déploiement Apps Script.",
+          );
+        }
+        let r = await fetch(window.BACKYARD_CONFIG.apiUrl, {
+          method: "POST",
+          redirect: "follow",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: path,
+            method: method || (body ? "POST" : "GET"),
+            key: key || "",
+            data: body || {},
+          }),
+        });
+        let d;
+        try {
+          d = await r.json();
+        } catch {
+          throw Error("Réponse du service illisible. Vérifiez le déploiement Apps Script.");
+        }
+        if (!r.ok || d.ok === false) throw Error(d.error || "Erreur du service");
+        return d;
+      }
+      function gpxDownload(text) {
+        const link = $("#gpxlink");
+        if (!link) return;
+        let blob = new Blob([text], { type: "application/gpx+xml" });
+        link.href = URL.createObjectURL(blob);
+        link.download = "Backyard_Magnee_2027.gpx";
+      }
+      async function getGpx() {
+        if (window.BACKYARD_CONFIG.apiUrl) {
+          let d = await api("gpx");
+          if (d.gpx) {
+            gpxDownload(d.gpx);
+            return d.gpx;
+          }
+        }
+        let r = await fetch("assets/parcours.gpx");
+        if (!r.ok) throw Error("GPX indisponible");
+        return r.text();
+      }
+      function renderPlainContent(value) {
+        const e = (value) =>
+          String(value).replace(
+            /[&<>"']/g,
+            (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+          );
+        return value
+          .split(/\n\s*\n/)
+          .filter(Boolean)
+          .map((block) =>
+            block.startsWith("## ")
+              ? "<h2>" + e(block.slice(3)) + "</h2>"
+              : "<p>" + e(block).replace(/\n/g, "<br>") + "</p>",
+          )
+          .join("");
+      }
+      function updateManagedContent() {
+        const root = $("#managedContent");
+        if (!root) return;
+        const page = root.dataset.page;
+        const raw = state.contents && state.contents[page];
+        if (typeof raw !== "string" || !raw.trim()) return;
+        const blocks = raw
+          .split(/\n\s*\n/)
+          .map((x) => x.trim())
+          .filter(Boolean);
+        const parsed = blocks.map((block) => {
+          let lines = block.replace(/^##\s*/, "").split("\n");
+          return { title: (lines.shift() || "").trim(), body: lines.join("\n").trim() };
+        });
+        // Preserve the original DOM and every CSS class: only edit text nodes.
+        if (page === "reglement") {
+          const cards = [...root.querySelectorAll(".rule")];
+          if (parsed.length !== cards.length) {
+            console.warn("Règlement : structure différente, mise en page conservée.");
+            return;
+          }
+          parsed.forEach((part, i) => {
+            const h = cards[i].querySelector("h3"),
+              p = cards[i].querySelector("p");
+            if (h && p) {
+              h.textContent = part.title;
+              p.textContent = part.body;
+            }
+          });
+        } else if (page === "infos") {
+          const facts = [...root.querySelectorAll(".fact")];
+          const faqs = [...document.querySelectorAll("main details")].filter(
+            (x) => !root.contains(x),
+          );
+          if (parsed.length !== facts.length + faqs.length) {
+            console.warn("Infos : structure différente, mise en page conservée.");
+            return;
+          }
+          facts.forEach((card, i) => {
+            const h = card.querySelector("strong"),
+              p = card.querySelector("p");
+            if (h && p) {
+              h.textContent = parsed[i].title;
+              p.textContent = parsed[i].body;
+            }
+          });
+          faqs.forEach((card, i) => {
+            const p = card.querySelector("p");
+            if (p) p.textContent = parsed[facts.length + i].body;
+          });
+        }
+      }
 
-function updateTotal(){if(!$('#total'))return;let total=(document.querySelectorAll('.runner').length*20)+(Number($('#extras').value)||0)*4;$('#total').textContent='Total à payer : '+total+' €'}
-async function refresh(){try{state=await api('state');updateManagedContent();if($('#available'))$('#available').textContent=state.remaining+' / 250';if($('#caplabel'))$('#caplabel').textContent='Places disponibles';if($('#opening'))$('#opening').textContent=state.open?'Inscriptions ouvertes':'Les inscriptions ne sont pas encore ouvertes.';if($('#when'))$('#when').textContent=state.date+' · '+state.location+' · Course : 10 h–22 h · Retrait des badges : 8 h 30–9 h 30.';if($('#eventinfo'))$('#eventinfo').textContent=state.date+' · '+state.location;if($('#description')&&state.description)$('#description').textContent=state.description;if($('#gpxlink')&&state.hasGpx){$('#gpxlink').classList.remove('hidden');loadTrack()}updateButton()}catch(e){if($('#opening'))$('#opening').textContent='Les inscriptions sont momentanément indisponibles.'}}
-async function loadTrack(){try{let xml=new DOMParser().parseFromString(await getGpx(),'application/xml');if(xml.querySelector('parsererror'))throw Error('GPX invalide');let pts=[...xml.getElementsByTagNameNS('*','trkpt'),...xml.getElementsByTagNameNS('*','rtept')].map(n=>[Number(n.getAttribute('lat')),Number(n.getAttribute('lon'))]).filter(p=>p.every(Number.isFinite)&&Math.abs(p[0])<=90&&Math.abs(p[1])<=180);if(pts.length<2)throw Error('Tracé insuffisant');if(!window.L)throw Error('Bibliothèque cartographique indisponible');$('#map').classList.remove('hidden');const map=L.map('map',{scrollWheelZoom:false});L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles &copy; Esri &mdash; Sources : Esri, HERE, Garmin, Intermap, USGS, &copy; OpenStreetMap contributors, GIS User Community'}).on('tileerror',()=>{$('#gpxstatus').textContent='Tracé GPX affiché. Le fond de carte est momentanément indisponible.'}).addTo(map);const line=L.polyline(pts,{color:'#9f171b',weight:5,opacity:.9}).addTo(map);L.circleMarker(pts[0],{radius:7,color:'#fff',weight:2,fillColor:'#304d3b',fillOpacity:1}).addTo(map).bindPopup('Début du tracé GPX');const fit=()=>map.fitBounds(line.getBounds(),{padding:[24,24]});fit();$('#recenter').classList.remove('hidden');$('#recenter').onclick=fit;$('#gpxstatus').textContent='Parcours GPX · 4,1 km · environ 100 m D+'}catch(e){$('#gpxstatus').textContent='La carte ne peut pas être affichée actuellement. Le fichier GPX reste disponible au téléchargement.'}}
-choose('solo');refresh();if($('#form'))$('#form').onsubmit=async e=>{e.preventDefault();$('#submit').disabled=true;try{let runners=[...document.querySelectorAll('.runner')].map(r=>({first:r.querySelectorAll('input')[0].value,last:r.querySelectorAll('input')[1].value}));let d=await api('register',{kind,team:$('#teamname').value,email:$('#email').value,phone:$('#phone').value,extraSausages:Number($('#extras').value),runners});$('#result').innerHTML='<div class="success"><b>Demande reçue · '+esc(d.id)+'</b><p>Votre place est réservée en attente de paiement. Un mail de demande reçue est placé dans la file d’envoi.</p><p>Virement : '+esc(d.amount)+' €<br>IBAN : '+esc(d.iban)+'<br>Bénéficiaire : '+esc(d.beneficiary)+'<br>Communication : <b>'+esc(d.id)+'</b></p><p>Conservez ces informations. Vous recevrez le mail de confirmation après vérification du paiement.</p></div>';$('#form').reset();updateTotal();await refresh()}catch(e){$('#result').textContent=e.message;await refresh()}};
-if($('#login'))$('#login').onsubmit=async e=>{e.preventDefault();key=$('#key').value;try{await loadAdmin();$('#login').classList.add('hidden');$('#dashboard').classList.remove('hidden')}catch(e){$('#adminmsg').textContent=e.message}};
-async function loadAdmin(){let d=await api('admin');records=d.records;emailTemplates={...DEFAULT_MAIL_TEMPLATES,...d.templates};pageContents={...DEFAULT_PAGE_CONTENTS,...d.contents};selectMailTemplate();selectContentPage();if($('#maillogs'))$('#maillogs').innerHTML=(d.logs||[]).map(l=>'<tr><td>'+esc(l.registration_id)+'</td><td>'+esc(l.type)+'</td><td>'+esc(l.status)+'</td><td>'+esc(l.sent_at||'—')+'</td><td>'+(['failed','unknown'].includes(l.status)?'<button onclick="retryMail(\''+esc(l.id)+'\')">Réessayer</button>':'')+'</td></tr>').join('');$('#summary').textContent=d.occupied+' places réservées / 250 · '+records.filter(r=>r.status==='paid').length+' dossiers payés';$('#reminderstate').textContent=d.remindersScheduled?'Planification active.':'Planification non activée : connexion email et vérification requises.';$('#mailstate').textContent=d.emailReady?'Service email configuré. Validez le paiement uniquement après vérification bancaire.':'Envoi iCloud à connecter. Expéditeur prévu : Pionniers de Magnée <guillaumedesmare@gmail.com>. Les mails restent en attente tant que la connexion d’envoi n’est pas finalisée.';for(let [k,v]of Object.entries(d.settings)){let el=$('#settings').elements[k];if(el)el.type==='checkbox'?el.checked=v:el.value=v}$('#records').innerHTML=records.map(r=>'<tr><td><b>'+esc(r.id)+'</b><br>'+esc(r.created.slice(0,10))+'</td><td>'+esc(r.team||'Individuel')+'<br>'+r.runners.map(n=>esc(n.first+' '+n.last)).join('<br>')+'</td><td>'+esc(r.email)+'<br>'+esc(r.phone)+'</td><td>'+r.runners.map(n=>esc(n.first)+': pain saucisse inclus'+' + médaille incluse').join('<br>')+'<br>Suppléments supporters : '+esc(r.extra_sausages||0)+'<br><b>'+esc(r.amount==null?'—':r.amount+' €')+'</b></td><td>'+esc(r.status==='paid'?'Payé · vérifié':r.status==='cancelled'?'Annulé':'En attente')+'<br>Email : '+esc(r.mail)+'</td><td>'+(r.status==='pending'?'<button onclick="action(\''+r.id+'\',\'confirm\')">Paiement vérifié → confirmer</button><button class="outline" onclick="action(\''+r.id+'\',\'cancel\')">Annuler</button>':'')+(r.status==='paid'&&r.mail!=='sent'?'<button onclick="action(\''+r.id+'\',\'confirm\')">Réessayer l’email</button>':'')+'</td></tr>').join('')}
-async function action(id,action){if(!confirm(action==='confirm'?'Confirmer que le paiement a bien été reçu et vérifié ?':'Annuler ce dossier et libérer les places ?'))return;try{let d=await api('action',{id,action});$('#adminmsg').textContent=d.message;await loadAdmin()}catch(e){$('#adminmsg').textContent=e.message}}
-if($('#settings'))$('#settings').onsubmit=async e=>{e.preventDefault();let f=new FormData(e.target),s=Object.fromEntries(f);s.open=f.has('open');try{await api('settings',s);$('#adminmsg').textContent='Paramètres enregistrés';await loadAdmin()}catch(e){$('#adminmsg').textContent=e.message}};
-function csv(){let rows=[['Dossier','Date','Format','Équipe','Prénom','Nom','Email contact','Téléphone','Pains saucisse inclus (dossier)','Suppléments supporters (dossier)','Médailles incluses (dossier)','Montant dossier (€)','Statut paiement','Email confirmation']];records.forEach(r=>r.runners.forEach(n=>rows.push([r.id,r.created,r.kind,r.team,n.first,n.last,r.email,r.phone,r.seats,r.extra_sausages||0,r.seats,r.amount,r.status,r.mail])));let text='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/^[=+@-]/,"'$&").replace(/"/g,'""')+'"').join(';')).join('\r\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download='Backyard_Magnee_inscriptions.csv';a.click();URL.revokeObjectURL(a.href)}
+      function updateTotal() {
+        if (!$("#total")) return;
+        let total =
+          document.querySelectorAll(".runner").length * 20 + (Number($("#extras").value) || 0) * 4;
+        $("#total").textContent = "Total à payer : " + total + " €";
+      }
+      async function refresh() {
+        try {
+          state = await api("state");
+          updateManagedContent();
+          if ($("#available")) $("#available").textContent = state.remaining + " / 250";
+          if ($("#caplabel")) $("#caplabel").textContent = "Places disponibles";
+          if ($("#opening"))
+            $("#opening").textContent = state.open
+              ? "Inscriptions ouvertes"
+              : "Les inscriptions ne sont pas encore ouvertes.";
+          if ($("#when"))
+            $("#when").textContent =
+              state.date +
+              " · " +
+              state.location +
+              " · Course : 10 h–22 h · Retrait des badges : 8 h 30–9 h 30.";
+          if ($("#eventinfo")) $("#eventinfo").textContent = state.date + " · " + state.location;
+          if ($("#description") && state.description)
+            $("#description").textContent = state.description;
+          if ($("#gpxlink") && state.hasGpx) {
+            $("#gpxlink").classList.remove("hidden");
+            loadTrack();
+          }
+          updateButton();
+        } catch (e) {
+          if ($("#opening"))
+            $("#opening").textContent = "Les inscriptions sont momentanément indisponibles.";
+        }
+      }
+      async function loadTrack() {
+        try {
+          let xml = new DOMParser().parseFromString(await getGpx(), "application/xml");
+          if (xml.querySelector("parsererror")) throw Error("GPX invalide");
+          let pts = [
+            ...xml.getElementsByTagNameNS("*", "trkpt"),
+            ...xml.getElementsByTagNameNS("*", "rtept"),
+          ]
+            .map((n) => [Number(n.getAttribute("lat")), Number(n.getAttribute("lon"))])
+            .filter(
+              (p) => p.every(Number.isFinite) && Math.abs(p[0]) <= 90 && Math.abs(p[1]) <= 180,
+            );
+          if (pts.length < 2) throw Error("Tracé insuffisant");
+          if (!window.L) throw Error("Bibliothèque cartographique indisponible");
+          $("#map").classList.remove("hidden");
+          const map = L.map("map", { scrollWheelZoom: false });
+          L.tileLayer(
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+            {
+              maxZoom: 19,
+              attribution:
+                "Tiles &copy; Esri &mdash; Sources : Esri, HERE, Garmin, Intermap, USGS, &copy; OpenStreetMap contributors, GIS User Community",
+            },
+          )
+            .on("tileerror", () => {
+              $("#gpxstatus").textContent =
+                "Tracé GPX affiché. Le fond de carte est momentanément indisponible.";
+            })
+            .addTo(map);
+          const line = L.polyline(pts, { color: "#9f171b", weight: 5, opacity: 0.9 }).addTo(map);
+          L.circleMarker(pts[0], {
+            radius: 7,
+            color: "#fff",
+            weight: 2,
+            fillColor: "#304d3b",
+            fillOpacity: 1,
+          })
+            .addTo(map)
+            .bindPopup("Début du tracé GPX");
+          const fit = () => map.fitBounds(line.getBounds(), { padding: [24, 24] });
+          fit();
+          $("#recenter").classList.remove("hidden");
+          $("#recenter").onclick = fit;
+          $("#gpxstatus").textContent = "Parcours GPX · 4,1 km · environ 100 m D+";
+        } catch (e) {
+          $("#gpxstatus").textContent =
+            "La carte ne peut pas être affichée actuellement. Le fichier GPX reste disponible au téléchargement.";
+        }
+      }
+      choose("solo");
+      refresh();
+      if ($("#form"))
+        $("#form").onsubmit = async (e) => {
+          e.preventDefault();
+          $("#submit").disabled = true;
+          try {
+            let runners = [...document.querySelectorAll(".runner")].map((r) => ({
+              first: r.querySelectorAll("input")[0].value,
+              last: r.querySelectorAll("input")[1].value,
+            }));
+            let d = await api("register", {
+              kind,
+              team: $("#teamname").value,
+              email: $("#email").value,
+              phone: $("#phone").value,
+              extraSausages: Number($("#extras").value),
+              runners,
+            });
+            $("#result").innerHTML =
+              '<div class="success"><b>Demande reçue · ' +
+              esc(d.id) +
+              "</b><p>Votre place est réservée en attente de paiement. Un mail de demande reçue est placé dans la file d’envoi.</p><p>Virement : " +
+              esc(d.amount) +
+              " €<br>IBAN : " +
+              esc(d.iban) +
+              "<br>Bénéficiaire : " +
+              esc(d.beneficiary) +
+              "<br>Communication : <b>" +
+              esc(d.id) +
+              "</b></p><p>Conservez ces informations. Vous recevrez le mail de confirmation après vérification du paiement.</p></div>";
+            $("#form").reset();
+            updateTotal();
+            await refresh();
+          } catch (e) {
+            $("#result").textContent = e.message;
+            await refresh();
+          }
+        };
+      if ($("#login"))
+        $("#login").onsubmit = async (e) => {
+          e.preventDefault();
+          key = $("#key").value;
+          try {
+            await loadAdmin();
+            $("#login").classList.add("hidden");
+            $("#dashboard").classList.remove("hidden");
+          } catch (e) {
+            $("#adminmsg").textContent = e.message;
+          }
+        };
+      async function loadAdmin() {
+        let d = await api("admin");
+        records = d.records;
+        emailTemplates = { ...DEFAULT_MAIL_TEMPLATES, ...d.templates };
+        pageContents = { ...DEFAULT_PAGE_CONTENTS, ...d.contents };
+        selectMailTemplate();
+        selectContentPage();
+        if ($("#maillogs"))
+          $("#maillogs").innerHTML = (d.logs || [])
+            .map(
+              (l) =>
+                "<tr><td>" +
+                esc(l.registration_id) +
+                "</td><td>" +
+                esc(l.type) +
+                "</td><td>" +
+                esc(l.status) +
+                "</td><td>" +
+                esc(l.sent_at || "—") +
+                "</td><td>" +
+                (["failed", "unknown"].includes(l.status)
+                  ? "<button onclick=\"retryMail('" + esc(l.id) + "')\">Réessayer</button>"
+                  : "") +
+                "</td></tr>",
+            )
+            .join("");
+        $("#summary").textContent =
+          d.occupied +
+          " places réservées / 250 · " +
+          records.filter((r) => r.status === "paid").length +
+          " dossiers payés";
+        $("#reminderstate").textContent = d.remindersScheduled
+          ? "Planification active."
+          : "Planification non activée : connexion email et vérification requises.";
+        $("#mailstate").textContent = d.emailReady
+          ? "Service email configuré. Validez le paiement uniquement après vérification bancaire."
+          : "Envoi iCloud à connecter. Expéditeur prévu : Pionniers de Magnée <guillaumedesmare@gmail.com>. Les mails restent en attente tant que la connexion d’envoi n’est pas finalisée.";
+        for (let [k, v] of Object.entries(d.settings)) {
+          let el = $("#settings").elements[k];
+          if (el) el.type === "checkbox" ? (el.checked = v) : (el.value = v);
+        }
+        $("#records").innerHTML = records
+          .map(
+            (r) =>
+              "<tr><td><b>" +
+              esc(r.id) +
+              "</b><br>" +
+              esc(r.created.slice(0, 10)) +
+              "</td><td>" +
+              esc(r.team || "Individuel") +
+              "<br>" +
+              r.runners.map((n) => esc(n.first + " " + n.last)).join("<br>") +
+              "</td><td>" +
+              esc(r.email) +
+              "<br>" +
+              esc(r.phone) +
+              "</td><td>" +
+              r.runners
+                .map((n) => esc(n.first) + ": pain saucisse inclus" + " + médaille incluse")
+                .join("<br>") +
+              "<br>Suppléments supporters : " +
+              esc(r.extra_sausages || 0) +
+              "<br><b>" +
+              esc(r.amount == null ? "—" : r.amount + " €") +
+              "</b></td><td>" +
+              esc(
+                r.status === "paid"
+                  ? "Payé · vérifié"
+                  : r.status === "cancelled"
+                    ? "Annulé"
+                    : "En attente",
+              ) +
+              "<br>Email : " +
+              esc(r.mail) +
+              "</td><td>" +
+              (r.status === "pending"
+                ? "<button onclick=\"action('" +
+                  r.id +
+                  "','confirm')\">Paiement vérifié → confirmer</button><button class=\"outline\" onclick=\"action('" +
+                  r.id +
+                  "','cancel')\">Annuler</button>"
+                : "") +
+              (r.status === "paid" && r.mail !== "sent"
+                ? "<button onclick=\"action('" + r.id + "','confirm')\">Réessayer l’email</button>"
+                : "") +
+              "</td></tr>",
+          )
+          .join("");
+      }
+      async function action(id, action) {
+        if (
+          !confirm(
+            action === "confirm"
+              ? "Confirmer que le paiement a bien été reçu et vérifié ?"
+              : "Annuler ce dossier et libérer les places ?",
+          )
+        )
+          return;
+        try {
+          let d = await api("action", { id, action });
+          $("#adminmsg").textContent = d.message;
+          await loadAdmin();
+        } catch (e) {
+          $("#adminmsg").textContent = e.message;
+        }
+      }
+      if ($("#settings"))
+        $("#settings").onsubmit = async (e) => {
+          e.preventDefault();
+          let f = new FormData(e.target),
+            s = Object.fromEntries(f);
+          s.open = f.has("open");
+          try {
+            await api("settings", s);
+            $("#adminmsg").textContent = "Paramètres enregistrés";
+            await loadAdmin();
+          } catch (e) {
+            $("#adminmsg").textContent = e.message;
+          }
+        };
+      function csv() {
+        let rows = [
+          [
+            "Dossier",
+            "Date",
+            "Format",
+            "Équipe",
+            "Prénom",
+            "Nom",
+            "Email contact",
+            "Téléphone",
+            "Pains saucisse inclus (dossier)",
+            "Suppléments supporters (dossier)",
+            "Médailles incluses (dossier)",
+            "Montant dossier (€)",
+            "Statut paiement",
+            "Email confirmation",
+          ],
+        ];
+        records.forEach((r) =>
+          r.runners.forEach((n) =>
+            rows.push([
+              r.id,
+              r.created,
+              r.kind,
+              r.team,
+              n.first,
+              n.last,
+              r.email,
+              r.phone,
+              r.seats,
+              r.extra_sausages || 0,
+              r.seats,
+              r.amount,
+              r.status,
+              r.mail,
+            ]),
+          ),
+        );
+        let text =
+          "\ufeff" +
+          rows
+            .map((r) =>
+              r
+                .map(
+                  (v) =>
+                    '"' +
+                    String(v ?? "")
+                      .replace(/^[=+@-]/, "'$&")
+                      .replace(/"/g, '""') +
+                    '"',
+                )
+                .join(";"),
+            )
+            .join("\r\n");
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([text], { type: "text/csv;charset=utf-8" }));
+        a.download = "Backyard_Magnee_inscriptions.csv";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
 
-if($('#gpxform'))$('#gpxform').onsubmit=async e=>{e.preventDefault();let f=$('#gpxfile').files[0];if(!f)return;try{let gpx=await f.text();await api('gpx',{gpx});$('#adminmsg').textContent='GPX publié sur la page Parcours.'}catch(e){$('#adminmsg').textContent=e.message}};
+      if ($("#gpxform"))
+        $("#gpxform").onsubmit = async (e) => {
+          e.preventDefault();
+          let f = $("#gpxfile").files[0];
+          if (!f) return;
+          try {
+            let gpx = await f.text();
+            await api("gpx", { gpx });
+            $("#adminmsg").textContent = "GPX publié sur la page Parcours.";
+          } catch (e) {
+            $("#adminmsg").textContent = e.message;
+          }
+        };
 
+      let rankData = { rows: [], status: "draft" },
+        rankCategory = "solo";
+      const timeFormat = (s) => {
+        if (s == null) return "—";
+        let m = Math.round(s * 1000);
+        return (
+          Math.floor(m / 60000) +
+          ":" +
+          String(Math.floor((m % 60000) / 1000)).padStart(2, "0") +
+          (m % 1000 ? "," + String(m % 1000).padStart(3, "0") : "")
+        );
+      };
+      async function loadRanking() {
+        if (!$("#rankrows")) return;
+        try {
+          rankData = await api("results");
+          if ($("#rankingWaiting")) {
+            let ready = rankData.status === "final" && rankData.rows.length > 0;
+            $("#rankingWaiting").classList.toggle("hidden", ready);
+            $("#rankingContent").classList.toggle("hidden", !ready);
+            if (!ready) {
+              if (rankData.status === "draft") {
+                $("#waitingstatus").textContent = "Résultats en cours de validation";
+                $("#waitingtitle").textContent = "Résultats en cours de vérification";
+                $("#waitingtext").textContent =
+                  "La course est terminée. L’organisation vérifie les résultats avant de publier le classement définitif.";
+              }
+              return;
+            }
+            $("#rankingtitle").textContent = "Classement officiel";
+            $("#rankingintro").textContent =
+              "Retrouvez les résultats définitifs des individuels et des équipes de la Backyard de Magnée du 1er mai 2027.";
+          }
+          $("#rankingstatus").textContent =
+            rankData.status === "final" ? "Classement final" : "En attente de publication";
+          $("#rankingtime").textContent = rankData.rows.length
+            ? "Consulté le " + new Date().toLocaleString("fr-BE")
+            : "Aucun résultat publié pour le moment.";
+          let rows = rankData.rows,
+            total = rows.reduce((a, r) => a + r.laps, 0);
+          $("#statloops").textContent = rows.length ? total : "—";
+          $("#statkm").textContent = rows.length
+            ? (total * 4.1).toLocaleString("fr-BE", { maximumFractionDigits: 1 }) + " km"
+            : "—";
+          $("#statsolo").textContent = rows.length
+            ? rows.filter((r) => r.kind === "solo").length
+            : "—";
+          $("#statteam").textContent = rows.length
+            ? rows.filter((r) => r.kind === "team").length
+            : "—";
+          for (let c of ["solo", "team"]) {
+            let best = rows
+              .filter((r) => r.kind === c && r.best_seconds != null)
+              .sort((a, b) => a.best_seconds - b.best_seconds);
+            $("#" + c + "record").textContent = best.length
+              ? timeFormat(best[0].best_seconds)
+              : "—";
+            $("#" + c + "recordname").textContent = best.length
+              ? best
+                  .filter((r) => r.best_seconds === best[0].best_seconds)
+                  .map((r) => r.name)
+                  .join(" · ")
+              : "En attente de résultat";
+          }
+          renderRanking();
+        } catch (e) {
+          if ($("#waitingstatus"))
+            $("#waitingstatus").textContent = "Vérification momentanément indisponible";
+          $("#rankingtime").textContent =
+            "Chargement indisponible. Utilisez Actualiser pour réessayer.";
+        }
+      }
+      function setCategory(c) {
+        rankCategory = c;
+        $("#rankSolo").classList.toggle("active", c === "solo");
+        $("#rankTeam").classList.toggle("active", c === "team");
+        renderRanking();
+      }
+      function renderRanking() {
+        let q = $("#ranksearch").value.toLocaleLowerCase("fr"),
+          all = rankData.rows
+            .filter((r) => r.kind === rankCategory)
+            .sort(
+              (a, b) =>
+                b.laps - a.laps ||
+                (a.best_seconds ?? Infinity) - (b.best_seconds ?? Infinity) ||
+                a.name.localeCompare(b.name, "fr"),
+            );
+        let last = null,
+          rank = 0;
+        all = all.map((r, i) => {
+          let score = r.laps + ":" + (r.best_seconds ?? "missing");
+          if (score !== last) rank = i + 1;
+          last = score;
+          return { ...r, rank };
+        });
+        let rows = all.filter((r) => r.name.toLocaleLowerCase("fr").includes(q));
+        $("#rankrows").innerHTML = rows
+          .map(
+            (r) =>
+              "<tr" +
+              (r.rank === 1 ? ' class="leader"' : "") +
+              "><td>" +
+              r.rank +
+              (all.filter((x) => x.laps === r.laps && x.best_seconds === r.best_seconds).length > 1
+                ? " ex æquo"
+                : "") +
+              "</td><td><b>" +
+              esc(r.name) +
+              "</b></td><td>" +
+              r.laps +
+              "</td><td>" +
+              (r.laps * 4.1).toLocaleString("fr-BE", { maximumFractionDigits: 1 }) +
+              " km</td><td>" +
+              (r.laps * 100).toLocaleString("fr-BE") +
+              " m</td><td>" +
+              timeFormat(r.best_seconds) +
+              "</td></tr>",
+          )
+          .join("");
+        $("#ranktable").style.display = rows.length ? "block" : "none";
+        $("#rankempty").classList.toggle("hidden", rows.length > 0);
+        if (!rows.length && rankData.rows.length)
+          $("#rankempty").innerHTML =
+            "<h3>Aucun résultat dans cette sélection</h3><p>Changez de catégorie ou de recherche.</p>";
+        $("#rankingexport").disabled = !all.length;
+      }
+      function exportRanking() {
+        let rows = [
+          ["Format", "Nom", "Boucles", "Distance estimée (km)", "D+ estimé (m)", "Meilleur tour"],
+        ];
+        rankData.rows
+          .filter((r) => r.kind === rankCategory)
+          .sort(
+            (a, b) =>
+              b.laps - a.laps ||
+              (a.best_seconds ?? Infinity) - (b.best_seconds ?? Infinity) ||
+              a.name.localeCompare(b.name, "fr"),
+          )
+          .forEach((r) =>
+            rows.push([
+              r.kind,
+              r.name,
+              r.laps,
+              (r.laps * 4.1).toFixed(1),
+              r.laps * 100,
+              timeFormat(r.best_seconds),
+            ]),
+          );
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(
+          new Blob(
+            [
+              "\ufeff" +
+                rows
+                  .map((r) =>
+                    r
+                      .map(
+                        (v) =>
+                          '"' +
+                          String(v)
+                            .replace(/^[=+@-]/, "'$&")
+                            .replace(/"/g, '""') +
+                          '"',
+                      )
+                      .join(";"),
+                  )
+                  .join("\r\n"),
+            ],
+            { type: "text/csv;charset=utf-8" },
+          ),
+        );
+        a.download = "Classement_Backyard_Magnee_" + rankCategory + ".csv";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
+      if ($("#rankrows")) loadRanking();
+      if ($("#resultform"))
+        $("#resultform").onsubmit = async (e) => {
+          e.preventDefault();
+          let t = $("#resultbest").value,
+            secs = t ? t.split(":").reduce((a, b) => a * 60 + Number(b), 0) : null;
+          try {
+            await api("results", {
+              id: $("#resultid").value,
+              laps: Number($("#resultlaps").value),
+              points: null,
+              best_seconds: secs,
+            });
+            $("#resultmsg").textContent = "Résultats enregistrés.";
+          } catch (e) {
+            $("#resultmsg").textContent = e.message;
+          }
+        };
+      if ($("#publishresults"))
+        $("#publishresults").onsubmit = async (e) => {
+          e.preventDefault();
+          try {
+            await api("results-status", { status: $("#resultstatus").value });
+            $("#adminmsg").textContent = "Visibilité du classement mise à jour.";
+          } catch (e) {
+            $("#adminmsg").textContent = e.message;
+          }
+        };
 
-let rankData={rows:[],status:'draft'},rankCategory='solo';const timeFormat=s=>{if(s==null)return '—';let m=Math.round(s*1000);return Math.floor(m/60000)+':'+String(Math.floor(m%60000/1000)).padStart(2,'0')+(m%1000?','+String(m%1000).padStart(3,'0'):'')};
-async function loadRanking(){if(!$('#rankrows'))return;try{rankData=await api('results');if($('#rankingWaiting')){let ready=rankData.status==='final'&&rankData.rows.length>0;$('#rankingWaiting').classList.toggle('hidden',ready);$('#rankingContent').classList.toggle('hidden',!ready);if(!ready){if(rankData.status==='draft'){$('#waitingstatus').textContent='Résultats en cours de validation';$('#waitingtitle').textContent='Résultats en cours de vérification';$('#waitingtext').textContent='La course est terminée. L’organisation vérifie les résultats avant de publier le classement définitif.'}return}$('#rankingtitle').textContent='Classement officiel';$('#rankingintro').textContent='Retrouvez les résultats définitifs des individuels et des équipes de la Backyard de Magnée du 1er mai 2027.'}$('#rankingstatus').textContent=rankData.status==='final'?'Classement final':'En attente de publication';$('#rankingtime').textContent=rankData.rows.length?'Consulté le '+new Date().toLocaleString('fr-BE'):'Aucun résultat publié pour le moment.';let rows=rankData.rows,total=rows.reduce((a,r)=>a+r.laps,0);$('#statloops').textContent=rows.length?total:'—';$('#statkm').textContent=rows.length?(total*4.1).toLocaleString('fr-BE',{maximumFractionDigits:1})+' km':'—';$('#statsolo').textContent=rows.length?rows.filter(r=>r.kind==='solo').length:'—';$('#statteam').textContent=rows.length?rows.filter(r=>r.kind==='team').length:'—';for(let c of ['solo','team']){let best=rows.filter(r=>r.kind===c&&r.best_seconds!=null).sort((a,b)=>a.best_seconds-b.best_seconds);$('#'+c+'record').textContent=best.length?timeFormat(best[0].best_seconds):'—';$('#'+c+'recordname').textContent=best.length?best.filter(r=>r.best_seconds===best[0].best_seconds).map(r=>r.name).join(' · '):'En attente de résultat'}renderRanking()}catch(e){if($('#waitingstatus'))$('#waitingstatus').textContent='Vérification momentanément indisponible';$('#rankingtime').textContent='Chargement indisponible. Utilisez Actualiser pour réessayer.'}}
-function setCategory(c){rankCategory=c;$('#rankSolo').classList.toggle('active',c==='solo');$('#rankTeam').classList.toggle('active',c==='team');renderRanking()}
-function renderRanking(){let q=$('#ranksearch').value.toLocaleLowerCase('fr'),all=rankData.rows.filter(r=>r.kind===rankCategory).sort((a,b)=>b.laps-a.laps||(a.best_seconds??Infinity)-(b.best_seconds??Infinity)||a.name.localeCompare(b.name,'fr'));let last=null,rank=0;all=all.map((r,i)=>{let score=r.laps+':'+(r.best_seconds??'missing');if(score!==last)rank=i+1;last=score;return {...r,rank}});let rows=all.filter(r=>r.name.toLocaleLowerCase('fr').includes(q));$('#rankrows').innerHTML=rows.map(r=>'<tr'+(r.rank===1?' class="leader"':'')+'><td>'+r.rank+(all.filter(x=>x.laps===r.laps&&x.best_seconds===r.best_seconds).length>1?' ex æquo':'')+'</td><td><b>'+esc(r.name)+'</b></td><td>'+r.laps+'</td><td>'+(r.laps*4.1).toLocaleString('fr-BE',{maximumFractionDigits:1})+' km</td><td>'+(r.laps*100).toLocaleString('fr-BE')+' m</td><td>'+timeFormat(r.best_seconds)+'</td></tr>').join('');$('#ranktable').style.display=rows.length?'block':'none';$('#rankempty').classList.toggle('hidden',rows.length>0);if(!rows.length&&rankData.rows.length)$('#rankempty').innerHTML='<h3>Aucun résultat dans cette sélection</h3><p>Changez de catégorie ou de recherche.</p>';$('#rankingexport').disabled=!all.length}
-function exportRanking(){let rows=[['Format','Nom','Boucles','Distance estimée (km)','D+ estimé (m)','Meilleur tour']];rankData.rows.filter(r=>r.kind===rankCategory).sort((a,b)=>b.laps-a.laps||(a.best_seconds??Infinity)-(b.best_seconds??Infinity)||a.name.localeCompare(b.name,'fr')).forEach(r=>rows.push([r.kind,r.name,r.laps,(r.laps*4.1).toFixed(1),r.laps*100,timeFormat(r.best_seconds)]));let a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/^[=+@-]/,"'$&").replace(/"/g,'""')+'"').join(';')).join('\r\n')],{type:'text/csv;charset=utf-8'}));a.download='Classement_Backyard_Magnee_'+rankCategory+'.csv';a.click();URL.revokeObjectURL(a.href)}
-if($('#rankrows'))loadRanking();
-if($('#resultform'))$('#resultform').onsubmit=async e=>{e.preventDefault();let t=$('#resultbest').value,secs=t?t.split(':').reduce((a,b)=>a*60+Number(b),0):null;try{await api('results',{id:$('#resultid').value,laps:Number($('#resultlaps').value),points:null,best_seconds:secs});$('#resultmsg').textContent='Résultats enregistrés.'}catch(e){$('#resultmsg').textContent=e.message}};
-if($('#publishresults'))$('#publishresults').onsubmit=async e=>{e.preventDefault();try{await api('results-status',{status:$('#resultstatus').value});$('#adminmsg').textContent='Visibilité du classement mise à jour.'}catch(e){$('#adminmsg').textContent=e.message}};
+      let preparedImport = [];
+      async function previewResultsImport() {
+        try {
+          let file = $("#resultsfile").files[0];
+          if (!file) throw Error("Choisissez le fichier JSON des résultats.");
+          if (file.size > 2000000) throw Error("Fichier trop volumineux.");
+          let data = JSON.parse(await file.text()),
+            rows = Array.isArray(data.teams)
+              ? data.teams
+              : Array.isArray(data.results)
+                ? data.results
+                : null;
+          if (!rows || !rows.length || rows.length > 250)
+            throw Error("Le fichier doit contenir entre 1 et 250 résultats.");
+          const norm = (s) =>
+            String(s ?? "")
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase()
+              .replace(/\s+/g, " ")
+              .trim();
+          let paid = records.filter((r) => r.status === "paid");
+          preparedImport = rows.map((r, i) => {
+            if (
+              !Number.isInteger(r.laps) ||
+              r.laps < 0 ||
+              r.laps > 500 ||
+              Number(r.pending || 0) > 0
+            )
+              throw Error(
+                "Résultat à vérifier pour " +
+                  String(r.name || "ligne " + (i + 1)) +
+                  ". Résolvez les passages en attente dans le kit.",
+              );
+            let best = r.best ?? r.best_seconds ?? null;
+            if (
+              r.laps > 0 &&
+              !(typeof best === "number" && Number.isFinite(best) && best > 0 && best <= 43200)
+            )
+              throw Error("Meilleur tour manquant ou invalide pour " + r.name);
+            let matches = paid.filter(
+              (p) =>
+                norm(p.team || p.runners.map((n) => n.first + " " + n.last).join(", ")) ===
+                norm(r.name),
+            );
+            return {
+              name: String(r.name || ""),
+              laps: r.laps,
+              best_seconds: r.laps ? best : null,
+              id: matches.length === 1 ? matches[0].id : "",
+            };
+          });
+          $("#importpreview").innerHTML =
+            "<table><thead><tr><th>Nom dans le kit</th><th>Tours</th><th>Meilleur tour</th><th>Dossier d’inscription payé</th></tr></thead><tbody>" +
+            preparedImport
+              .map(
+                (r, i) =>
+                  "<tr><td>" +
+                  esc(r.name) +
+                  "</td><td>" +
+                  r.laps +
+                  "</td><td>" +
+                  timeFormat(r.best_seconds) +
+                  '</td><td><select aria-label="Dossier pour ' +
+                  esc(r.name) +
+                  '" id="match' +
+                  i +
+                  '"><option value="">Choisir le dossier correspondant</option>' +
+                  paid
+                    .map(
+                      (p) =>
+                        '<option value="' +
+                        esc(p.id) +
+                        '"' +
+                        (p.id === r.id ? " selected" : "") +
+                        ">" +
+                        esc(p.team || p.runners.map((n) => n.first + " " + n.last).join(", ")) +
+                        " · " +
+                        esc(p.id) +
+                        "</option>",
+                    )
+                    .join("") +
+                  "</select></td></tr>",
+              )
+              .join("") +
+            "</tbody></table>";
+          $("#importconfirm").classList.remove("hidden");
+          $("#resultmsg").textContent =
+            "Vérifiez les associations et complétez celles qui sont manquantes.";
+        } catch (e) {
+          preparedImport = [];
+          $("#importconfirm").classList.add("hidden");
+          $("#resultmsg").textContent = e.message;
+        }
+      }
+      async function commitResultsImport() {
+        try {
+          let rows = preparedImport.map((r, i) => ({
+            id: $("#match" + i).value,
+            laps: r.laps,
+            best_seconds: r.best_seconds,
+          }));
+          if (
+            !rows.length ||
+            rows.some((r) => !r.id) ||
+            new Set(rows.map((r) => r.id)).size !== rows.length
+          )
+            throw Error("Associez chaque résultat à un dossier distinct avant l’import.");
+          let d = await api("results-import", { rows });
+          $("#resultmsg").textContent =
+            d.count +
+            " résultats enregistrés en brouillon. Ils ne seront visibles qu’après publication finale à la fin de la course.";
+          $("#importconfirm").classList.add("hidden");
+        } catch (e) {
+          $("#resultmsg").textContent = e.message;
+        }
+      }
 
-let preparedImport=[];
-async function previewResultsImport(){try{let file=$('#resultsfile').files[0];if(!file)throw Error('Choisissez le fichier JSON des résultats.');if(file.size>2000000)throw Error('Fichier trop volumineux.');let data=JSON.parse(await file.text()),rows=Array.isArray(data.teams)?data.teams:Array.isArray(data.results)?data.results:null;if(!rows||!rows.length||rows.length>250)throw Error('Le fichier doit contenir entre 1 et 250 résultats.');const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();let paid=records.filter(r=>r.status==='paid');preparedImport=rows.map((r,i)=>{if(!Number.isInteger(r.laps)||r.laps<0||r.laps>500||Number(r.pending||0)>0)throw Error('Résultat à vérifier pour '+String(r.name||'ligne '+(i+1))+'. Résolvez les passages en attente dans le kit.');let best=r.best??r.best_seconds??null;if(r.laps>0&&!(typeof best==='number'&&Number.isFinite(best)&&best>0&&best<=43200))throw Error('Meilleur tour manquant ou invalide pour '+r.name);let matches=paid.filter(p=>norm(p.team||p.runners.map(n=>n.first+' '+n.last).join(', '))===norm(r.name));return {name:String(r.name||''),laps:r.laps,best_seconds:r.laps?best:null,id:matches.length===1?matches[0].id:''}});$('#importpreview').innerHTML='<table><thead><tr><th>Nom dans le kit</th><th>Tours</th><th>Meilleur tour</th><th>Dossier d’inscription payé</th></tr></thead><tbody>'+preparedImport.map((r,i)=>'<tr><td>'+esc(r.name)+'</td><td>'+r.laps+'</td><td>'+timeFormat(r.best_seconds)+'</td><td><select aria-label="Dossier pour '+esc(r.name)+'" id="match'+i+'"><option value="">Choisir le dossier correspondant</option>'+paid.map(p=>'<option value="'+esc(p.id)+'"'+(p.id===r.id?' selected':'')+'>'+esc(p.team||p.runners.map(n=>n.first+' '+n.last).join(', '))+' · '+esc(p.id)+'</option>').join('')+'</select></td></tr>').join('')+'</tbody></table>';$('#importconfirm').classList.remove('hidden');$('#resultmsg').textContent='Vérifiez les associations et complétez celles qui sont manquantes.'}catch(e){preparedImport=[];$('#importconfirm').classList.add('hidden');$('#resultmsg').textContent=e.message}}
-async function commitResultsImport(){try{let rows=preparedImport.map((r,i)=>({id:$('#match'+i).value,laps:r.laps,best_seconds:r.best_seconds}));if(!rows.length||rows.some(r=>!r.id)||new Set(rows.map(r=>r.id)).size!==rows.length)throw Error('Associez chaque résultat à un dossier distinct avant l’import.');let d=await api('results-import',{rows});$('#resultmsg').textContent=d.count+' résultats enregistrés en brouillon. Ils ne seront visibles qu’après publication finale à la fin de la course.';$('#importconfirm').classList.add('hidden')}catch(e){$('#resultmsg').textContent=e.message}}
-
-
-let emailTemplates=JSON.parse(JSON.stringify(DEFAULT_MAIL_TEMPLATES)),pageContents={...DEFAULT_PAGE_CONTENTS};
-function fillVariables(text,data){return text.replace(/{{([a-z_]+)}}/g,(m,k)=>data[k]??m)}
-function selectMailTemplate(){if(!$('#mailtype'))return;let t=emailTemplates[$('#mailtype').value];$('#mailsubject').value=t.subject;$('#mailbody').value=t.body;$('#mailpreview').classList.add('hidden')}
-function resetMailTemplate(){let type=$('#mailtype').value;emailTemplates[type]={...DEFAULT_MAIL_TEMPLATES[type]};selectMailTemplate();$('#mailtemplatemsg').textContent='Modèle initial chargé. Enregistrez pour le conserver.'}
-async function saveMailTemplate(){try{let type=$('#mailtype').value,t={subject:$('#mailsubject').value.trim(),body:$('#mailbody').value.trim()};if(!t.subject||!t.body)throw Error('Complétez l’objet et le texte.');await api('templates',{type,...t});emailTemplates[type]={...emailTemplates[type],...t};$('#mailtemplatemsg').textContent='Modèle enregistré pour les prochains envois.'}catch(e){$('#mailtemplatemsg').textContent=e.message}}
-function previewMail(){$('#mailpreviewsubject').textContent=fillVariables($('#mailsubject').value,MAIL_EXAMPLE);$('#mailpreviewbody').textContent=fillVariables($('#mailbody').value,MAIL_EXAMPLE);$('#mailpreview').classList.remove('hidden')}
-async function mailOperation(action){try{let d=await api(action,{});$('#adminmsg').textContent=d.message;await loadAdmin()}catch(e){$('#adminmsg').textContent=e.message}}
-async function retryMail(id){if(!confirm('Vérifiez d’abord le journal du service d’envoi pour éviter un double mail. Remettre ce mail dans la file ?'))return;try{let d=await api('retry-mail',{id});$('#adminmsg').textContent=d.message;await loadAdmin()}catch(e){$('#adminmsg').textContent=e.message}}
-function selectContentPage(){if($('#contentbody'))$('#contentbody').value=pageContents[$('#contentpage').value]||''}
-async function saveContentPage(){try{let page=$('#contentpage').value,text=$('#contentbody').value;await api('contents',{page,text});pageContents[page]=text;$('#contentmsg').textContent='Contenu enregistré et disponible sur la page publique.'}catch(e){$('#contentmsg').textContent=e.message}}
-function previewContent(){$('#contentpreview').innerHTML=renderPlainContent($('#contentbody').value);$('#contentpreview').classList.remove('hidden')}
-if($('#prepared-mails'))$('#prepared-mails').innerHTML=Object.values(DEFAULT_MAIL_TEMPLATES).map(t=>'<details><summary>'+esc(t.label)+'</summary><strong>'+esc(t.subject)+'</strong><pre style="white-space:pre-wrap;font:inherit;font-size:13px">'+esc(t.body)+'</pre></details>').join('');
-</script><a class="btn mobile-register" href="inscription.html">S’inscrire à la Backyard</a></body></html>
+      let emailTemplates = JSON.parse(JSON.stringify(DEFAULT_MAIL_TEMPLATES)),
+        pageContents = { ...DEFAULT_PAGE_CONTENTS };
+      function fillVariables(text, data) {
+        return text.replace(/{{([a-z_]+)}}/g, (m, k) => data[k] ?? m);
+      }
+      function selectMailTemplate() {
+        if (!$("#mailtype")) return;
+        let t = emailTemplates[$("#mailtype").value];
+        $("#mailsubject").value = t.subject;
+        $("#mailbody").value = t.body;
+        $("#mailpreview").classList.add("hidden");
+      }
+      function resetMailTemplate() {
+        let type = $("#mailtype").value;
+        emailTemplates[type] = { ...DEFAULT_MAIL_TEMPLATES[type] };
+        selectMailTemplate();
+        $("#mailtemplatemsg").textContent = "Modèle initial chargé. Enregistrez pour le conserver.";
+      }
+      async function saveMailTemplate() {
+        try {
+          let type = $("#mailtype").value,
+            t = { subject: $("#mailsubject").value.trim(), body: $("#mailbody").value.trim() };
+          if (!t.subject || !t.body) throw Error("Complétez l’objet et le texte.");
+          await api("templates", { type, ...t });
+          emailTemplates[type] = { ...emailTemplates[type], ...t };
+          $("#mailtemplatemsg").textContent = "Modèle enregistré pour les prochains envois.";
+        } catch (e) {
+          $("#mailtemplatemsg").textContent = e.message;
+        }
+      }
+      function previewMail() {
+        $("#mailpreviewsubject").textContent = fillVariables($("#mailsubject").value, MAIL_EXAMPLE);
+        $("#mailpreviewbody").textContent = fillVariables($("#mailbody").value, MAIL_EXAMPLE);
+        $("#mailpreview").classList.remove("hidden");
+      }
+      async function mailOperation(action) {
+        try {
+          let d = await api(action, {});
+          $("#adminmsg").textContent = d.message;
+          await loadAdmin();
+        } catch (e) {
+          $("#adminmsg").textContent = e.message;
+        }
+      }
+      async function retryMail(id) {
+        if (
+          !confirm(
+            "Vérifiez d’abord le journal du service d’envoi pour éviter un double mail. Remettre ce mail dans la file ?",
+          )
+        )
+          return;
+        try {
+          let d = await api("retry-mail", { id });
+          $("#adminmsg").textContent = d.message;
+          await loadAdmin();
+        } catch (e) {
+          $("#adminmsg").textContent = e.message;
+        }
+      }
+      function selectContentPage() {
+        if ($("#contentbody"))
+          $("#contentbody").value = pageContents[$("#contentpage").value] || "";
+      }
+      async function saveContentPage() {
+        try {
+          let page = $("#contentpage").value,
+            text = $("#contentbody").value;
+          await api("contents", { page, text });
+          pageContents[page] = text;
+          $("#contentmsg").textContent = "Contenu enregistré et disponible sur la page publique.";
+        } catch (e) {
+          $("#contentmsg").textContent = e.message;
+        }
+      }
+      function previewContent() {
+        $("#contentpreview").innerHTML = renderPlainContent($("#contentbody").value);
+        $("#contentpreview").classList.remove("hidden");
+      }
+      if ($("#prepared-mails"))
+        $("#prepared-mails").innerHTML = Object.values(DEFAULT_MAIL_TEMPLATES)
+          .map(
+            (t) =>
+              "<details><summary>" +
+              esc(t.label) +
+              "</summary><strong>" +
+              esc(t.subject) +
+              '</strong><pre style="white-space:pre-wrap;font:inherit;font-size:13px">' +
+              esc(t.body) +
+              "</pre></details>",
+          )
+          .join("");</script
+    ><a class="btn mobile-register" href="inscription.html">S’inscrire à la Backyard</a></body
+  ></html
+>

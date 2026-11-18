@@ -141,8 +141,8 @@
                 Dernière boucle badgée à l’arrivée avant 22 h.</p
               >
               <p
-                >Aucune annulation ni aucun remboursement possibles. Prévoyez une frontale et des
-                vêtements visibles dans le noir.</p
+                >Annulation avec remboursement possible jusqu’au 24 avril 2027 à 10 h, heure belge.
+                Prévoyez une frontale et des vêtements visibles dans le noir.</p
               >
               <a class="small" href="reglement.html">Lire le règlement complet</a>
             </details>
@@ -207,7 +207,8 @@
             <label>
               <input required="" type="checkbox" />J’accepte l’utilisation de ces informations pour
               la gestion de la course et je confirme avoir l’accord des coureurs inscrits. J’ai pris
-              connaissance du règlement, notamment de l’absence d’annulation et de remboursement.
+              connaissance du règlement, notamment de la date limite d’annulation et de
+              remboursement.
             </label>
             <div class="notice" id="total">Total : 20 € </div>
             <div aria-label="Étapes de confirmation" class="status-steps"
@@ -448,6 +449,14 @@
     Communication : <strong>${esc(data.id)}</strong></p>
     <div class="payment-qr"></div>
     <p class="small">Conservez votre référence. Un mail récapitulatif est placé dans la file d’envoi.</p></div>`;
+        if (data.cancelUrl) {
+          const link = document.createElement("a");
+          link.href = data.cancelUrl;
+          link.className = "small";
+          link.textContent =
+            "Annuler mon dossier et demander le remboursement avant le 24 avril 2027 à 10 h";
+          target.querySelector(".success").append(link);
+        }
         const container = target.querySelector(".payment-qr");
         const dataText = paymentQRData(data);
         if (!dataText || typeof QRCode === "undefined") {

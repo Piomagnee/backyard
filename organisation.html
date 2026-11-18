@@ -106,7 +106,8 @@
             <h2>Vue d’ensemble</h2>
           </div>
           <div class="admin-top-actions adminbar">
-            <button onclick="loadAdmin()">Actualiser</button>
+            <button onclick="refreshAdmin(this)">Actualiser</button
+            ><span id="last-refresh" class="small" role="status" aria-live="polite"></span>
             <button onclick="csv()">Exporter le fichier CSV</button>
             <button class="outline" onclick="location.reload()">Fermer l’espace</button>
           </div>
@@ -224,7 +225,9 @@
                     >Variables : {{contact_nom}}, {{reference}}, {{format}}, {{coureurs}},
                     {{montant}}, {{supplements}}, {{iban}}, {{beneficiaire}}, {{lien_parcours}},
                     {{lien_reglement}}, {{lien_infos}}, {{contact_organisation}}. Pour les pains
-                    saucisse : {{quantite}}, {{prix_unitaire}}.</p
+                    saucisse : {{quantite}}, {{prix_unitaire}}. Liste d’attente : {{nombre_places}},
+                    {{delai_heures}}, {{date_limite}}, {{lien_offre}}. Annulation :
+                    {{lien_annulation}}, {{date_limite_annulation}}, {{remboursement_info}}.</p
                   >
                   <div class="adminbar">
                     <button onclick="saveMailTemplate()">Enregistrer ce modèle</button>
@@ -424,26 +427,25 @@
                   </form>
                 </details>
               </section>
-              <section class="admin-workspace" id="admin-waitlist-section">
-                <details>
-                  <summary>Liste d’attente</summary>
-
-                  <div class="scroll">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Référence</th>
-                          <th>Demande</th>
-                          <th>Format</th>
-                          <th>Contact</th>
-                        </tr>
-                      </thead>
-                      <tbody id="admin-waitlist"></tbody>
-                    </table>
-                  </div>
-                </details>
-              </section>
-
+              <section class="admin-workspace" id="admin-waitlist-section"
+                ><details
+                  ><summary>Liste d’attente et attribution des places</summary>
+                  <div id="waitlist-pool" class="notice"></div
+                  ><p class="small"
+                    >Une proposition couvre tout l’effectif demandé. Sans confirmation dans les 24
+                    h, les places reviennent ici pour une nouvelle attribution. Aucun virement
+                    bancaire n’est exécuté par le site.</p
+                  >
+                  <div class="scroll"
+                    ><table
+                      ><thead
+                        ><tr
+                          ><th>Référence</th><th>Contact</th><th>Format</th><th>État</th
+                          ><th>Réponse avant</th><th>Attribution</th></tr
+                        ></thead
+                      ><tbody id="admin-waitlist"></tbody></table
+                  ></div> </details
+              ></section>
               <section class="admin-workspace" id="admin-history">
                 <details>
                   <summary>Historique et sauvegardes</summary>
@@ -483,9 +485,9 @@
     <script>
       const DEFAULT_PAGE_CONTENTS = {
         "infos":
-          "## Supporters et convivialité\n\nVenez aussi encourager les coureurs\nLes supporters sont les bienvenus. Un bar est présent pendant tout l’événement. Des pains saucisse supplémentaires peuvent être ajoutés à l’inscription pour eux, à 4 € pièce.\n\n## Participation et sécurité\n\nParticipation et équipement\nAucune annulation ni aucun remboursement possibles. Prévoyez une frontale et des vêtements visibles dans le noir.\n\n## Date\n\nSamedi 1er mai 2027\nCourse de 10 h à 22 h. Retrait des badges de 8 h 30 à 9 h 30. Départs libres sur la boucle.\n\n## Camp de base\n\nLocaux scouts de Magnée\nRue du Village 17, 4623 Magnée, Belgique. Les indications de parking et d’accès restent à préciser.\n\n## Inscription\n\n20 € par personne\nSolo : 20 €. Relais de 2 à 6 : de 40 à 120 €. Le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur sont compris.\n\n## Ce qui est compris et les suppléments\n\nMédaille incluse · Pain saucisse supplémentaire 4 €\nUn pain saucisse et une médaille sont compris pour chaque coureur dans les 20 €, avec un pain saucisse et une médaille par membre de l’équipe. Seuls les pains saucisse supplémentaires pour les supporters sont facturés en plus : 4 € pièce.\n\n## Capacité\n\n250 coureurs au total\nUne équipe occupe autant de places que de coureurs inscrits (de 2 à 6). Les demandes en attente de paiement sont incluses dans cette jauge.\n\n## Contact\n\nPionniers de Magnée\nguillaumedesmare@gmail.com · Un contact par dossier pour les confirmations et rappels.\n\n## Quand mon inscription est-elle confirmée ?\n\nLa demande enregistre les coureurs et réserve les places. Après votre virement, l’organisation vérifie le paiement. Le mail de confirmation est envoyé après cette validation. Conservez la référence et les instructions affichées à la fin du formulaire.\n\n## Peut-on ajouter des pains saucisse pour les supporters ?\n\nOui. Un pain saucisse et une médaille par coureur sont déjà compris. Indiquez simplement le nombre de pains saucisse supplémentaires pour vos supporters ; ils sont facturés 4 € pièce. Le total se met à jour avant l’enregistrement.\n\n## Comment fonctionne le relais ?\n\nL’équipe comprend de 2 à 6 coureurs nominatifs. Un ou plusieurs membres peuvent être en course ensemble, mais une boucle réalisée ensemble compte pour un seul tour d’équipe. Les départs sont libres entre 10 h et 22 h.\n\n## Comment les tours sont-ils validés ?\n\nLe dispositif prévu prévoit un contrôle par badge à mi-parcours et à l’arrivée de chaque boucle. Les passages sont vérifiés pour déterminer les boucles retenues au classement.\n\n## Quand recevrai-je les rappels ?\n\nDeux rappels sont prévus pour les inscriptions confirmées : le 17 avril 2027 et le 30 avril 2027. Pour les équipes, ils sont envoyés au contact renseigné dans le dossier.\n\n## Peut-on venir encourager les coureurs ?\n\nOui, les supporters sont les bienvenus pour encourager les coureurs. Un bar est présent pendant tout l’événement. Vous pouvez ajouter des pains saucisse pour vos supporters lors de l’inscription, à 4 € pièce. Les indications de stationnement seront précisées avant la course.\n\n## Où trouver les résultats ?\n\nAprès l’événement, la page Classement présentera séparément les solos et les équipes, avec les tours validés, la distance estimée et le meilleur tour. Pendant la course, le classement en direct est affiché uniquement sur un écran sur place. Les résultats définitifs seront publiés sur ce site par l’organisation après l’événement.\n\n## Que faire pour modifier ou annuler mon dossier ?\n\nL’inscription ne peut pas être annulée et aucun remboursement n’est possible. Pour toute autre question concernant votre dossier, contactez l’organisation en indiquant sa référence.",
+          "## Supporters et convivialité\n\nVenez aussi encourager les coureurs\nLes supporters sont les bienvenus. Un bar est présent pendant tout l’événement. Des pains saucisse supplémentaires peuvent être ajoutés à l’inscription pour eux, à 4 € pièce.\n\n## Participation et sécurité\n\nParticipation et équipement\nAnnulation avec remboursement possible jusqu’au 24 avril 2027 à 10 h, heure belge. Prévoyez une frontale et des vêtements visibles dans le noir.\n\n## Date\n\nSamedi 1er mai 2027\nCourse de 10 h à 22 h. Retrait des badges de 8 h 30 à 9 h 30. Départs libres sur la boucle.\n\n## Camp de base\n\nLocaux scouts de Magnée\nRue du Village 17, 4623 Magnée, Belgique. Les indications de parking et d’accès restent à préciser.\n\n## Inscription\n\n20 € par personne\nSolo : 20 €. Relais de 2 à 6 : de 40 à 120 €. Le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur sont compris.\n\n## Ce qui est compris et les suppléments\n\nMédaille incluse · Pain saucisse supplémentaire 4 €\nUn pain saucisse et une médaille sont compris pour chaque coureur dans les 20 €, avec un pain saucisse et une médaille par membre de l’équipe. Seuls les pains saucisse supplémentaires pour les supporters sont facturés en plus : 4 € pièce.\n\n## Capacité\n\n250 coureurs au total\nUne équipe occupe autant de places que de coureurs inscrits (de 2 à 6). Les demandes en attente de paiement sont incluses dans cette jauge.\n\n## Contact\n\nPionniers de Magnée\nguillaumedesmare@gmail.com · Un contact par dossier pour les confirmations et rappels.\n\n## Quand mon inscription est-elle confirmée ?\n\nLa demande enregistre les coureurs et réserve les places. Après votre virement, l’organisation vérifie le paiement. Le mail de confirmation est envoyé après cette validation. Conservez la référence et les instructions affichées à la fin du formulaire.\n\n## Peut-on ajouter des pains saucisse pour les supporters ?\n\nOui. Un pain saucisse et une médaille par coureur sont déjà compris. Indiquez simplement le nombre de pains saucisse supplémentaires pour vos supporters ; ils sont facturés 4 € pièce. Le total se met à jour avant l’enregistrement.\n\n## Comment fonctionne le relais ?\n\nL’équipe comprend de 2 à 6 coureurs nominatifs. Un ou plusieurs membres peuvent être en course ensemble, mais une boucle réalisée ensemble compte pour un seul tour d’équipe. Les départs sont libres entre 10 h et 22 h.\n\n## Comment les tours sont-ils validés ?\n\nLe dispositif prévu prévoit un contrôle par badge à mi-parcours et à l’arrivée de chaque boucle. Les passages sont vérifiés pour déterminer les boucles retenues au classement.\n\n## Quand recevrai-je les rappels ?\n\nDeux rappels sont prévus pour les inscriptions confirmées : le 17 avril 2027 et le 30 avril 2027. Pour les équipes, ils sont envoyés au contact renseigné dans le dossier.\n\n## Peut-on venir encourager les coureurs ?\n\nOui, les supporters sont les bienvenus pour encourager les coureurs. Un bar est présent pendant tout l’événement. Vous pouvez ajouter des pains saucisse pour vos supporters lors de l’inscription, à 4 € pièce. Les indications de stationnement seront précisées avant la course.\n\n## Où trouver les résultats ?\n\nAprès l’événement, la page Classement présentera séparément les solos et les équipes, avec les tours validés, la distance estimée et le meilleur tour. Pendant la course, le classement en direct est affiché uniquement sur un écran sur place. Les résultats définitifs seront publiés sur ce site par l’organisation après l’événement.\n\n## Que faire pour modifier ou annuler mon dossier ?\n\nL’inscription peut être annulée avec remboursement jusqu’au 24 avril 2027 à 10 h, heure belge. Utilisez votre lien personnel reçu par mail ou contactez l’organisation. Pour toute autre question concernant votre dossier, contactez l’organisation en indiquant sa référence.",
         "reglement":
-          "## Format et durée\n\nL’épreuve se déroule le 1er mai 2027 sur une durée de 12 heures. L’objectif est de réaliser le plus de boucles possible sur le parcours fourni. La course commence à 10 h et se termine à 22 h. Le retrait des badges est organisé de 8 h 30 à 9 h 30. Les départs sur la boucle sont libres.\n\n## Parcours et distance\n\nLa boucle mesure environ 4,1 km et comporte environ 100 m de dénivelé positif, d’après le GPX. La distance et le dénivelé cumulés affichés au classement sont des estimations calculées à partir de ces valeurs par tour.\n\n## Participation en relais\n\nLe format équipe comprend de 2 à 6 coureurs. Un ou plusieurs équipiers peuvent courir ensemble sur une même boucle, mais celle-ci compte pour un seul tour d’équipe. Les tours ne sont donc pas multipliés par le nombre de membres présents sur le parcours.\n\n## Contrôle des passages\n\nLe dispositif prévu comprend un badgeage à mi-parcours et à la fin de chaque boucle. Seules les boucles validées par l’organisation seront retenues au classement. En cas de passage manquant, signalez-le à l’organisation pour vérification. Pour être comptabilisée, la dernière boucle doit être terminée et badgée au point d’arrivée avant 22 h. Un badgeage à 22 h ou après ne valide pas la boucle, même si elle a été commencée avant la fin de la course.\n\n## Présentation du classement\n\nPendant l’événement, le classement en direct est affiché uniquement sur un écran sur place. Le classement définitif est publié sur ce site après l’événement, à partir des résultats vérifiés du système de badges. Les solos et les équipes disposent de tableaux distincts. Le classement est ordonné par nombre de boucles validées décroissant. À égalité de tours, le meilleur tour le plus rapide départage les coureurs ou équipes. Si le nombre de tours et le meilleur temps sont identiques, le rang est ex æquo. Un meilleur tour non renseigné est affiché après les temps connus à nombre de tours égal, dans l’attente de vérification.\n\n## Conditions d’inscription\n\nAucune annulation d’inscription ni aucun remboursement ne sont possibles.\n\n## Inscription et règlement\n\nLe tarif est de 20 € par personne, avec ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur inclus. Une équipe de 2 à 6 coureurs règle de 40 à 120 € hors suppléments pour les supporters, avec un pain saucisse et une médaille par coureur inclus. Des pains saucisse supplémentaires peuvent être ajoutés pour les supporters à 4 € pièce. La confirmation intervient après réception et vérification du paiement.\n\n## Capacité et dossiers en attente\n\nLa limite est fixée à 250 personnes, solos et équipiers confondus. Une demande en attente réserve ses places jusqu’à sa confirmation ou son annulation par l’organisation. Une équipe ne peut être enregistrée que s’il reste suffisamment de places pour tous ses membres.\n\n## Visibilité et équipement\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité.",
+          "## Format et durée\n\nL’épreuve se déroule le 1er mai 2027 sur une durée de 12 heures. L’objectif est de réaliser le plus de boucles possible sur le parcours fourni. La course commence à 10 h et se termine à 22 h. Le retrait des badges est organisé de 8 h 30 à 9 h 30. Les départs sur la boucle sont libres.\n\n## Parcours et distance\n\nLa boucle mesure environ 4,1 km et comporte environ 100 m de dénivelé positif, d’après le GPX. La distance et le dénivelé cumulés affichés au classement sont des estimations calculées à partir de ces valeurs par tour.\n\n## Participation en relais\n\nLe format équipe comprend de 2 à 6 coureurs. Un ou plusieurs équipiers peuvent courir ensemble sur une même boucle, mais celle-ci compte pour un seul tour d’équipe. Les tours ne sont donc pas multipliés par le nombre de membres présents sur le parcours.\n\n## Contrôle des passages\n\nLe dispositif prévu comprend un badgeage à mi-parcours et à la fin de chaque boucle. Seules les boucles validées par l’organisation seront retenues au classement. En cas de passage manquant, signalez-le à l’organisation pour vérification. Pour être comptabilisée, la dernière boucle doit être terminée et badgée au point d’arrivée avant 22 h. Un badgeage à 22 h ou après ne valide pas la boucle, même si elle a été commencée avant la fin de la course.\n\n## Présentation du classement\n\nPendant l’événement, le classement en direct est affiché uniquement sur un écran sur place. Le classement définitif est publié sur ce site après l’événement, à partir des résultats vérifiés du système de badges. Les solos et les équipes disposent de tableaux distincts. Le classement est ordonné par nombre de boucles validées décroissant. À égalité de tours, le meilleur tour le plus rapide départage les coureurs ou équipes. Si le nombre de tours et le meilleur temps sont identiques, le rang est ex æquo. Un meilleur tour non renseigné est affiché après les temps connus à nombre de tours égal, dans l’attente de vérification.\n\n## Conditions d’inscription\n\nL’annulation et le remboursement du dossier sont possibles jusqu’au 24 avril 2027 à 10 h, heure belge. Le remboursement est traité par l’organisation.\n\n## Inscription et règlement\n\nLe tarif est de 20 € par personne, avec ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur inclus. Une équipe de 2 à 6 coureurs règle de 40 à 120 € hors suppléments pour les supporters, avec un pain saucisse et une médaille par coureur inclus. Des pains saucisse supplémentaires peuvent être ajoutés pour les supporters à 4 € pièce. La confirmation intervient après réception et vérification du paiement.\n\n## Capacité et dossiers en attente\n\nLa limite est fixée à 250 personnes, solos et équipiers confondus. Une demande en attente réserve ses places jusqu’à sa confirmation ou son annulation par l’organisation. Une équipe ne peut être enregistrée que s’il reste suffisamment de places pour tous ses membres.\n\n## Visibilité et équipement\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité.",
       };
       const MAIL_EXAMPLE = {
         "contact_nom": "Camille Martin",
@@ -950,6 +952,7 @@
               "</td></tr>",
           )
           .join("");
+        return d;
       }
       async function action(id, operation) {
         const record = records.find((r) => r.id === id);
@@ -958,7 +961,7 @@
           ? "Vérifiez les messages envoyés dans Gmail : si ce mail est déjà présent, ne le relancez pas. Confirmez-vous la relance ?"
           : operation === "confirm"
             ? "Confirmer que le paiement a bien été reçu et vérifié ?"
-            : "Annuler ce dossier en attente et libérer ses places ?";
+            : "Annuler ce dossier ? Les places seront réservées à la liste d’attente. Si le paiement est validé, un remboursement sera à effectuer.";
         if (!confirm(question)) return;
         try {
           const result = await api("action", { id, action: operation });
@@ -1000,6 +1003,8 @@
             "Montant dossier (€, une seule fois)",
             "Statut paiement",
             "Email confirmation",
+            "Remboursement dossier (€, une seule fois)",
+            "État remboursement",
           ],
         ];
         records.forEach((record) =>
@@ -1019,6 +1024,8 @@
               index === 0 ? record.amount : "",
               record.status,
               record.mail,
+              index === 0 ? record.refund_amount || 0 : "",
+              record.refund_status || "not_due",
             ]);
           }),
         );
@@ -1423,19 +1430,33 @@
       }
       function previewMail() {
         const supporter = $("#mailtype").value.startsWith("supporter_");
+        const type = $("#mailtype").value;
         const example = supporter
           ? {
               ...MAIL_EXAMPLE,
-              contact_nom: "Camille Martin",
               reference: "PS-EXEMPLE",
               format: "Commande de pains saucisse",
               coureurs: "",
               montant: "12,00",
-              supplements: "0",
               quantite: "3",
               prix_unitaire: "4,00",
             }
-          : MAIL_EXAMPLE;
+          : type.startsWith("waitlist_")
+            ? {
+                ...MAIL_EXAMPLE,
+                reference: "LA-EXEMPLE",
+                format: "Équipe de 4",
+                nombre_places: "4",
+                delai_heures: "24",
+                date_limite: "20/11/2026 à 10:00",
+                lien_offre: "https://exemple.invalid/reservation.html#offre=EXEMPLE",
+              }
+            : {
+                ...MAIL_EXAMPLE,
+                lien_annulation: "https://exemple.invalid/reservation.html#annuler=EXEMPLE",
+                date_limite_annulation: "24 avril 2027 à 10 h",
+                remboursement_info: "Un remboursement de 88,00 € sera traité par l’organisation.",
+              };
         $("#mailpreviewsubject").textContent = fillVariables($("#mailsubject").value, example);
         $("#mailpreviewbody").textContent = fillVariables($("#mailbody").value, example);
         $("#mailpreview").classList.remove("hidden");
@@ -1736,14 +1757,12 @@
         previousContentVersions = [];
       const oldLoadAdmin = loadAdmin;
       loadAdmin = async function () {
-        await oldLoadAdmin();
-        try {
-          const d = await api("admin");
-          latestAdminSnapshot = d;
-          renderExecutiveDashboard(d);
-        } catch (e) {
-          console.warn("Tableau de bord:", e.message);
-        }
+        const data = await oldLoadAdmin();
+        latestAdminSnapshot = data;
+        renderExecutiveDashboard(data);
+        renderWaitlistAdmin(data);
+        enhanceRegistrationActions(data);
+        return data;
       };
       function renderExecutiveDashboard(d) {
         const rs = d.records || [],
@@ -1755,7 +1774,13 @@
         const confirmed = paid.reduce((n, r) => n + Number(r.seats || 0), 0),
           reserved = pending.reduce((n, r) => n + Number(r.seats || 0), 0),
           income =
-            paid.reduce((n, r) => n + Number(r.amount || 0), 0) +
+            rs
+              .filter(
+                (r) =>
+                  r.status === "paid" ||
+                  (r.status === "cancelled" && r.was_paid && r.refund_status !== "done"),
+              )
+              .reduce((n, r) => n + Number(r.amount || 0), 0) +
             paidOrders.reduce((n, o) => n + Number(o.amount || 0), 0),
           mailErrors =
             logs.filter((l) => ["unknown", "failed"].includes(l.status)).length +
@@ -1800,20 +1825,6 @@
           (d.history || [])
             .map((x) => "<li>" + esc(x.date) + " — " + esc(x.action) + "</li>")
             .join("") || "<li>Aucune modification enregistrée.</li>";
-        document.getElementById("admin-waitlist").innerHTML = (d.waitlist || [])
-          .map(
-            (x) =>
-              "<tr><td>" +
-              esc(x.id) +
-              "</td><td>" +
-              esc(x.first + " " + x.last) +
-              "</td><td>" +
-              esc(x.kind === "team" ? "Équipe de " + x.seats : "Solo") +
-              "</td><td>" +
-              esc(x.email) +
-              "</td></tr>",
-          )
-          .join("");
       }
       function exportFullBackup() {
         if (!latestAdminSnapshot) {
@@ -1949,5 +1960,166 @@
         });
       });
     </script>
-  </body>
+    <script>
+      async function refreshAdmin(button) {
+        const label = button.textContent;
+        button.disabled = true;
+        button.textContent = "Actualisation…";
+        showFeedback("Actualisation en cours…", "pending");
+        try {
+          await loadAdmin();
+          const text =
+            "Actualisé à " +
+            new Date().toLocaleTimeString("fr-BE", { timeZone: "Europe/Brussels" });
+          document.getElementById("last-refresh").textContent = text;
+          showFeedback(text, "success");
+        } catch (error) {
+          showFeedback("Actualisation impossible : " + error.message, "error");
+        } finally {
+          button.disabled = false;
+          button.textContent = label;
+        }
+      }
+      function renderWaitlistAdmin(data) {
+        const pool = data.allocation || {};
+        document.getElementById("waitlist-pool").textContent =
+          (pool.protected || 0) +
+          " place(s) réservée(s) à la liste d’attente · " +
+          (pool.offered || 0) +
+          " en proposition · " +
+          (pool.available || 0) +
+          " à attribuer. Les places libérées ne sont pas rouvertes au public.";
+        const rows = data.waitlist || [],
+          labels = {
+            waiting: "En attente",
+            offered: "Proposition en cours",
+            registered: "Inscription créée",
+            withdrawn: "Demande retirée",
+          };
+        document.getElementById("admin-waitlist").innerHTML =
+          rows
+            .map((entry) => {
+              const offer =
+                entry.status === "waiting"
+                  ? '<button type="button" data-offer="' +
+                    esc(entry.id) +
+                    '" ' +
+                    ((pool.available || 0) < entry.seats ? "disabled" : "") +
+                    ">Proposer " +
+                    entry.seats +
+                    " place(s) · 24 h</button>"
+                  : entry.status === "offered"
+                    ? '<button type="button" class="outline" data-withdraw="' +
+                      esc(entry.id) +
+                      '">Retirer la proposition</button>'
+                    : "—";
+              return (
+                "<tr><td>" +
+                esc(entry.id) +
+                "</td><td>" +
+                esc(entry.first + " " + entry.last) +
+                "<br>" +
+                esc(entry.email) +
+                "</td><td>" +
+                esc(entry.kind === "team" ? "Équipe de " + entry.seats : "Individuel") +
+                "</td><td>" +
+                esc(labels[entry.status] || entry.status) +
+                '<br><span class="small">Mail : ' +
+                esc(entry.offer_mail || entry.received_mail || "—") +
+                "</span></td><td>" +
+                (entry.status === "offered"
+                  ? esc(
+                      new Date(entry.offer_expires).toLocaleString("fr-BE", {
+                        timeZone: "Europe/Brussels",
+                      }),
+                    )
+                  : "—") +
+                "</td><td>" +
+                offer +
+                "</td></tr>"
+              );
+            })
+            .join("") || '<tr><td colspan="6">Aucune demande sur la liste d’attente.</td></tr>';
+        document.querySelectorAll("#admin-waitlist button").forEach((button) =>
+          button.addEventListener("click", async () => {
+            const withdraw = button.dataset.withdraw;
+            const question = withdraw
+              ? "Retirer cette proposition ? Les places resteront réservées à la liste d’attente."
+              : "Envoyer une proposition personnelle valable environ 24 h à cette demande ?";
+            if (!confirm(question)) return;
+            button.disabled = true;
+            try {
+              const result = await api(withdraw ? "withdraw-offer" : "offer-waitlist", {
+                id: withdraw || button.dataset.offer,
+              });
+              await loadAdmin();
+              showFeedback(result.message, "success");
+            } catch (error) {
+              showFeedback(error.message, "error");
+              button.disabled = false;
+            }
+          }),
+        );
+      }
+      function enhanceRegistrationActions(data) {
+        const cutoff = Date.parse(data.cancellationDeadline || "2027-04-24T08:00:00Z");
+        const rows = [...document.querySelectorAll("#records tr")];
+        (data.records || []).forEach((record, index) => {
+          const row = rows[index];
+          if (!row) return;
+          const actions = row.cells[5],
+            payment = row.cells[4];
+          const canCancel = ["paid", "pending"].includes(record.status) && Date.now() <= cutoff;
+          const oldCancel = [...actions.querySelectorAll("button")].find((button) =>
+            button.getAttribute("onclick")?.includes("'cancel'"),
+          );
+          if (!canCancel && oldCancel) oldCancel.remove();
+          if (canCancel && !oldCancel) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "outline";
+            button.textContent = "Annuler le dossier";
+            button.addEventListener("click", () => action(record.id, "cancel"));
+            actions.append(button);
+          }
+          if (record.status === "cancelled") {
+            const detail = document.createElement("p");
+            detail.className = "small";
+            detail.textContent =
+              record.refund_status === "pending"
+                ? "À rembourser : " + Number(record.refund_amount).toLocaleString("fr-BE") + " €"
+                : record.refund_status === "done"
+                  ? "Remboursement effectué"
+                  : "Aucun remboursement dû";
+            payment.append(detail);
+            if (record.refund_status === "pending") {
+              const button = document.createElement("button");
+              button.type = "button";
+              button.textContent = "Remboursement effectué";
+              button.addEventListener("click", async () => {
+                if (
+                  !confirm(
+                    "Confirmez-vous avoir réellement effectué le remboursement bancaire de " +
+                      record.refund_amount +
+                      " € ?",
+                  )
+                )
+                  return;
+                button.disabled = true;
+                try {
+                  const result = await api("refund-registration", { id: record.id });
+                  await loadAdmin();
+                  showFeedback(result.message, "success");
+                } catch (error) {
+                  showFeedback(error.message, "error");
+                  button.disabled = false;
+                }
+              });
+              actions.append(button);
+            }
+          }
+        });
+      }
+    </script></body
+  >
 </html>

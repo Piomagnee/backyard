@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr"
+  ><head
+    ><meta charset="utf-8" /><meta
+      name="viewport"
+      content="width=device-width,initial-scale=1"
+    /><meta name="referrer" content="no-referrer" /><title>Mon dossier · Backyard de Magnée</title
+    ><link rel="stylesheet" href="assets/style.css" /><script src="config.js"></script
+    ><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script
+    ><style>
+      .private-page {
+        max-width: 760px;
+        margin: auto;
+        padding: 30px 20px;
+      }
+      .private-head {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 28px;
+      }
+      .private-head img {
+        width: 55px;
+        height: 55px;
+      }
+      .private-page h1 {
+        font-size: 30px;
+      }
+      .private-page h2 {
+        font-size: 22px;
+      }
+      .private-page form > button {
+        margin-top: 20px;
+        width: 100%;
+      }
+      .private-page .runner {
+        padding: 14px 0;
+      }
+      .private-deadline {
+        font-weight: 600;
+        color: #921e27;
+      }
+      .private-page input[readonly] {
+        background: #f6f7f4;
+      }
+      #private-message {
+        white-space: pre-line;
+      }
+    </style></head
+  ><body
+    ><main class="private-page"
+      ><div class="private-head"
+        ><img src="assets/logo-pionniers.png" alt="Pionniers de Magnée" /><div
+          ><strong>Backyard de Magnée</strong><br /><span class="small"
+            >1er mai 2027 · 10 h–22 h</span
+          ></div
+        ></div
+      ><h1 id="private-title">Votre dossier</h1
+      ><p id="private-message" class="notice" role="status">Vérification du lien personnel…</p>
+      <section id="offer-content" class="hidden"
+        ><p id="offer-summary"></p><p id="offer-deadline" class="private-deadline"></p
+        ><p
+          >Complétez ce formulaire dans le délai indiqué pour confirmer que vous souhaitez ces
+          places. L’inscription sera ensuite confirmée après réception et vérification du
+          paiement.</p
+        ><form class="panel" id="offer-form"
+          ><div id="offer-teamfield"
+            ><label for="offer-team">Nom de l’équipe</label
+            ><input id="offer-team" maxlength="80" /></div
+          ><div id="offer-runners"></div><label for="offer-email">Email de contact</label
+          ><input id="offer-email" type="email" readonly /><label for="offer-phone">Téléphone</label
+          ><input id="offer-phone" type="tel" maxlength="30" required /><label for="offer-extras"
+            >Pains saucisse supplémentaires pour les supporters · 4 € pièce</label
+          ><input
+            id="offer-extras"
+            type="number"
+            min="0"
+            max="1000"
+            value="0"
+            step="1"
+            required
+          /><p class="notice" id="offer-total"></p
+          ><label
+            ><input type="checkbox" required /> J’ai l’accord des coureurs inscrits et j’accepte le
+            <a href="reglement.html" target="_blank" rel="noopener">règlement</a>, notamment la date
+            limite d’annulation et de remboursement.</label
+          ><button id="offer-submit" type="submit">Confirmer ces places et m’inscrire</button></form
+        ></section
+      >
+      <section id="cancel-content" class="hidden"
+        ><p id="cancel-summary"></p
+        ><p id="cancel-policy"
+          >Annulation et remboursement possibles jusqu’au 24 avril 2027 à 10 h, heure belge. Le
+          remboursement bancaire est effectué par l’organisation.</p
+        ><button id="cancel-submit" type="button"
+          >Confirmer l’annulation de mon dossier</button
+        ></section
+      ><div id="private-result" role="status"></div
+      ><p style="margin-top: 24px"><a href="index.html">Retour au site de la course</a></p></main
+    ><script>
+      const $ = (selector) => document.querySelector(selector);
+      const esc = (value) =>
+        String(value ?? "").replace(
+          /[&<>"']/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+        );
+      const parameters = new URLSearchParams(location.hash.slice(1));
+      const mode = parameters.has("offre") ? "offer" : "cancel";
+      const token = parameters.get("offre") || parameters.get("annuler") || "";
+      let offer = null;
+      async function privateApi(action, data = {}) {
+        const url = window.BACKYARD_CONFIG?.apiUrl;
+        if (!url) throw Error("Service non configuré.");
+        const response = await fetch(url, {
+          method: "POST",
+          redirect: "follow",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action, method: "POST", data: { ...data, token } }),
+        });
+        const result = await response.json();
+        if (!response.ok || result.ok === false)
+          throw Error(result.error || "Service indisponible.");
+        return result;
+      }
+      function updateOfferTotal() {
+        $("#offer-total").textContent =
+          "Total à payer après enregistrement : " +
+          (
+            offer.seats * offer.price +
+            Math.max(0, Number($("#offer-extras").value) || 0) * 4
+          ).toLocaleString("fr-BE") +
+          " €";
+      }
+      function checkDeadline() {
+        if (!offer) return;
+        const remaining = Date.parse(offer.expires) - Date.now();
+        if (remaining <= 0) {
+          $("#offer-submit").disabled = true;
+          $("#offer-deadline").textContent =
+            "Cette proposition a expiré. Contactez l’organisation.";
+        } else
+          $("#offer-deadline").textContent =
+            "Répondez avant le " +
+            new Date(offer.expires).toLocaleString("fr-BE", { timeZone: "Europe/Brussels" }) +
+            " (heure belge).";
+      }
+      async function loadPrivate() {
+        try {
+          if (!token)
+            throw Error("Ce lien personnel est incomplet. Utilisez le lien reçu par mail.");
+          if (mode === "offer") {
+            const result = await privateApi("offer-info");
+            $("#private-title").textContent = "Votre proposition de places";
+            if (result.status === "registered") {
+              $("#private-message").textContent =
+                "Votre inscription a déjà été enregistrée. Vous trouverez les instructions de paiement ci-dessous.";
+              renderPaymentSummary(
+                $("#private-result"),
+                result.registration,
+                "Demande d’inscription reçue",
+              );
+              return;
+            }
+            offer = result;
+            $("#private-message").textContent =
+              "Des places vous sont réservées temporairement depuis la liste d’attente.";
+            $("#offer-content").classList.remove("hidden");
+            $("#offer-summary").textContent =
+              result.seats +
+              " place(s) · " +
+              (result.kind === "team" ? "Équipe" : "Individuel") +
+              " · 20 € par coureur, ravitaillement, pain saucisse et médaille inclus.";
+            $("#offer-teamfield").classList.toggle("hidden", result.kind !== "team");
+            $("#offer-team").required = result.kind === "team";
+            $("#offer-email").value = result.email;
+            $("#offer-phone").value = result.phone;
+            $("#offer-runners").innerHTML = Array.from(
+              { length: result.seats },
+              (_, i) =>
+                '<div class="runner"><strong>Coureur ' +
+                (i + 1) +
+                '</strong><div class="row"><div><label>Prénom</label><input maxlength="60" required aria-label="Prénom coureur ' +
+                (i + 1) +
+                '"></div><div><label>Nom</label><input maxlength="60" required aria-label="Nom coureur ' +
+                (i + 1) +
+                '"></div></div></div>',
+            ).join("");
+            const first = $("#offer-runners .runner").querySelectorAll("input");
+            first[0].value = result.first;
+            first[1].value = result.last;
+            updateOfferTotal();
+            checkDeadline();
+            setInterval(checkDeadline, 30000);
+          } else {
+            const result = await privateApi("cancel-info");
+            $("#private-title").textContent = "Annuler mon inscription";
+            $("#cancel-content").classList.remove("hidden");
+            $("#cancel-summary").textContent =
+              result.name + " · " + result.seats + " coureur(s) · " + result.amount + " €";
+            if (result.status === "cancelled") {
+              $("#private-message").textContent =
+                result.refundStatus === "done"
+                  ? "Ce dossier est annulé et le remboursement est marqué effectué."
+                  : result.refundAmount > 0
+                    ? "Ce dossier est annulé. Le remboursement de " +
+                      result.refundAmount +
+                      " € sera traité par l’organisation."
+                    : "Ce dossier est déjà annulé.";
+              $("#cancel-submit").disabled = true;
+            } else if (!result.canCancel) {
+              $("#private-message").textContent =
+                "La date limite d’annulation et de remboursement est dépassée.";
+              $("#cancel-submit").disabled = true;
+            } else
+              $("#private-message").textContent = result.refundable
+                ? "L’annulation de ce dossier complet donnera lieu à un remboursement de " +
+                  result.amount +
+                  " €, à effectuer par l’organisation."
+                : "Ce dossier n’est pas encore payé. Son annulation ne donnera pas lieu à un remboursement.";
+          }
+        } catch (error) {
+          $("#private-message").textContent = error.message;
+        }
+      }
+      $("#offer-extras").addEventListener("input", updateOfferTotal);
+      $("#offer-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const button = $("#offer-submit");
+        button.disabled = true;
+        try {
+          const runners = [...document.querySelectorAll("#offer-runners .runner")].map((row) => {
+            const inputs = row.querySelectorAll("input");
+            return { first: inputs[0].value.trim(), last: inputs[1].value.trim() };
+          });
+          const result = await privateApi("offer-accept", {
+            team: $("#offer-team").value.trim(),
+            phone: $("#offer-phone").value.trim(),
+            extraSausages: Number($("#offer-extras").value),
+            runners,
+          });
+          $("#offer-content").classList.add("hidden");
+          $("#private-message").textContent =
+            "Votre demande d’inscription est enregistrée. Réglez le montant indiqué pour recevoir la confirmation après vérification bancaire.";
+          renderPaymentSummary(
+            $("#private-result"),
+            result.registration,
+            "Demande d’inscription reçue",
+          );
+        } catch (error) {
+          $("#private-result").textContent = error.message;
+          button.disabled = false;
+          checkDeadline();
+        }
+      });
+      $("#cancel-submit").addEventListener("click", async () => {
+        if (
+          !confirm(
+            "Annuler définitivement ce dossier complet et réserver ses places à la liste d’attente ?",
+          )
+        )
+          return;
+        const button = $("#cancel-submit");
+        button.disabled = true;
+        try {
+          const result = await privateApi("cancel-registration");
+          $("#private-message").textContent =
+            result.message +
+            (result.refundAmount > 0
+              ? " Montant à rembourser : " + result.refundAmount + " €."
+              : "");
+        } catch (error) {
+          $("#private-result").textContent = error.message;
+          button.disabled = false;
+        }
+      });
+      function paymentQRData(data) {
+        const iban = String(data.iban || "")
+          .replace(/\s/g, "")
+          .toUpperCase();
+        const beneficiary = String(data.beneficiary || "")
+          .replace(/[\r\n]/g, " ")
+          .trim();
+        const reference = String(data.id || "")
+          .replace(/[\r\n]/g, " ")
+          .trim();
+        const amount = Number(data.amount);
+        if (
+          !/^BE\d{14}$/.test(iban) ||
+          !beneficiary ||
+          !reference ||
+          !Number.isFinite(amount) ||
+          amount <= 0
+        )
+          return "";
+        return [
+          "BCD",
+          "002",
+          "1",
+          "SCT",
+          "",
+          beneficiary.slice(0, 70),
+          iban,
+          "EUR" + amount.toFixed(2),
+          "",
+          "",
+          reference.slice(0, 140),
+          "",
+        ].join("\n");
+      }
+      function renderPaymentSummary(target, data, title) {
+        target.innerHTML = `<div class="success"><strong>${esc(title)} · ${esc(data.id)}</strong>
+    <p>Demande enregistrée. La confirmation sera envoyée après réception et vérification du paiement.</p>
+    <p>Virement : <strong>${esc(Number(data.amount).toLocaleString("fr-BE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }))} €</strong><br>
+    IBAN : ${esc(data.iban)}<br>Bénéficiaire : ${esc(data.beneficiary)}<br>
+    Communication : <strong>${esc(data.id)}</strong></p>
+    <div class="payment-qr"></div>
+    <p class="small">Conservez votre référence. Un mail récapitulatif est placé dans la file d’envoi.</p></div>`;
+        if (data.cancelUrl) {
+          const link = document.createElement("a");
+          link.href = data.cancelUrl;
+          link.className = "small";
+          link.textContent =
+            "Annuler mon dossier et demander le remboursement avant le 24 avril 2027 à 10 h";
+          target.querySelector(".success").append(link);
+        }
+        const container = target.querySelector(".payment-qr");
+        const dataText = paymentQRData(data);
+        if (!dataText || typeof QRCode === "undefined") {
+          container.textContent =
+            "QR indisponible : utilisez les informations de virement ci-dessus.";
+          return;
+        }
+        const qr = document.createElement("div");
+        const label = document.createElement("p");
+        label.className = "small";
+        label.textContent =
+          "QR de virement SEPA — vérifiez le montant, le bénéficiaire et la référence dans votre application bancaire.";
+        container.append(qr, label);
+        try {
+          new QRCode(qr, {
+            text: dataText,
+            width: 160,
+            height: 160,
+            correctLevel: QRCode.CorrectLevel.M,
+          });
+        } catch (error) {
+          container.textContent =
+            "Le QR ne peut pas être affiché. Les informations de virement ci-dessus restent disponibles.";
+        }
+      }
+
+      loadPrivate();
+    </script></body
+  ></html
+>
