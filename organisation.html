@@ -679,56 +679,131 @@
           )
           .join("");
       }
-      function updateManagedContent() {
-        const root = $("#managedContent");
-        if (!root) return;
-        const page = root.dataset.page;
-        const raw = state.contents && state.contents[page];
-        if (typeof raw !== "string" || !raw.trim()) return;
-        const blocks = raw
-          .split(/\n\s*\n/)
-          .map((x) => x.trim())
-          .filter(Boolean);
-        const parsed = blocks.map((block) => {
-          let lines = block.replace(/^##\s*/, "").split("\n");
-          return { title: (lines.shift() || "").trim(), body: lines.join("\n").trim() };
-        });
-        // Preserve the original DOM and every CSS class: only edit text nodes.
+      
+      function parseManagedSections(value) {
+        const text = String(value ?? "")
+          .replace(/^\uFEFF/, "")
+          .replace(/\r\n?/g, "\n")
+          .trim();
+      
+        const headings = [...text.matchAll(/^##[ \t]+(.+?)[ \t]*$/gm)];
+      
+        if (
+          !headings.length ||
+          text.slice(0, headings[0].index).trim()
+        ) {
+          throw new Error(
+            "Commencez chaque rubrique par ## suivi de son titre."
+          );
+        }
+      
+        return headings.map((heading, index) => ({
+          title: heading[1].trim(),
+          body: text.slice(
+            heading.index + heading[0].length,
+            index + 1 < headings.length
+              ? headings[index + 1].index
+              : text.length
+          ).trim()
+        }));
+      }
+      
+      function validateManagedContent(page, value, expected) {
+        const sections = parseManagedSections(value);
+      
+        if (sections.length !== expected) {
+          throw new Error(
+            "Conservez les " + expected + " rubriques de cette page : " +
+            sections.length + " détectée(s). Gardez les titres précédés de ##."
+          );
+        }
+      
+        if (sections.some(section => !section.title || !section.body)) {
+          throw new Error(
+            "Chaque rubrique doit contenir un titre et un texte."
+          );
+        }
+      
+        return sections;
+      }
+      
+      function renderManagedContent(doc, page, value) {
+        const root = doc.getElementById("managedContent");
+      
+        if (!root) {
+          throw new Error("La zone de contenu de la page est introuvable.");
+        }
+      
         if (page === "reglement") {
           const cards = [...root.querySelectorAll(".rule")];
-          if (parsed.length !== cards.length) {
-            console.warn("Règlement : structure différente, mise en page conservée.");
-            return;
-          }
-          parsed.forEach((part, i) => {
-            const h = cards[i].querySelector("h3"),
-              p = cards[i].querySelector("p");
-            if (h && p) {
-              h.textContent = part.title;
-              p.textContent = part.body;
-            }
+          const sections = validateManagedContent(page, value, cards.length);
+      
+          sections.forEach((section, index) => {
+            cards[index].querySelector("h3").textContent = section.title;
+      
+            const paragraph = cards[index].querySelector("p");
+            paragraph.textContent = section.body;
+            paragraph.style.whiteSpace = "pre-line";
           });
+      
         } else if (page === "infos") {
-          const facts = [...root.querySelectorAll(".fact")];
-          const faqs = [...document.querySelectorAll("main details")].filter(
-            (x) => !root.contains(x),
+          const cards = [...root.querySelectorAll(".fact")];
+      
+          const faqs = [...doc.querySelectorAll("main details")]
+            .filter(card => !root.contains(card));
+      
+          const sections = validateManagedContent(
+            page,
+            value,
+            cards.length + faqs.length
           );
-          if (parsed.length !== facts.length + faqs.length) {
-            console.warn("Infos : structure différente, mise en page conservée.");
-            return;
-          }
-          facts.forEach((card, i) => {
-            const h = card.querySelector("strong"),
-              p = card.querySelector("p");
-            if (h && p) {
-              h.textContent = parsed[i].title;
-              p.textContent = parsed[i].body;
+      
+          cards.forEach((card, index) => {
+            const section = sections[index];
+            const lines = section.body.split("\n");
+            const label = card.querySelector(":scope > span");
+      
+            if (label) {
+              label.textContent = section.title;
             }
+      
+            card.querySelector("strong").textContent =
+              lines.length > 1 ? lines.shift().trim() : section.title;
+      
+            const paragraph = card.querySelector("p");
+            paragraph.textContent = lines.join("\n").trim();
+            paragraph.style.whiteSpace = "pre-line";
           });
-          faqs.forEach((card, i) => {
-            const p = card.querySelector("p");
-            if (p) p.textContent = parsed[facts.length + i].body;
+      
+          faqs.forEach((card, index) => {
+            const section = sections[cards.length + index];
+      
+            card.querySelector("summary").textContent = section.title;
+      
+            const paragraph = card.querySelector("p");
+            paragraph.textContent = section.body;
+            paragraph.style.whiteSpace = "pre-line";
           });
+      
+        } else {
+          throw new Error("Page de contenu inconnue.");
+        }
+      }
+      
+      function updateManagedContent() {
+        const root = document.getElementById("managedContent");
+      
+        if (!root) return;
+      
+        const page = root.dataset.page;
+        const text = state.contents && state.contents[page];
+      
+        if (typeof text !== "string" || !text.trim()) return;
+      
+        try {
+          renderManagedContent(document, page, text);
+        } catch (error) {
+          console.warn("Contenu non appliqué : " + error.message);
         }
       }
 
@@ -1570,14 +1645,31 @@
           $("#contentbody").value = pageContents[$("#contentpage").value] || "";
       }
       async function saveContentPage() {
+        const page = document.getElementById("contentpage").value;
+        const text = document.getElementById("contentbody").value;
+        const message = document.getElementById("contentmsg");
+      
         try {
-          let page = $("#contentpage").value,
-            text = $("#contentbody").value;
+          const expected = parseManagedSections(
+            DEFAULT_PAGE_CONTENTS[page]
+          ).length;
+      
+          validateManagedContent(page, text, expected);
+      
           await api("contents", { page, text });
+      
           pageContents[page] = text;
-          $("#contentmsg").textContent = "Contenu enregistré et disponible sur la page publique.";
-        } catch (e) {
-          $("#contentmsg").textContent = e.message;
+      
+          message.textContent =
+            "Contenu enregistré. Rechargez la page publique pour voir la mise à jour.";
+      
+          return true;
+      
+        } catch (error) {
+          message.textContent =
+            "Contenu non enregistré : " + error.message;
+      
+          return false;
         }
       }
       function previewContent() {
@@ -1963,64 +2055,46 @@
       }
       // Preview with the exact original page layout, without publishing or changing public HTML.
       previewContent = function () {
-        const page = document.getElementById("contentpage").value,
-          raw = document.getElementById("contentbody").value,
-          el = document.getElementById("contentpreview");
-        el.classList.remove("hidden");
-        el.innerHTML = "";
+        const page = document.getElementById("contentpage").value;
+        const text = document.getElementById("contentbody").value;
+        const container = document.getElementById("contentpreview");
+        const message = document.getElementById("contentmsg");
+      
+        try {
+          const expected = parseManagedSections(
+            DEFAULT_PAGE_CONTENTS[page]
+          ).length;
+      
+          validateManagedContent(page, text, expected);
+      
+        } catch (error) {
+          message.textContent = "Aperçu impossible : " + error.message;
+          return;
+        }
+      
+        container.classList.remove("hidden");
+        container.innerHTML = "";
+      
         const frame = document.createElement("iframe");
+      
         frame.className = "preview-frame";
-        frame.setAttribute("sandbox", "allow-same-origin");
         frame.title = "Aperçu du rendu public";
-        frame.src = page + ".html?preview=" + Date.now();
-        el.append(frame);
+        frame.setAttribute("sandbox", "allow-same-origin");
+      
         frame.addEventListener("load", () => {
           try {
-            const doc = frame.contentDocument,
-              root = doc.getElementById("managedContent");
-            if (!root) return;
-            const parsed = raw
-              .split(/\n\s*\n/)
-              .map((x) => x.trim())
-              .filter(Boolean)
-              .map((x) => {
-                const lines = x.replace(/^##\s*/, "").split("\n");
-                return { title: (lines.shift() || "").trim(), body: lines.join("\n").trim() };
-              });
-            if (page === "reglement") {
-              const cards = [...root.querySelectorAll(".rule")];
-              if (parsed.length !== cards.length)
-                throw Error(
-                  "Le règlement doit comporter exactement " + cards.length + " rubriques.",
-                );
-              parsed.forEach((v, i) => {
-                cards[i].querySelector("h3").textContent = v.title;
-                cards[i].querySelector("p").textContent = v.body;
-              });
-            } else {
-              const facts = [...root.querySelectorAll(".fact")],
-                faqs = [...doc.querySelectorAll("main details")].filter((x) => !root.contains(x));
-              if (parsed.length !== facts.length + faqs.length)
-                throw Error(
-                  "Les informations pratiques doivent comporter " +
-                    (facts.length + faqs.length) +
-                    " rubriques.",
-                );
-              parsed.slice(0, facts.length).forEach((v, i) => {
-                facts[i].querySelector("strong").textContent = v.title;
-                facts[i].querySelector("p").textContent = v.body;
-              });
-              parsed.slice(facts.length).forEach((v, i) => {
-                faqs[i].querySelector("summary").textContent = v.title;
-                faqs[i].querySelector("p").textContent = v.body;
-              });
-            }
-            document.getElementById("contentmsg").textContent =
+            renderManagedContent(frame.contentDocument, page, text);
+      
+            message.textContent =
               "Aperçu du rendu public : aucune modification publiée.";
-          } catch (e) {
-            document.getElementById("contentmsg").textContent = "Aperçu impossible : " + e.message;
+      
+          } catch (error) {
+            message.textContent = "Aperçu impossible : " + error.message;
           }
         });
+      
+        frame.src = page + ".html?preview=" + Date.now();
+        container.append(frame);
       };
     </script>
     <script>
