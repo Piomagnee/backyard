@@ -1167,7 +1167,9 @@
             Array.from(teams.values())
               .map(
                 (team) =>
-                  "<li>" +
+                  "<li><strong>" +
+                  escape(team.name) +
+                  "</strong> : " +
                   team.members
                     .map((person) => escape(person.first) + " - " + escape(person.last))
                     .join(", ") +

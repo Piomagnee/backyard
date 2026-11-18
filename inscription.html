@@ -13,30 +13,6 @@
     <script src="config.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script
     ><style>
-      .waiting-banner,
-      .waitlist-panel > .panel {
-        border: 2px solid #921e27;
-        background: #fff9f8;
-        border-radius: 8px;
-        padding: 24px;
-        min-width: 0;
-      }
-      .waiting-banner h2 {
-        margin: 12px 0;
-      }
-      .waiting-banner p {
-        max-width: 720px;
-      }
-      .waitlist-panel {
-        max-width: 1140px;
-        scroll-margin-top: 110px;
-      }
-      .waitlist-panel form {
-        max-width: 740px;
-      }
-      .waitlist-panel h2 {
-        color: #921e27;
-      }
       .waiting-form-alert {
         padding: 18px;
         background: #fff3ef;
@@ -52,24 +28,61 @@
         margin: 8px 0 14px;
         font-size: 13px;
       }
+      #waitlist-dialog {
+        width: min(680px, calc(100% - 28px));
+        max-height: calc(100vh - 32px);
+        max-height: calc(100dvh - 32px);
+        padding: 26px;
+        border: 1px solid #d8ded5;
+        border-radius: 10px;
+        background: #fff;
+        color: #24302b;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        box-sizing: border-box;
+      }
+      #waitlist-dialog:not([open]) {
+        display: none;
+      }
+      #waitlist-dialog::backdrop {
+        background: rgba(20, 29, 24, 0.78);
+      }
+      .waitlist-dialog-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 14px;
+      }
+      .waitlist-dialog-head h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+      #waitlist-description {
+        font-size: 13px;
+        color: #69716c;
+      }
+      .waitlist-close {
+        flex-shrink: 0;
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        font-size: 25px;
+        line-height: 1;
+      }
       #waitlist-submit {
         margin-top: 18px;
+        width: 100%;
       }
-      #waitlist-banner {
-        padding-bottom: 0;
+      body.waitlist-modal-open {
+        overflow: hidden;
       }
       @media (max-width: 650px) {
-        .waiting-banner,
-        .waitlist-panel > .panel {
-          padding: 18px;
+        #waitlist-dialog {
+          padding: 20px;
         }
-        .waiting-banner button,
-        .waiting-form-alert button,
-        #waitlist-submit {
+        .waiting-form-alert button {
           width: 100%;
-        }
-        .waitlist-panel {
-          scroll-margin-top: 20px;
         }
       }
     </style></head
@@ -100,14 +113,7 @@
         <h1>Inscription </h1>
         <p class="lede">Choisissez votre format et renseignez les coureurs. </p>
       </div>
-      <section class="section hidden" id="waitlist-banner" aria-live="polite">
-        <div class="waiting-banner">
-          <span class="pill">Liste d’attente</span>
-          <h2 id="waitlist-banner-title">La course est complète</h2>
-          <p id="waitlist-banner-text"></p>
-          <button type="button" onclick="goToWaitlist()">Rejoindre la liste d’attente</button>
-        </div>
-      </section>
+
       <section class="section register" id="inscription">
         <div class="split">
           <aside>
@@ -221,53 +227,8 @@
             <button disabled="" id="submit" type="submit">Enregistrer mon inscription </button>
             <div aria-live="polite" id="result" role="status"> </div>
           </form>
-        </div> </section
-      ><section class="section waitlist-panel hidden" id="waitlist-section"
-        ><div class="panel"
-          ><span class="eyebrow">Si une place se libère</span
-          ><h2 id="waitlist-title">Rejoindre la liste d’attente</h2
-          ><p
-            >Plus assez de places pour votre format ? Inscrivez-vous sur la liste d’attente. Cette
-            demande ne réserve pas de place et ne constitue pas une inscription. Aucun paiement
-            n’est demandé à ce stade.</p
-          ><form id="waitlist-form"
-            ><div class="row"
-              ><div
-                ><label for="wlfirst">Prénom</label
-                ><input id="wlfirst" maxlength="60" required="" /></div
-              ><div
-                ><label for="wllast">Nom</label
-                ><input id="wllast" maxlength="60" required="" /></div></div
-            ><div class="row"
-              ><div
-                ><label for="wlemail">E-mail</label
-                ><input id="wlemail" maxlength="150" required="" type="email" /></div
-              ><div
-                ><label for="wlphone">Téléphone</label
-                ><input id="wlphone" maxlength="30" required="" type="tel" /></div></div
-            ><label for="wlkind">Format souhaité</label
-            ><select
-              id="wlkind"
-              onchange="
-                document
-                  .getElementById('wlteamfield')
-                  .classList.toggle('hidden', this.value !== 'team')
-              "
-              ><option value="solo">Individuel</option
-              ><option value="team">Équipe de 2 à 6</option></select
-            ><div id="wlteamfield" class="hidden"
-              ><label for="wlseats">Nombre de coureurs souhaité</label
-              ><select id="wlseats"
-                ><option value="2">2 coureurs</option
-                ><option value="3">3 coureurs</option
-                ><option value="4">4 coureurs</option
-                ><option value="5">5 coureurs</option
-                ><option value="6">6 coureurs</option></select
-              ></div
-            ><button id="waitlist-submit" type="submit"
-              >Enregistrer ma demande sur la liste d’attente</button
-            ><p id="wlresult" role="status"></p></form></div
-      ></section>
+        </div>
+      </section>
       <section class="section register sausage-register" id="commande-supporters"
         ><div class="sausage-heading"
           ><div class="eyebrow">Pour les accompagnants et visiteurs</div
@@ -333,6 +294,62 @@
         </div>
       </div>
     </footer>
+    <dialog
+      id="waitlist-dialog"
+      aria-labelledby="waitlist-title"
+      aria-describedby="waitlist-description"
+    >
+      <div class="waitlist-dialog-head">
+        <h2 id="waitlist-title">Liste d’attente</h2>
+        <button
+          type="button"
+          class="outline waitlist-close"
+          id="waitlist-close"
+          aria-label="Fermer la liste d’attente"
+          >×</button
+        >
+      </div>
+      <p id="waitlist-description"
+        >Cette demande ne réserve aucune place. Aucun paiement n’est demandé à ce stade.</p
+      >
+      <form id="waitlist-form"
+        ><div class="row"
+          ><div
+            ><label for="wlfirst">Prénom</label
+            ><input id="wlfirst" maxlength="60" required="" /></div
+          ><div
+            ><label for="wllast">Nom</label
+            ><input id="wllast" maxlength="60" required="" /></div></div
+        ><div class="row"
+          ><div
+            ><label for="wlemail">E-mail</label
+            ><input id="wlemail" maxlength="150" required="" type="email" /></div
+          ><div
+            ><label for="wlphone">Téléphone</label
+            ><input id="wlphone" maxlength="30" required="" type="tel" /></div></div
+        ><label for="wlkind">Format souhaité</label
+        ><select
+          id="wlkind"
+          onchange="
+            document.getElementById('wlteamfield').classList.toggle('hidden', this.value !== 'team')
+          "
+          ><option value="solo">Individuel</option
+          ><option value="team">Équipe de 2 à 6</option></select
+        ><div id="wlteamfield" class="hidden"
+          ><label for="wlseats">Nombre de coureurs souhaité</label
+          ><select id="wlseats"
+            ><option value="2">2 coureurs</option
+            ><option value="3">3 coureurs</option
+            ><option value="4">4 coureurs</option
+            ><option value="5">5 coureurs</option
+            ><option value="6">6 coureurs</option></select
+          ></div
+        ><button id="waitlist-submit" type="submit"
+          >Enregistrer ma demande sur la liste d’attente</button
+        ><p id="wlresult" role="status"></p
+      ></form>
+    </dialog>
+
     <script>
       "use strict";
       let kind = "solo";
@@ -580,9 +597,9 @@
           if (value?.trim()) document.getElementById(id).value = value.trim();
         });
         syncWaitlistKind();
-        const section = document.getElementById("waitlist-section");
-        section.classList.remove("hidden");
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
+        const dialog = document.getElementById("waitlist-dialog");
+        if (!dialog.open) dialog.showModal();
+        document.body.classList.add("waitlist-modal-open");
         document.getElementById("wlfirst").focus({ preventScroll: true });
       }
       window.updateCapacity = function () {
@@ -598,22 +615,12 @@
                 ? "Solo uniquement"
                 : "Complet")
           : "Inscriptions non ouvertes";
-        document
-          .getElementById("waitlist-section")
-          .classList.toggle("hidden", !state.open || remaining >= 6);
-        document.getElementById("waitlist-banner").classList.toggle("hidden", !unavailable);
         document.getElementById("waitlist-form-alert").classList.toggle("hidden", !unavailable);
-        document.getElementById("waitlist-banner-title").textContent = full
-          ? "La course est complète"
-          : "Plus assez de places pour votre équipe";
-        document.getElementById("waitlist-banner-text").textContent = full
-          ? "Les 250 places sont réservées. Inscrivez-vous sur la liste d’attente si une place se libère. Aucun paiement n’est demandé."
-          : `Il reste ${remaining} place(s), mais votre équipe compte ${runnerCount()} coureurs. Vous pouvez demander cet effectif sur la liste d’attente.`;
         document.getElementById("waitlist-form-message").textContent = full
           ? "Inscriptions complètes : continuez sur la liste d’attente."
           : "Votre équipe dépasse le nombre de places restantes.";
         document.getElementById("waitlist-title").textContent = full
-          ? "Course complète — rejoignez la liste d’attente"
+          ? "Liste d’attente"
           : "Liste d’attente pour les formats complets";
       };
       const capacityObserver = new MutationObserver(updateCapacity);
@@ -623,6 +630,14 @@
         subtree: true,
       });
       updateCapacity();
+      const waitlistDialog = document.getElementById("waitlist-dialog");
+      document
+        .getElementById("waitlist-close")
+        .addEventListener("click", () => waitlistDialog.close());
+      waitlistDialog.addEventListener("close", () =>
+        document.body.classList.remove("waitlist-modal-open"),
+      );
+
       document.getElementById("wlkind").onchange = syncWaitlistKind;
       document.getElementById("waitlist-form").addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -638,7 +653,7 @@
         }
         if (Number(state.remaining) >= seats) {
           result.textContent =
-            "Des places sont disponibles pour ce format. Utilisez le formulaire d’inscription ci-dessus.";
+            "Des places sont disponibles pour ce format. Fermez cette fenêtre pour revenir à l’inscription.";
           return;
         }
         button.disabled = true;
