@@ -147,7 +147,7 @@ function renderRunners() {
         <input placeholder="Prénom" aria-label="Prénom coureur ${i+1}" required maxlength="60">
         <input placeholder="Nom" aria-label="Nom coureur ${i+1}" required maxlength="60">
       </div>
-      <p class="small">Un pain saucisse et une médaille sont inclus pour ce coureur.</p>
+      <p class="small">Le ravitaillement en fin de boucle, un pain saucisse et une médaillee sont inclus pour ce coureur.</p>
     </div>`).join('');
   document.querySelectorAll('.runner').forEach((row,i) => {
     row.querySelectorAll('input').forEach((input,j) => { input.value = previous[i]?.[j] || ''; });
