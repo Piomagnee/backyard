@@ -5,3 +5,16 @@
 /* Améliorations 2027 */
 .capacity-banner{border:1px solid #d5dfd7;border-left:4px solid var(--red);background:#f8faf7;padding:13px 17px;border-radius:6px;margin:15px 0;font-weight:600}.status-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}.status-steps span{padding:10px 8px;background:#f2f5f1;border:1px solid #dce4dd;border-radius:6px;font-size:12px;text-align:center}.status-steps .current{border-color:var(--red);background:#fff3f3;color:#7b1b23}.admin-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0 20px}.admin-kpi{border:1px solid var(--line);border-radius:8px;padding:17px;background:white}.admin-kpi strong{display:block;font-size:25px;color:var(--ink)}.admin-kpi span{display:block;font-size:12px;color:var(--muted)}.admin-alerts{border-left:4px solid #b45309;background:#fff8eb;padding:14px 18px;margin:15px 0;border-radius:5px}.admin-alerts.good{border-left-color:#39855a;background:#f0faf2}.payment-qr{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:16px 0}.payment-qr canvas,.payment-qr img{background:white;padding:7px;border:1px solid var(--line)}.waitlist-panel{margin-top:20px}.participant-jump{margin:20px 0}.content-history{border:1px solid var(--line);border-radius:8px;padding:15px;margin:16px 0}.content-history select{margin:8px 0}.mobile-register{display:none}.admin-history{max-height:280px;overflow:auto}.admin-history li{padding:7px 0;border-bottom:1px solid var(--line)}.preview-frame{width:100%;height:520px;border:1px solid var(--line);border-radius:8px;background:white}
 @media(max-width:720px){.admin-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.status-steps{grid-template-columns:1fr}.mobile-register{display:block;position:fixed;bottom:12px;left:12px;right:12px;z-index:900;box-shadow:0 8px 25px #0003;text-align:center}.footerinner{padding-bottom:82px}.section,.pagehead,.hero{padding-left:17px;padding-right:17px}.payment-qr{flex-direction:column;align-items:flex-start}}
+
+/* Formats et tarifs : les descriptions peuvent revenir à la ligne. */
+.tariffs{table-layout:fixed}
+.tariffs th{white-space:normal;overflow-wrap:anywhere}
+.tariffs td:last-child{width:145px;padding-left:20px;vertical-align:top}
+@media(max-width:650px){
+ .tariffs,.tariffs tbody,.tariffs tr,.tariffs th,.tariffs td{display:block;width:100%}
+ .tariffs tr{padding:18px 0;border-bottom:1px solid var(--line)}
+ .tariffs th,.tariffs td{padding:0;border:0;background:transparent}
+ .tariffs th{font-size:14px;line-height:1.6;white-space:normal}
+ .tariffs small{margin-top:6px;line-height:1.7}
+ .tariffs td:last-child{width:auto;padding:10px 0 0;text-align:left;font-size:18px;line-height:1.4;color:var(--red);white-space:normal}
+}
