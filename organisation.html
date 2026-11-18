@@ -946,23 +946,24 @@
           )
           .join("");
       }
-      async function action(id, action) {
-        if (
-          !confirm(
-            action === "confirm"
-              ? "Confirmer que le paiement a bien été reçu et vérifié ?"
-              : "Annuler ce dossier et libérer les places ?",
-          )
-        )
-          return;
+      async function action(id, operation) {
+        const record = records.find((r) => r.id === id);
+        const retry = operation === "confirm" && record?.status === "paid";
+        const question = retry
+          ? "Vérifiez les messages envoyés dans Gmail : si ce mail est déjà présent, ne le relancez pas. Confirmez-vous la relance ?"
+          : operation === "confirm"
+            ? "Confirmer que le paiement a bien été reçu et vérifié ?"
+            : "Annuler ce dossier en attente et libérer ses places ?";
+        if (!confirm(question)) return;
         try {
-          let d = await api("action", { id, action });
-          $("#adminmsg").textContent = d.message;
+          const result = await api("action", { id, action: operation });
+          $("#adminmsg").textContent = result.message;
           await loadAdmin();
-        } catch (e) {
-          $("#adminmsg").textContent = e.message;
+        } catch (error) {
+          $("#adminmsg").textContent = error.message;
         }
       }
+
       if ($("#settings"))
         $("#settings").onsubmit = async (e) => {
           e.preventDefault();
@@ -978,7 +979,7 @@
           }
         };
       function csv() {
-        let rows = [
+        const rows = [
           [
             "Dossier",
             "Date",
@@ -988,43 +989,43 @@
             "Nom",
             "Email contact",
             "Téléphone",
-            "Pains saucisse inclus (dossier)",
-            "Suppléments supporters (dossier)",
-            "Médailles incluses (dossier)",
-            "Montant dossier (€)",
+            "Pain saucisse inclus (coureur)",
+            "Suppléments supporters (dossier, une seule fois)",
+            "Médaille incluse (coureur)",
+            "Montant dossier (€, une seule fois)",
             "Statut paiement",
             "Email confirmation",
           ],
         ];
-        records.forEach((r) =>
-          r.runners.forEach((n) =>
+        records.forEach((record) =>
+          record.runners.forEach((runner, index) => {
             rows.push([
-              r.id,
-              r.created,
-              r.kind,
-              r.team,
-              n.first,
-              n.last,
-              r.email,
-              r.phone,
-              r.seats,
-              r.extra_sausages || 0,
-              r.seats,
-              r.amount,
-              r.status,
-              r.mail,
-            ]),
-          ),
+              record.id,
+              record.created,
+              record.kind,
+              record.team,
+              runner.first,
+              runner.last,
+              record.email,
+              record.phone,
+              1,
+              index === 0 ? record.extra_sausages || 0 : "",
+              1,
+              index === 0 ? record.amount : "",
+              record.status,
+              record.mail,
+            ]);
+          }),
         );
-        let text =
+        const text =
           "\ufeff" +
           rows
-            .map((r) =>
-              r
+            .map((row) =>
+              row
                 .map(
-                  (v) =>
+                  (value) =>
                     '"' +
-                    String(v ?? "")
+                    String(value ?? "")
                       .replace(/^[=+@-]/, "'$&")
                       .replace(/"/g, '""') +
                     '"',
@@ -1032,11 +1033,11 @@
                 .join(";"),
             )
             .join("\r\n");
-        let a = document.createElement("a");
-        a.href = URL.createObjectURL(new Blob([text], { type: "text/csv;charset=utf-8" }));
-        a.download = "Backyard_Magnee_inscriptions.csv";
-        a.click();
-        URL.revokeObjectURL(a.href);
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([text], { type: "text/csv;charset=utf-8" }));
+        link.download = "Backyard_Magnee_inscriptions.csv";
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
       }
 
       if ($("#gpxform"))
@@ -1618,133 +1619,88 @@
           failed: "Échec du mail",
           unknown: "Envoi du mail à vérifier",
           not_sent: "Mail non envoyé",
+          skipped: "Remplacé par la confirmation de paiement",
         };
 
+        const retryable = (status) => ["failed", "unknown"].includes(status);
         tbody.innerHTML = (d.sausageOrders || [])
-          .map(
-            (commande) => `
-            <tr>
-              <td>
-                <strong>${safe(commande.id)}</strong>
-              </td>
-        
-              <td>
-                ${safe(commande.first)} ${safe(commande.last)}
-              </td>
-        
-              <td>
-                ${safe(commande.email)}
-              </td>
-        
-              <td>
-                ${quantite(commande.quantity).toLocaleString("fr-BE")}
-              </td>
-        
-              <td>
-                ${
-                  Number.isFinite(Number(commande.amount))
-                    ? Number(commande.amount).toLocaleString("fr-BE", {
-                        style: "currency",
-                        currency: "EUR",
-                      })
-                    : "—"
-                }
-              </td>
-        
-              <td>
-                ${safe(statutsPaiement[commande.status] || commande.status)}
-                <br>
-                <span class="small">
-                  ${safe(statutsMail[commande.mail] || commande.mail || "—")}
-                </span>
-              </td>
-        
-              <td>
-                ${
-                  commande.status === "pending"
-                    ? `
-                  <button
-                    type="button"
-                    data-id="${safe(commande.id)}"
-                    data-status="paid"
-                  >
-                    Paiement vérifié
-                  </button>
-        
-                  <button
-                    type="button"
-                    class="outline"
-                    data-id="${safe(commande.id)}"
-                    data-status="cancelled"
-                  >
-                    Annuler
-                  </button>
-                `
-                    : "—"
-                }
-              </td>
-            </tr>
-          `,
-          )
+          .map((order) => {
+            const confirmation = order.confirmation_mail || "not_sent";
+            const button = (label, type) =>
+              `<button type="button" class="outline" data-id="${safe(order.id)}" data-mail-type="${type}">${label}</button>`;
+            const paymentActions =
+              order.status === "pending"
+                ? `<button type="button" data-id="${safe(order.id)}" data-status="paid">Paiement vérifié</button><button type="button" class="outline" data-id="${safe(order.id)}" data-status="cancelled">Annuler</button>`
+                : "";
+            const receivedAction =
+              order.status === "pending" && retryable(order.mail)
+                ? button("Relancer le mail reçu", "received")
+                : "";
+            const confirmationAction =
+              order.status === "paid" && (retryable(confirmation) || confirmation === "not_sent")
+                ? button(
+                    confirmation === "not_sent"
+                      ? "Envoyer la confirmation"
+                      : "Relancer la confirmation",
+                    "confirmed",
+                  )
+                : "";
+            const details = [order.mail_error || order.error, order.confirmation_error].filter(
+              Boolean,
+            );
+            return `<tr>
+            <td><strong>${safe(order.id)}</strong></td>
+            <td>${safe(order.first)} ${safe(order.last)}</td>
+            <td>${safe(order.email)}</td>
+            <td>${quantite(order.quantity).toLocaleString("fr-BE")}</td>
+            <td>${Number(order.amount).toLocaleString("fr-BE", { style: "currency", currency: "EUR" })}</td>
+            <td>${safe(statutsPaiement[order.status] || order.status)}<br>
+              <span class="small">Demande reçue : ${safe(statutsMail[order.mail] || order.mail || "—")}</span>
+              ${order.status === "paid" ? `<br><span class="small">Confirmation : ${safe(statutsMail[confirmation] || confirmation)}</span>` : ""}
+              ${details.map((text) => `<br><span class="small">${safe(text)}</span>`).join("")}
+            </td>
+            <td>${paymentActions + receivedAction + confirmationAction || "—"}</td>
+          </tr>`;
+          })
           .join("");
-
-        if (!(d.sausageOrders || []).length) {
-          tbody.innerHTML = `
-              <tr>
-                <td colspan="7" style="
-                  padding:24px;
-                  text-align:center;
-                  color:#69716c;
-                ">
-                  Aucune commande de supporters pour le moment.
-                </td>
-              </tr>
-            `;
-        }
-
-        tbody.querySelectorAll("button[data-id]").forEach((bouton) => {
-          bouton.addEventListener("click", async () => {
-            const id = bouton.dataset.id;
-            const status = bouton.dataset.status;
-
-            const question =
-              status === "paid"
-                ? "Avez-vous réellement vérifié le virement bancaire ?"
+        if (!(d.sausageOrders || []).length)
+          tbody.innerHTML =
+            '<tr><td colspan="7" style="padding:24px;text-align:center;color:#69716c">Aucune commande de supporters pour le moment.</td></tr>';
+        tbody.querySelectorAll("button[data-id]").forEach((button) => {
+          button.addEventListener("click", async () => {
+            const mailType = button.dataset.mailType;
+            const order = (d.sausageOrders || []).find((o) => o.id === button.dataset.id);
+            const previous = mailType === "received" ? order?.mail : order?.confirmation_mail;
+            const question = mailType
+              ? retryable(previous)
+                ? "Vérifiez les messages envoyés dans Gmail pour éviter un doublon. Confirmez-vous la relance de ce mail ?"
+                : "Placer le mail de confirmation de cette commande payée dans la file d’envoi ?"
+              : button.dataset.status === "paid"
+                ? "Avez-vous réellement vérifié le virement bancaire ? Un mail de confirmation sera programmé."
                 : "Annuler cette commande ?";
-
             if (!confirm(question)) return;
-
-            const message = document.getElementById("sausage-feedback");
-            const boutonsLigne = bouton.closest("tr").querySelectorAll("button");
-
-            boutonsLigne.forEach((element) => {
-              element.disabled = true;
-            });
-
-            if (message) message.textContent = "Traitement en cours…";
-
+            const feedback = document.getElementById("sausage-feedback");
+            const buttons = button.closest("tr").querySelectorAll("button");
+            buttons.forEach((b) => (b.disabled = true));
+            if (feedback) feedback.textContent = "Traitement en cours…";
             try {
-              const resultat = await api("sausage-action", { id, status });
-
-              if (message) {
-                message.textContent = resultat.message || "Modification enregistrée.";
-              }
-
+              const result = await api(
+                mailType ? "sausage-mail" : "sausage-action",
+                mailType
+                  ? { id: button.dataset.id, type: mailType }
+                  : { id: button.dataset.id, status: button.dataset.status },
+              );
+              if (feedback) feedback.textContent = result.message || "Modification enregistrée.";
               try {
                 await loadAdmin();
-              } catch (erreurActualisation) {
-                if (message) {
-                  message.textContent =
-                    "Modification enregistrée, mais l’actualisation a échoué. " +
-                    "Cliquez sur Actualiser pour afficher le nouvel état.";
-                }
+              } catch (error) {
+                if (feedback)
+                  feedback.textContent =
+                    "Modification enregistrée. Cliquez sur Actualiser pour afficher le nouvel état.";
               }
-            } catch (erreur) {
-              if (message) message.textContent = "Erreur : " + erreur.message;
-
-              boutonsLigne.forEach((element) => {
-                element.disabled = false;
-              });
+            } catch (error) {
+              if (feedback) feedback.textContent = "Erreur : " + error.message;
+              buttons.forEach((b) => (b.disabled = false));
             }
           });
         });
@@ -1778,7 +1734,8 @@
             paidOrders.reduce((n, o) => n + Number(o.amount || 0), 0),
           mailErrors =
             logs.filter((l) => ["unknown", "failed"].includes(l.status)).length +
-            orders.filter((o) => o.mail === "unknown").length;
+            orders.filter((o) => ["unknown", "failed"].includes(o.mail)).length +
+            orders.filter((o) => ["unknown", "failed"].includes(o.confirmation_mail)).length;
         const stats = [
           ["Coureurs confirmés", confirmed],
           ["Places en attente", reserved],

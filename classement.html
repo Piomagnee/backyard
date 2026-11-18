@@ -1,206 +1,1195 @@
 <!DOCTYPE html>
 
-<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Backyard des Pionniers de Magnée, le 1er mai 2027 : 12 heures sur une boucle de 4,1 km. Solo ou relais de 2 à 6, 20 € par personne." name="description"/><title>Classement solo &amp; équipes · Backyard Magnée</title><link href="assets/style.css" rel="stylesheet"/><script src="config.js"></script></head>
-<body>
- <header>
-  <div class="headerinner">
-   <a class="brand" href="index.html">
-    <img alt="Logo des Pionniers de Magnée" src="assets/logo-pionniers.png"/>
-    <span>Backyard de Magnée<small>Organisée par les Pionniers · 110M</small></span>
-   </a>
-   <nav aria-label="Navigation principale">
-    <a href="index.html">Accueil</a>
-    <a href="parcours.html">Parcours</a>
-    <a href="infos.html">Infos pratiques</a>
-    <a href="reglement.html">Règlement</a>
-    <a aria-current="page" href="classement.html">Classement</a>
-    <a class="btn" href="inscription.html">S’inscrire</a>
-   </nav>
-  </div>
- </header>
- <main>
-  <div class="pagehead">
-   <div class="crumb">
-    <a href="index.html">Accueil</a> / Classement
-   </div>
-   <h1 id="rankingtitle">Classement</h1>
-   <p class="lede" id="rankingintro">Les résultats seront publiés après la course et leur vérification par l’organisation.</p>
-  </div>
-  <section class="section" id="rankingWaiting">
-   <div class="panel waitpanel">
-    <span class="pill pending" id="waitingstatus">Publication après la course</span>
-    <h2 id="waitingtitle">Les résultats seront disponibles ici.</h2>
-    <p id="waitingtext">Le classement définitif sera publié après l’épreuve du 1er mai 2027 et la vérification des résultats du système de badges.</p>
-    <p class="small">Le classement en direct sera affiché uniquement sur un écran sur place. Les résultats définitifs seront publiés sur ce site après l’événement.</p>
-    <div class="waitrules">
-     <h3>Modalités de classement</h3>
-     <p class="small">Deux classements distincts : individuels et équipes. Le nombre de boucles validées détermine le rang ; à égalité, le meilleur tour le plus rapide départage les participants.</p>
-     <a class="small" href="reglement.html">Consulter le règlement</a>
-    </div>
-    <div class="actionrow">
-     <button class="outline" onclick="loadRanking()">Actualiser les résultats</button>
-    </div>
-   </div>
-  </section>
-  <section class="section hidden" id="rankingContent">
-   <div class="rankstats">
-    <div class="rankstat">
-     <strong id="statloops">—</strong>
-     <span>Boucles validées</span>
-    </div>
-    <div class="rankstat">
-     <strong id="statkm">—</strong>
-     <span>Kilomètres cumulés estimés</span>
-    </div>
-    <div class="rankstat">
-     <strong id="statsolo">—</strong>
-     <span>Solos classés</span>
-    </div>
-    <div class="rankstat">
-     <strong id="statteam">—</strong>
-     <span>Équipes classées</span>
-    </div>
-   </div>
-   <div class="rankbar">
-    <span class="pill pending" id="rankingstatus">En attente de publication</span>
-    <span class="small" id="rankingtime">Aucun résultat publié pour le moment.</span>
-    <button class="outline" onclick="loadRanking()">Actualiser</button>
-   </div>
-   <div class="recordcards">
-    <div class="panel">
-     <div class="eyebrow">Meilleur tour solo</div>
-     <strong id="solorecord">—</strong>
-     <span class="small" id="solorecordname">En attente de résultat</span>
-    </div>
-    <div class="panel">
-     <div class="eyebrow">Meilleur tour équipe</div>
-     <strong id="teamrecord">—</strong>
-     <span class="small" id="teamrecordname">En attente de résultat</span>
-    </div>
-   </div>
-   <div class="rankbar">
-    <div class="seg">
-     <button class="active" id="rankSolo" onclick="setCategory('solo')">Individuels</button>
-     <button id="rankTeam" onclick="setCategory('team')">Relais de 2 à 6</button>
-    </div>
-    <input aria-label="Rechercher dans le classement" id="ranksearch" oninput="renderRanking()" placeholder="Rechercher un nom ou une équipe"/>
-    <button class="outline" disabled="" id="rankingexport" onclick="exportRanking()">Exporter le classement ↓</button>
-   </div>
-   <div class="scroll" id="ranktable" style="display:none">
-    <table>
-    <thead><tr><th>Rang</th><th>Coureur / équipe</th><th>Boucles</th><th>Distance estimée</th><th>D+ estimé</th><th>Meilleur tour</th></tr></thead>
-    <tbody id="rankrows"></tbody>
-   </table>
-   </div>
-   <div class="empty" id="rankempty">
-    <span class="eyebrow">Édition du 1er mai 2027</span>
-    <h3>Le classement s’écrira sur le terrain.</h3>
-    <p>Le classement définitif sera publié ici après l’événement du 1er mai 2027, à partir des résultats vérifiés du système de badges. Le classement en direct est affiché uniquement sur un écran sur place.</p>
-   </div>
-   <div class="notice">
-    <b>Lecture du classement</b>
-    <br/>Classement par nombre de boucles validées décroissant. À égalité, le meilleur tour le plus rapide départage les participants. Si les deux valeurs sont identiques, le rang est ex æquo. Distance estimée = boucles × 4,1 km.<br/>
-    <span class="small">Aucun barème de points. Les temps manquants doivent être complétés par l’organisation avant validation du classement final.</span>
-   </div>
-   <a class="btn outline" href="reglement.html">Consulter les modalités du classement ↗</a>
-  </section>
-  <section class="section" style="padding-top:10px;padding-bottom:10px;">
-   <a class="btn outline" href="#participants-section">
-     Voir directement la liste des participants
-   </a>
-  </section>
-  <section class="section" id="participants-section">
-   <h2>Participants inscrits</h2>
-   <p class="small">Seules les inscriptions confirmées après paiement sont affichées. Prénom, nom et catégorie uniquement.</p>
-   <div aria-live="polite" class="panel" id="participants-list">Chargement des participants…</div>
-  </section>
- </main>
- <footer>
-  <div class="footerinner">
-   <div class="footeridentity">
-    <img alt="Pionniers 110M" src="assets/logo-pionniers.png"/>
-    <div>
-     <strong>Pionniers de Magnée</strong><small>1er mai 2027 · Locaux scouts de Magnée</small>
-    </div>
-   </div>
-   <div class="footerlinks">
-    <a href="mailto:guillaumedesmare@gmail.com">Contacter l’organisation</a>
-    <a href="reglement.html">Règlement</a>
-    <a href="organisation.html">Espace organisateur</a>
-   </div>
-  </div>
- </footer>
- <script>
-  const DEFAULT_MAIL_TEMPLATES={"received":{"label":"Demande d’inscription reçue","subject":"Demande reçue — Backyard de Magnée — {{reference}}","body":"Bonjour {{contact_nom}},\n\nNous avons bien reçu votre demande d’inscription. Votre dossier est enregistré, mais votre inscription n’est pas encore confirmée.\n\nPour régler votre dossier, effectuez un virement de {{montant}} € :\nIBAN : {{iban}}\nBénéficiaire : {{beneficiaire}}\nCommunication : {{reference}}\n\nLa confirmation sera envoyée uniquement après réception et vérification du paiement par l’organisation.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée"},"confirmed":{"label":"Inscription confirmée après paiement","subject":"Inscription confirmée — Backyard de Magnée — {{reference}}","body":"Bonjour {{contact_nom}},\n\nVotre paiement a été reçu et vérifié par l’organisation. Votre inscription est confirmée.\n\nConservez votre référence de dossier et présentez-vous au retrait des badges entre 8 h 30 et 9 h 30.\nDeux rappels sont prévus : le 17 avril et le 30 avril 2027.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée"},"j14":{"label":"Rappel à deux semaines · 17 avril 2027","subject":"Dans deux semaines — Backyard de Magnée — {{reference}}","body":"Bonjour {{contact_nom}},\n\nLa Backyard de Magnée aura lieu dans deux semaines. Votre inscription est confirmée.\n\nLes départs seront libres entre 10 h et 22 h, sur une boucle d’environ 4,1 km et 100 m D+. En équipe de 2 à 6, plusieurs membres peuvent courir ensemble ; une boucle compte pour un seul tour d’équipe.\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité. La dernière boucle doit être terminée et badgée à l’arrivée avant 22 h ; à 22 h ou après, elle ne compte pas.\n\nLe classement en direct sera visible uniquement sur l’écran sur place. Les résultats seront publiés sur le site après vérification.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée"},"j1":{"label":"Rappel la veille · 30 avril 2027","subject":"À demain — Backyard de Magnée — {{reference}}","body":"Bonjour {{contact_nom}},\n\nNous vous attendons demain pour la Backyard de Magnée. Votre inscription est confirmée.\n\nÀ retenir :\n• Retrait des badges de 8 h 30 à 9 h 30.\n• Course et départs libres de 10 h à 22 h.\n• Badgeage à mi-parcours et à la fin de chaque boucle.\n• Dernière arrivée badgée avant 22 h impérativement.\n• Lampe frontale et vêtements visibles dans le noir à prévoir.\n\nPour les équipes : un ou plusieurs coureurs peuvent courir ensemble, mais une boucle compte pour un seul tour d’équipe.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée"}};const DEFAULT_PAGE_CONTENTS={"infos":"## Supporters et convivialité\n\nVenez aussi encourager les coureurs\nLes supporters sont les bienvenus. Un bar est présent pendant tout l’événement. Des pains saucisse supplémentaires peuvent être ajoutés à l’inscription pour eux, à 4 € pièce.\n\n## Participation et sécurité\n\nParticipation et équipement\nAucune annulation ni aucun remboursement possibles. Prévoyez une frontale et des vêtements visibles dans le noir.\n\n## Date\n\nSamedi 1er mai 2027\nCourse de 10 h à 22 h. Retrait des badges de 8 h 30 à 9 h 30. Départs libres sur la boucle.\n\n## Camp de base\n\nLocaux scouts de Magnée\nRue du Village 17, 4623 Magnée, Belgique. Les indications de parking et d’accès restent à préciser.\n\n## Inscription\n\n20 € par personne\nSolo : 20 €. Relais de 2 à 6 : de 40 à 120 €. Le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur sont compris.\n\n## Ce qui est compris et les suppléments\n\nMédaille incluse · Pain saucisse supplémentaire 4 €\nUn pain saucisse et une médaille sont compris pour chaque coureur dans les 20 €, avec un pain saucisse et une médaille par membre de l’équipe. Seuls les pains saucisse supplémentaires pour les supporters sont facturés en plus : 4 € pièce.\n\n## Capacité\n\n250 coureurs au total\nUne équipe occupe autant de places que de coureurs inscrits (de 2 à 6). Les demandes en attente de paiement sont incluses dans cette jauge.\n\n## Contact\n\nPionniers de Magnée\nguillaumedesmare@gmail.com · Un contact par dossier pour les confirmations et rappels.\n\n## Quand mon inscription est-elle confirmée ?\n\nLa demande enregistre les coureurs et réserve les places. Après votre virement, l’organisation vérifie le paiement. Le mail de confirmation est envoyé après cette validation. Conservez la référence et les instructions affichées à la fin du formulaire.\n\n## Peut-on ajouter des pains saucisse pour les supporters ?\n\nOui. Un pain saucisse et une médaille par coureur sont déjà compris. Indiquez simplement le nombre de pains saucisse supplémentaires pour vos supporters ; ils sont facturés 4 € pièce. Le total se met à jour avant l’enregistrement.\n\n## Comment fonctionne le relais ?\n\nL’équipe comprend de 2 à 6 coureurs nominatifs. Un ou plusieurs membres peuvent être en course ensemble, mais une boucle réalisée ensemble compte pour un seul tour d’équipe. Les départs sont libres entre 10 h et 22 h.\n\n## Comment les tours sont-ils validés ?\n\nLe dispositif prévu prévoit un contrôle par badge à mi-parcours et à l’arrivée de chaque boucle. Les passages sont vérifiés pour déterminer les boucles retenues au classement.\n\n## Quand recevrai-je les rappels ?\n\nDeux rappels sont prévus pour les inscriptions confirmées : le 17 avril 2027 et le 30 avril 2027. Pour les équipes, ils sont envoyés au contact renseigné dans le dossier.\n\n## Peut-on venir encourager les coureurs ?\n\nOui, les supporters sont les bienvenus pour encourager les coureurs. Un bar est présent pendant tout l’événement. Vous pouvez ajouter des pains saucisse pour vos supporters lors de l’inscription, à 4 € pièce. Les indications de stationnement seront précisées avant la course.\n\n## Où trouver les résultats ?\n\nAprès l’événement, la page Classement présentera séparément les solos et les équipes, avec les tours validés, la distance estimée et le meilleur tour. Pendant la course, le classement en direct est affiché uniquement sur un écran sur place. Les résultats définitifs seront publiés sur ce site par l’organisation après l’événement.\n\n## Que faire pour modifier ou annuler mon dossier ?\n\nL’inscription ne peut pas être annulée et aucun remboursement n’est possible. Pour toute autre question concernant votre dossier, contactez l’organisation en indiquant sa référence.","reglement":"## Format et durée\n\nL’épreuve se déroule le 1er mai 2027 sur une durée de 12 heures. L’objectif est de réaliser le plus de boucles possible sur le parcours fourni. La course commence à 10 h et se termine à 22 h. Le retrait des badges est organisé de 8 h 30 à 9 h 30. Les départs sur la boucle sont libres.\n\n## Parcours et distance\n\nLa boucle mesure environ 4,1 km et comporte environ 100 m de dénivelé positif, d’après le GPX. La distance et le dénivelé cumulés affichés au classement sont des estimations calculées à partir de ces valeurs par tour.\n\n## Participation en relais\n\nLe format équipe comprend de 2 à 6 coureurs. Un ou plusieurs équipiers peuvent courir ensemble sur une même boucle, mais celle-ci compte pour un seul tour d’équipe. Les tours ne sont donc pas multipliés par le nombre de membres présents sur le parcours.\n\n## Contrôle des passages\n\nLe dispositif prévu comprend un badgeage à mi-parcours et à la fin de chaque boucle. Seules les boucles validées par l’organisation seront retenues au classement. En cas de passage manquant, signalez-le à l’organisation pour vérification. Pour être comptabilisée, la dernière boucle doit être terminée et badgée au point d’arrivée avant 22 h. Un badgeage à 22 h ou après ne valide pas la boucle, même si elle a été commencée avant la fin de la course.\n\n## Présentation du classement\n\nPendant l’événement, le classement en direct est affiché uniquement sur un écran sur place. Le classement définitif est publié sur ce site après l’événement, à partir des résultats vérifiés du système de badges. Les solos et les équipes disposent de tableaux distincts. Le classement est ordonné par nombre de boucles validées décroissant. À égalité de tours, le meilleur tour le plus rapide départage les coureurs ou équipes. Si le nombre de tours et le meilleur temps sont identiques, le rang est ex æquo. Un meilleur tour non renseigné est affiché après les temps connus à nombre de tours égal, dans l’attente de vérification.\n\n## Conditions d’inscription\n\nAucune annulation d’inscription ni aucun remboursement ne sont possibles.\n\n## Inscription et règlement\n\nLe tarif est de 20 € par personne, avec ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur inclus. Une équipe de 2 à 6 coureurs règle de 40 à 120 € hors suppléments pour les supporters, avec un pain saucisse et une médaille par coureur inclus. Des pains saucisse supplémentaires peuvent être ajoutés pour les supporters à 4 € pièce. La confirmation intervient après réception et vérification du paiement.\n\n## Capacité et dossiers en attente\n\nLa limite est fixée à 250 personnes, solos et équipiers confondus. Une demande en attente réserve ses places jusqu’à sa confirmation ou son annulation par l’organisation. Une équipe ne peut être enregistrée que s’il reste suffisamment de places pour tous ses membres.\n\n## Visibilité et équipement\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité."};const MAIL_EXAMPLE={"contact_nom":"Camille Martin","reference":"BM-EXEMPLE","format":"Équipe de 4","coureurs":"Camille Martin, Alex Dupont, Lou Bernard, Sam Petit","montant":"88,00","supplements":"2","iban":"[IBAN à compléter]","beneficiaire":"Pionniers de Magnée","lien_parcours":"https://votre-compte.github.io/votre-depot/parcours.html","lien_reglement":"https://votre-compte.github.io/votre-depot/reglement.html","lien_infos":"https://votre-compte.github.io/votre-depot/infos.html","contact_organisation":"guillaumedesmare@gmail.com"};
+<html lang="fr"
+  ><head
+    ><meta charset="utf-8" /><meta
+      content="width=device-width,initial-scale=1"
+      name="viewport" /><meta
+      content="Backyard des Pionniers de Magnée, le 1er mai 2027 : 12 heures sur une boucle de 4,1 km. Solo ou relais de 2 à 6, 20 € par personne."
+      name="description" /><title>Classement solo &amp; équipes · Backyard Magnée</title
+    ><link href="assets/style.css" rel="stylesheet" /><script src="config.js"></script
+  ></head>
+  <body>
+    <header>
+      <div class="headerinner">
+        <a class="brand" href="index.html">
+          <img alt="Logo des Pionniers de Magnée" src="assets/logo-pionniers.png" />
+          <span>Backyard de Magnée<small>Organisée par les Pionniers · 110M</small></span>
+        </a>
+        <nav aria-label="Navigation principale">
+          <a href="index.html">Accueil</a>
+          <a href="parcours.html">Parcours</a>
+          <a href="infos.html">Infos pratiques</a>
+          <a href="reglement.html">Règlement</a>
+          <a aria-current="page" href="classement.html">Classement</a>
+          <a class="btn" href="inscription.html">S’inscrire</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="pagehead">
+        <div class="crumb"> <a href="index.html">Accueil</a> / Classement </div>
+        <h1 id="rankingtitle">Classement</h1>
+        <p class="lede" id="rankingintro"
+          >Les résultats seront publiés après la course et leur vérification par l’organisation.</p
+        >
+      </div>
+      <section class="section" id="rankingWaiting">
+        <div class="panel waitpanel">
+          <span class="pill pending" id="waitingstatus">Publication après la course</span>
+          <h2 id="waitingtitle">Les résultats seront disponibles ici.</h2>
+          <p id="waitingtext"
+            >Le classement définitif sera publié après l’épreuve du 1er mai 2027 et la vérification
+            des résultats du système de badges.</p
+          >
+          <p class="small"
+            >Le classement en direct sera affiché uniquement sur un écran sur place. Les résultats
+            définitifs seront publiés sur ce site après l’événement.</p
+          >
+          <div class="waitrules">
+            <h3>Modalités de classement</h3>
+            <p class="small"
+              >Deux classements distincts : individuels et équipes. Le nombre de boucles validées
+              détermine le rang ; à égalité, le meilleur tour le plus rapide départage les
+              participants.</p
+            >
+            <a class="small" href="reglement.html">Consulter le règlement</a>
+          </div>
+          <div class="actionrow">
+            <button class="outline" onclick="loadRanking()">Actualiser les résultats</button>
+          </div>
+        </div>
+      </section>
+      <section class="section hidden" id="rankingContent">
+        <div class="rankstats">
+          <div class="rankstat">
+            <strong id="statloops">—</strong>
+            <span>Boucles validées</span>
+          </div>
+          <div class="rankstat">
+            <strong id="statkm">—</strong>
+            <span>Kilomètres cumulés estimés</span>
+          </div>
+          <div class="rankstat">
+            <strong id="statsolo">—</strong>
+            <span>Solos classés</span>
+          </div>
+          <div class="rankstat">
+            <strong id="statteam">—</strong>
+            <span>Équipes classées</span>
+          </div>
+        </div>
+        <div class="rankbar">
+          <span class="pill pending" id="rankingstatus">En attente de publication</span>
+          <span class="small" id="rankingtime">Aucun résultat publié pour le moment.</span>
+          <button class="outline" onclick="loadRanking()">Actualiser</button>
+        </div>
+        <div class="recordcards">
+          <div class="panel">
+            <div class="eyebrow">Meilleur tour solo</div>
+            <strong id="solorecord">—</strong>
+            <span class="small" id="solorecordname">En attente de résultat</span>
+          </div>
+          <div class="panel">
+            <div class="eyebrow">Meilleur tour équipe</div>
+            <strong id="teamrecord">—</strong>
+            <span class="small" id="teamrecordname">En attente de résultat</span>
+          </div>
+        </div>
+        <div class="rankbar">
+          <div class="seg">
+            <button class="active" id="rankSolo" onclick="setCategory('solo')">Individuels</button>
+            <button id="rankTeam" onclick="setCategory('team')">Relais de 2 à 6</button>
+          </div>
+          <input
+            aria-label="Rechercher dans le classement"
+            id="ranksearch"
+            oninput="renderRanking()"
+            placeholder="Rechercher un nom ou une équipe"
+          />
+          <button class="outline" disabled="" id="rankingexport" onclick="exportRanking()"
+            >Exporter le classement ↓</button
+          >
+        </div>
+        <div class="scroll" id="ranktable" style="display: none">
+          <table>
+            <thead
+              ><tr
+                ><th>Rang</th><th>Coureur / équipe</th><th>Boucles</th><th>Distance estimée</th
+                ><th>D+ estimé</th><th>Meilleur tour</th></tr
+              ></thead
+            >
+            <tbody id="rankrows"></tbody>
+          </table>
+        </div>
+        <div class="empty" id="rankempty">
+          <span class="eyebrow">Édition du 1er mai 2027</span>
+          <h3>Le classement s’écrira sur le terrain.</h3>
+          <p
+            >Le classement définitif sera publié ici après l’événement du 1er mai 2027, à partir des
+            résultats vérifiés du système de badges. Le classement en direct est affiché uniquement
+            sur un écran sur place.</p
+          >
+        </div>
+        <div class="notice">
+          <b>Lecture du classement</b>
+          <br />Classement par nombre de boucles validées décroissant. À égalité, le meilleur tour
+          le plus rapide départage les participants. Si les deux valeurs sont identiques, le rang
+          est ex æquo. Distance estimée = boucles × 4,1 km.<br />
+          <span class="small"
+            >Aucun barème de points. Les temps manquants doivent être complétés par l’organisation
+            avant validation du classement final.</span
+          >
+        </div>
+        <a class="btn outline" href="reglement.html">Consulter les modalités du classement ↗</a>
+      </section>
+      <section class="section" style="padding-top: 10px; padding-bottom: 10px">
+        <a class="btn outline" href="#participants-section">
+          Voir directement la liste des participants
+        </a>
+      </section>
+      <section class="section" id="participants-section">
+        <h2>Participants inscrits</h2>
+        <p class="small"
+          >Seules les inscriptions confirmées après paiement sont affichées. Prénom, nom et
+          catégorie uniquement.</p
+        >
+        <div aria-live="polite" class="panel" id="participants-list"
+          >Chargement des participants…</div
+        >
+      </section>
+    </main>
+    <footer>
+      <div class="footerinner">
+        <div class="footeridentity">
+          <img alt="Pionniers 110M" src="assets/logo-pionniers.png" />
+          <div>
+            <strong>Pionniers de Magnée</strong
+            ><small>1er mai 2027 · Locaux scouts de Magnée</small>
+          </div>
+        </div>
+        <div class="footerlinks">
+          <a href="mailto:guillaumedesmare@gmail.com">Contacter l’organisation</a>
+          <a href="reglement.html">Règlement</a>
+          <a href="organisation.html">Espace organisateur</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const DEFAULT_MAIL_TEMPLATES = {
+        "received": {
+          "label": "Demande d’inscription reçue",
+          "subject": "Demande reçue — Backyard de Magnée — {{reference}}",
+          "body":
+            "Bonjour {{contact_nom}},\n\nNous avons bien reçu votre demande d’inscription. Votre dossier est enregistré, mais votre inscription n’est pas encore confirmée.\n\nPour régler votre dossier, effectuez un virement de {{montant}} € :\nIBAN : {{iban}}\nBénéficiaire : {{beneficiaire}}\nCommunication : {{reference}}\n\nLa confirmation sera envoyée uniquement après réception et vérification du paiement par l’organisation.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée",
+        },
+        "confirmed": {
+          "label": "Inscription confirmée après paiement",
+          "subject": "Inscription confirmée — Backyard de Magnée — {{reference}}",
+          "body":
+            "Bonjour {{contact_nom}},\n\nVotre paiement a été reçu et vérifié par l’organisation. Votre inscription est confirmée.\n\nConservez votre référence de dossier et présentez-vous au retrait des badges entre 8 h 30 et 9 h 30.\nDeux rappels sont prévus : le 17 avril et le 30 avril 2027.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée",
+        },
+        "j14": {
+          "label": "Rappel à deux semaines · 17 avril 2027",
+          "subject": "Dans deux semaines — Backyard de Magnée — {{reference}}",
+          "body":
+            "Bonjour {{contact_nom}},\n\nLa Backyard de Magnée aura lieu dans deux semaines. Votre inscription est confirmée.\n\nLes départs seront libres entre 10 h et 22 h, sur une boucle d’environ 4,1 km et 100 m D+. En équipe de 2 à 6, plusieurs membres peuvent courir ensemble ; une boucle compte pour un seul tour d’équipe.\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité. La dernière boucle doit être terminée et badgée à l’arrivée avant 22 h ; à 22 h ou après, elle ne compte pas.\n\nLe classement en direct sera visible uniquement sur l’écran sur place. Les résultats seront publiés sur le site après vérification.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée",
+        },
+        "j1": {
+          "label": "Rappel la veille · 30 avril 2027",
+          "subject": "À demain — Backyard de Magnée — {{reference}}",
+          "body":
+            "Bonjour {{contact_nom}},\n\nNous vous attendons demain pour la Backyard de Magnée. Votre inscription est confirmée.\n\nÀ retenir :\n• Retrait des badges de 8 h 30 à 9 h 30.\n• Course et départs libres de 10 h à 22 h.\n• Badgeage à mi-parcours et à la fin de chaque boucle.\n• Dernière arrivée badgée avant 22 h impérativement.\n• Lampe frontale et vêtements visibles dans le noir à prévoir.\n\nPour les équipes : un ou plusieurs coureurs peuvent courir ensemble, mais une boucle compte pour un seul tour d’équipe.\n\nVotre dossier : {{reference}}\nFormat : {{format}}\nCoureurs : {{coureurs}}\nMontant du dossier : {{montant}} €\nPains saucisse supplémentaires pour les supporters : {{supplements}}\n\nCourse : samedi 1er mai 2027, de 10 h à 22 h.\nRetrait des badges : de 8 h 30 à 9 h 30.\nLieu : locaux scouts de Magnée, rue du Village 17, 4623 Magnée.\n\nLe tarif comprend le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur. Les supporters sont les bienvenus ; un bar sera présent pendant tout l’événement.\n\nParcours et GPX : {{lien_parcours}}\nRèglement : {{lien_reglement}}\nInformations pratiques : {{lien_infos}}\n\nContact : {{contact_organisation}}\n\nLes Pionniers de Magnée",
+        },
+      };
+      const DEFAULT_PAGE_CONTENTS = {
+        "infos":
+          "## Supporters et convivialité\n\nVenez aussi encourager les coureurs\nLes supporters sont les bienvenus. Un bar est présent pendant tout l’événement. Des pains saucisse supplémentaires peuvent être ajoutés à l’inscription pour eux, à 4 € pièce.\n\n## Participation et sécurité\n\nParticipation et équipement\nAucune annulation ni aucun remboursement possibles. Prévoyez une frontale et des vêtements visibles dans le noir.\n\n## Date\n\nSamedi 1er mai 2027\nCourse de 10 h à 22 h. Retrait des badges de 8 h 30 à 9 h 30. Départs libres sur la boucle.\n\n## Camp de base\n\nLocaux scouts de Magnée\nRue du Village 17, 4623 Magnée, Belgique. Les indications de parking et d’accès restent à préciser.\n\n## Inscription\n\n20 € par personne\nSolo : 20 €. Relais de 2 à 6 : de 40 à 120 €. Le ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur sont compris.\n\n## Ce qui est compris et les suppléments\n\nMédaille incluse · Pain saucisse supplémentaire 4 €\nUn pain saucisse et une médaille sont compris pour chaque coureur dans les 20 €, avec un pain saucisse et une médaille par membre de l’équipe. Seuls les pains saucisse supplémentaires pour les supporters sont facturés en plus : 4 € pièce.\n\n## Capacité\n\n250 coureurs au total\nUne équipe occupe autant de places que de coureurs inscrits (de 2 à 6). Les demandes en attente de paiement sont incluses dans cette jauge.\n\n## Contact\n\nPionniers de Magnée\nguillaumedesmare@gmail.com · Un contact par dossier pour les confirmations et rappels.\n\n## Quand mon inscription est-elle confirmée ?\n\nLa demande enregistre les coureurs et réserve les places. Après votre virement, l’organisation vérifie le paiement. Le mail de confirmation est envoyé après cette validation. Conservez la référence et les instructions affichées à la fin du formulaire.\n\n## Peut-on ajouter des pains saucisse pour les supporters ?\n\nOui. Un pain saucisse et une médaille par coureur sont déjà compris. Indiquez simplement le nombre de pains saucisse supplémentaires pour vos supporters ; ils sont facturés 4 € pièce. Le total se met à jour avant l’enregistrement.\n\n## Comment fonctionne le relais ?\n\nL’équipe comprend de 2 à 6 coureurs nominatifs. Un ou plusieurs membres peuvent être en course ensemble, mais une boucle réalisée ensemble compte pour un seul tour d’équipe. Les départs sont libres entre 10 h et 22 h.\n\n## Comment les tours sont-ils validés ?\n\nLe dispositif prévu prévoit un contrôle par badge à mi-parcours et à l’arrivée de chaque boucle. Les passages sont vérifiés pour déterminer les boucles retenues au classement.\n\n## Quand recevrai-je les rappels ?\n\nDeux rappels sont prévus pour les inscriptions confirmées : le 17 avril 2027 et le 30 avril 2027. Pour les équipes, ils sont envoyés au contact renseigné dans le dossier.\n\n## Peut-on venir encourager les coureurs ?\n\nOui, les supporters sont les bienvenus pour encourager les coureurs. Un bar est présent pendant tout l’événement. Vous pouvez ajouter des pains saucisse pour vos supporters lors de l’inscription, à 4 € pièce. Les indications de stationnement seront précisées avant la course.\n\n## Où trouver les résultats ?\n\nAprès l’événement, la page Classement présentera séparément les solos et les équipes, avec les tours validés, la distance estimée et le meilleur tour. Pendant la course, le classement en direct est affiché uniquement sur un écran sur place. Les résultats définitifs seront publiés sur ce site par l’organisation après l’événement.\n\n## Que faire pour modifier ou annuler mon dossier ?\n\nL’inscription ne peut pas être annulée et aucun remboursement n’est possible. Pour toute autre question concernant votre dossier, contactez l’organisation en indiquant sa référence.",
+        "reglement":
+          "## Format et durée\n\nL’épreuve se déroule le 1er mai 2027 sur une durée de 12 heures. L’objectif est de réaliser le plus de boucles possible sur le parcours fourni. La course commence à 10 h et se termine à 22 h. Le retrait des badges est organisé de 8 h 30 à 9 h 30. Les départs sur la boucle sont libres.\n\n## Parcours et distance\n\nLa boucle mesure environ 4,1 km et comporte environ 100 m de dénivelé positif, d’après le GPX. La distance et le dénivelé cumulés affichés au classement sont des estimations calculées à partir de ces valeurs par tour.\n\n## Participation en relais\n\nLe format équipe comprend de 2 à 6 coureurs. Un ou plusieurs équipiers peuvent courir ensemble sur une même boucle, mais celle-ci compte pour un seul tour d’équipe. Les tours ne sont donc pas multipliés par le nombre de membres présents sur le parcours.\n\n## Contrôle des passages\n\nLe dispositif prévu comprend un badgeage à mi-parcours et à la fin de chaque boucle. Seules les boucles validées par l’organisation seront retenues au classement. En cas de passage manquant, signalez-le à l’organisation pour vérification. Pour être comptabilisée, la dernière boucle doit être terminée et badgée au point d’arrivée avant 22 h. Un badgeage à 22 h ou après ne valide pas la boucle, même si elle a été commencée avant la fin de la course.\n\n## Présentation du classement\n\nPendant l’événement, le classement en direct est affiché uniquement sur un écran sur place. Le classement définitif est publié sur ce site après l’événement, à partir des résultats vérifiés du système de badges. Les solos et les équipes disposent de tableaux distincts. Le classement est ordonné par nombre de boucles validées décroissant. À égalité de tours, le meilleur tour le plus rapide départage les coureurs ou équipes. Si le nombre de tours et le meilleur temps sont identiques, le rang est ex æquo. Un meilleur tour non renseigné est affiché après les temps connus à nombre de tours égal, dans l’attente de vérification.\n\n## Conditions d’inscription\n\nAucune annulation d’inscription ni aucun remboursement ne sont possibles.\n\n## Inscription et règlement\n\nLe tarif est de 20 € par personne, avec ravitaillement en fin de boucle, un pain saucisse et une médaille par coureur inclus. Une équipe de 2 à 6 coureurs règle de 40 à 120 € hors suppléments pour les supporters, avec un pain saucisse et une médaille par coureur inclus. Des pains saucisse supplémentaires peuvent être ajoutés pour les supporters à 4 € pièce. La confirmation intervient après réception et vérification du paiement.\n\n## Capacité et dossiers en attente\n\nLa limite est fixée à 250 personnes, solos et équipiers confondus. Une demande en attente réserve ses places jusqu’à sa confirmation ou son annulation par l’organisation. Une équipe ne peut être enregistrée que s’il reste suffisamment de places pour tous ses membres.\n\n## Visibilité et équipement\n\nPrévoyez une lampe frontale et des vêtements visibles dans l’obscurité.",
+      };
+      const MAIL_EXAMPLE = {
+        "contact_nom": "Camille Martin",
+        "reference": "BM-EXEMPLE",
+        "format": "Équipe de 4",
+        "coureurs": "Camille Martin, Alex Dupont, Lou Bernard, Sam Petit",
+        "montant": "88,00",
+        "supplements": "2",
+        "iban": "[IBAN à compléter]",
+        "beneficiaire": "Pionniers de Magnée",
+        "lien_parcours": "https://votre-compte.github.io/votre-depot/parcours.html",
+        "lien_reglement": "https://votre-compte.github.io/votre-depot/reglement.html",
+        "lien_infos": "https://votre-compte.github.io/votre-depot/infos.html",
+        "contact_organisation": "guillaumedesmare@gmail.com",
+      };
 
-let kind='solo',state={},key='',records=[];const $=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function choose(k){if(!$('#runners'))return;kind=k;$('#solo').classList.toggle('active',k==='solo');$('#team').classList.toggle('active',k==='team');$('#teamfield').classList.toggle('hidden',k==='solo');$('#teamname').required=k==='team';$('#runners').innerHTML=Array.from({length:k==='solo'?1:Number($('#teamsize')?.value||2)},(_,i)=>'<div class="runner"><label>Coureur '+(i+1)+'</label><div class="row"><input placeholder="Prénom" aria-label="Prénom coureur '+(i+1)+'" required maxlength="60"><input placeholder="Nom" aria-label="Nom coureur '+(i+1)+'" required maxlength="60"></div><p class="small">Un pain saucisse et une médaille sont inclus pour ce coureur.</p></div>').join('');updateButton();updateTotal()}
-function updateButton(){if(!$('#submit'))return;$('#submit').disabled=!state.open||state.remaining<(kind==='solo'?1:Number($('#teamsize')?.value||2))}
-async function api(path,body,method){if(!window.BACKYARD_CONFIG.apiUrl){if(path==='state')return {...window.BACKYARD_CONFIG.defaults,open:false,remaining:250,hasGpx:true};if(path==='results')return {status:'upcoming',rows:[]};throw Error('Le service d’inscription n’est pas encore connecté. Renseignez apiUrl dans config.js après le déploiement Apps Script.')}let r=await fetch(window.BACKYARD_CONFIG.apiUrl,{method:'POST',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:path,method:method||(body?'POST':'GET'),key:key||'',data:body||{}})});let d;try{d=await r.json()}catch{throw Error('Réponse du service illisible. Vérifiez le déploiement Apps Script.')}if(!r.ok||d.ok===false)throw Error(d.error||'Erreur du service');return d}
-function gpxDownload(text){const link=$('#gpxlink');if(!link)return;let blob=new Blob([text],{type:'application/gpx+xml'});link.href=URL.createObjectURL(blob);link.download='Backyard_Magnee_2027.gpx'}
-async function getGpx(){if(window.BACKYARD_CONFIG.apiUrl){let d=await api('gpx');if(d.gpx){gpxDownload(d.gpx);return d.gpx}}let r=await fetch('assets/parcours.gpx');if(!r.ok)throw Error('GPX indisponible');return r.text()}
-function renderPlainContent(value){const e=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));return value.split(/\n\s*\n/).filter(Boolean).map(block=>block.startsWith('## ')?'<h2>'+e(block.slice(3))+'</h2>':'<p>'+e(block).replace(/\n/g,'<br>')+'</p>').join('')}
-function updateManagedContent(){
- const root=$('#managedContent');
- if(!root)return;
- const page=root.dataset.page;
- const raw=state.contents&&state.contents[page];
- if(typeof raw!=='string'||!raw.trim())return;
- const blocks=raw.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
- const parsed=blocks.map(block=>{let lines=block.replace(/^##\s*/, '').split('\n');return {title:(lines.shift()||'').trim(),body:lines.join('\n').trim()}});
- // Preserve the original DOM and every CSS class: only edit text nodes.
- if(page==='reglement'){
-  const cards=[...root.querySelectorAll('.rule')];
-  if(parsed.length!==cards.length){console.warn('Règlement : structure différente, mise en page conservée.');return}
-  parsed.forEach((part,i)=>{const h=cards[i].querySelector('h3'),p=cards[i].querySelector('p');if(h&&p){h.textContent=part.title;p.textContent=part.body}});
- }else if(page==='infos'){
-  const facts=[...root.querySelectorAll('.fact')];
-  const faqs=[...document.querySelectorAll('main details')].filter(x=>!root.contains(x));
-  if(parsed.length!==facts.length+faqs.length){console.warn('Infos : structure différente, mise en page conservée.');return}
-  facts.forEach((card,i)=>{const h=card.querySelector('strong'),p=card.querySelector('p');if(h&&p){h.textContent=parsed[i].title;p.textContent=parsed[i].body}});
-  faqs.forEach((card,i)=>{const p=card.querySelector('p');if(p)p.textContent=parsed[facts.length+i].body});
- }
-}
+      let kind = "solo",
+        state = {},
+        key = "",
+        records = [];
+      const $ = (s) => document.querySelector(s);
+      const esc = (s) =>
+        String(s ?? "").replace(
+          /[&<>"']/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+        );
+      function choose(k) {
+        if (!$("#runners")) return;
+        kind = k;
+        $("#solo").classList.toggle("active", k === "solo");
+        $("#team").classList.toggle("active", k === "team");
+        $("#teamfield").classList.toggle("hidden", k === "solo");
+        $("#teamname").required = k === "team";
+        $("#runners").innerHTML = Array.from(
+          { length: k === "solo" ? 1 : Number($("#teamsize")?.value || 2) },
+          (_, i) =>
+            '<div class="runner"><label>Coureur ' +
+            (i + 1) +
+            '</label><div class="row"><input placeholder="Prénom" aria-label="Prénom coureur ' +
+            (i + 1) +
+            '" required maxlength="60"><input placeholder="Nom" aria-label="Nom coureur ' +
+            (i + 1) +
+            '" required maxlength="60"></div><p class="small">Un pain saucisse et une médaille sont inclus pour ce coureur.</p></div>',
+        ).join("");
+        updateButton();
+        updateTotal();
+      }
+      function updateButton() {
+        if (!$("#submit")) return;
+        $("#submit").disabled =
+          !state.open ||
+          state.remaining < (kind === "solo" ? 1 : Number($("#teamsize")?.value || 2));
+      }
+      async function api(path, body, method) {
+        if (!window.BACKYARD_CONFIG.apiUrl) {
+          if (path === "state")
+            return {
+              ...window.BACKYARD_CONFIG.defaults,
+              open: false,
+              remaining: 250,
+              hasGpx: true,
+            };
+          if (path === "results") return { status: "upcoming", rows: [] };
+          throw Error(
+            "Le service d’inscription n’est pas encore connecté. Renseignez apiUrl dans config.js après le déploiement Apps Script.",
+          );
+        }
+        let r = await fetch(window.BACKYARD_CONFIG.apiUrl, {
+          method: "POST",
+          redirect: "follow",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: path,
+            method: method || (body ? "POST" : "GET"),
+            key: key || "",
+            data: body || {},
+          }),
+        });
+        let d;
+        try {
+          d = await r.json();
+        } catch {
+          throw Error("Réponse du service illisible. Vérifiez le déploiement Apps Script.");
+        }
+        if (!r.ok || d.ok === false) throw Error(d.error || "Erreur du service");
+        return d;
+      }
+      function gpxDownload(text) {
+        const link = $("#gpxlink");
+        if (!link) return;
+        let blob = new Blob([text], { type: "application/gpx+xml" });
+        link.href = URL.createObjectURL(blob);
+        link.download = "Backyard_Magnee_2027.gpx";
+      }
+      async function getGpx() {
+        if (window.BACKYARD_CONFIG.apiUrl) {
+          let d = await api("gpx");
+          if (d.gpx) {
+            gpxDownload(d.gpx);
+            return d.gpx;
+          }
+        }
+        let r = await fetch("assets/parcours.gpx");
+        if (!r.ok) throw Error("GPX indisponible");
+        return r.text();
+      }
+      function renderPlainContent(value) {
+        const e = (value) =>
+          String(value).replace(
+            /[&<>"']/g,
+            (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+          );
+        return value
+          .split(/\n\s*\n/)
+          .filter(Boolean)
+          .map((block) =>
+            block.startsWith("## ")
+              ? "<h2>" + e(block.slice(3)) + "</h2>"
+              : "<p>" + e(block).replace(/\n/g, "<br>") + "</p>",
+          )
+          .join("");
+      }
+      function updateManagedContent() {
+        const root = $("#managedContent");
+        if (!root) return;
+        const page = root.dataset.page;
+        const raw = state.contents && state.contents[page];
+        if (typeof raw !== "string" || !raw.trim()) return;
+        const blocks = raw
+          .split(/\n\s*\n/)
+          .map((x) => x.trim())
+          .filter(Boolean);
+        const parsed = blocks.map((block) => {
+          let lines = block.replace(/^##\s*/, "").split("\n");
+          return { title: (lines.shift() || "").trim(), body: lines.join("\n").trim() };
+        });
+        // Preserve the original DOM and every CSS class: only edit text nodes.
+        if (page === "reglement") {
+          const cards = [...root.querySelectorAll(".rule")];
+          if (parsed.length !== cards.length) {
+            console.warn("Règlement : structure différente, mise en page conservée.");
+            return;
+          }
+          parsed.forEach((part, i) => {
+            const h = cards[i].querySelector("h3"),
+              p = cards[i].querySelector("p");
+            if (h && p) {
+              h.textContent = part.title;
+              p.textContent = part.body;
+            }
+          });
+        } else if (page === "infos") {
+          const facts = [...root.querySelectorAll(".fact")];
+          const faqs = [...document.querySelectorAll("main details")].filter(
+            (x) => !root.contains(x),
+          );
+          if (parsed.length !== facts.length + faqs.length) {
+            console.warn("Infos : structure différente, mise en page conservée.");
+            return;
+          }
+          facts.forEach((card, i) => {
+            const h = card.querySelector("strong"),
+              p = card.querySelector("p");
+            if (h && p) {
+              h.textContent = parsed[i].title;
+              p.textContent = parsed[i].body;
+            }
+          });
+          faqs.forEach((card, i) => {
+            const p = card.querySelector("p");
+            if (p) p.textContent = parsed[facts.length + i].body;
+          });
+        }
+      }
 
-function updateTotal(){if(!$('#total'))return;let total=(document.querySelectorAll('.runner').length*20)+(Number($('#extras').value)||0)*4;$('#total').textContent='Total à payer : '+total+' €'}
-async function refresh(){try{state=await api('state');updateManagedContent();if($('#available'))$('#available').textContent=state.remaining+' / 250';if($('#caplabel'))$('#caplabel').textContent='Places disponibles';if($('#opening'))$('#opening').textContent=state.open?'Inscriptions ouvertes':'Les inscriptions ne sont pas encore ouvertes.';if($('#when'))$('#when').textContent=state.date+' · '+state.location+' · Course : 10 h–22 h · Retrait des badges : 8 h 30–9 h 30.';if($('#eventinfo'))$('#eventinfo').textContent=state.date+' · '+state.location;if($('#description')&&state.description)$('#description').textContent=state.description;if($('#gpxlink')&&state.hasGpx){$('#gpxlink').classList.remove('hidden');loadTrack()}updateButton()}catch(e){if($('#opening'))$('#opening').textContent='Les inscriptions sont momentanément indisponibles.'}}
-async function loadTrack(){try{let xml=new DOMParser().parseFromString(await getGpx(),'application/xml');let pts=[...xml.getElementsByTagNameNS('*','trkpt'),...xml.getElementsByTagNameNS('*','rtept')].map(n=>[Number(n.getAttribute('lon')),Number(n.getAttribute('lat'))]).filter(p=>p.every(Number.isFinite));if(pts.length<2){$('#gpxstatus').textContent='GPX disponible au téléchargement. Aucun tracé affichable.';return}let xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),c=Math.cos((y0+y1)/2*Math.PI/180),scale=Math.min(560/((x1-x0)*c||1),290/(y1-y0||1));$('#track').setAttribute('points',pts.map(p=>[300+(p[0]-(x0+x1)/2)*c*scale,165-(p[1]-(y0+y1)/2)*scale].join(',')).join(' '));$('#map').classList.remove('hidden');$('#gpxstatus').textContent='Parcours officiel · GPX téléchargeable'}catch(e){$('#gpxstatus').textContent='Le tracé ne peut pas être affiché. Le fichier reste téléchargeable.'}}
-choose('solo');refresh();if($('#form'))$('#form').onsubmit=async e=>{e.preventDefault();$('#submit').disabled=true;try{let runners=[...document.querySelectorAll('.runner')].map(r=>({first:r.querySelectorAll('input')[0].value,last:r.querySelectorAll('input')[1].value}));let d=await api('register',{kind,team:$('#teamname').value,email:$('#email').value,phone:$('#phone').value,extraSausages:Number($('#extras').value),runners});$('#result').innerHTML='<div class="success"><b>Demande reçue · '+esc(d.id)+'</b><p>Votre place est réservée en attente de paiement. Un mail de demande reçue est placé dans la file d’envoi.</p><p>Virement : '+esc(d.amount)+' €<br>IBAN : '+esc(d.iban)+'<br>Bénéficiaire : '+esc(d.beneficiary)+'<br>Communication : <b>'+esc(d.id)+'</b></p><p>Conservez ces informations. Vous recevrez le mail de confirmation après vérification du paiement.</p></div>';$('#form').reset();updateTotal();await refresh()}catch(e){$('#result').textContent=e.message;await refresh()}};
-if($('#login'))$('#login').onsubmit=async e=>{e.preventDefault();key=$('#key').value;try{await loadAdmin();$('#login').classList.add('hidden');$('#dashboard').classList.remove('hidden')}catch(e){$('#adminmsg').textContent=e.message}};
-async function loadAdmin(){let d=await api('admin');records=d.records;emailTemplates={...DEFAULT_MAIL_TEMPLATES,...d.templates};pageContents={...DEFAULT_PAGE_CONTENTS,...d.contents};selectMailTemplate();selectContentPage();if($('#maillogs'))$('#maillogs').innerHTML=(d.logs||[]).map(l=>'<tr><td>'+esc(l.registration_id)+'</td><td>'+esc(l.type)+'</td><td>'+esc(l.status)+'</td><td>'+esc(l.sent_at||'—')+'</td><td>'+(['failed','unknown'].includes(l.status)?'<button onclick="retryMail(\''+esc(l.id)+'\')">Réessayer</button>':'')+'</td></tr>').join('');$('#summary').textContent=d.occupied+' places réservées / 250 · '+records.filter(r=>r.status==='paid').length+' dossiers payés';$('#reminderstate').textContent=d.remindersScheduled?'Planification active.':'Planification non activée : connexion email et vérification requises.';$('#mailstate').textContent=d.emailReady?'Service email configuré. Validez le paiement uniquement après vérification bancaire.':'Envoi iCloud à connecter. Expéditeur prévu : Pionniers de Magnée <guillaumedesmare@gmail.com>. Les mails restent en attente tant que la connexion d’envoi n’est pas finalisée.';for(let [k,v]of Object.entries(d.settings)){let el=$('#settings').elements[k];if(el)el.type==='checkbox'?el.checked=v:el.value=v}$('#records').innerHTML=records.map(r=>'<tr><td><b>'+esc(r.id)+'</b><br>'+esc(r.created.slice(0,10))+'</td><td>'+esc(r.team||'Individuel')+'<br>'+r.runners.map(n=>esc(n.first+' '+n.last)).join('<br>')+'</td><td>'+esc(r.email)+'<br>'+esc(r.phone)+'</td><td>'+r.runners.map(n=>esc(n.first)+': pain saucisse inclus'+' + médaille incluse').join('<br>')+'<br>Suppléments supporters : '+esc(r.extra_sausages||0)+'<br><b>'+esc(r.amount==null?'—':r.amount+' €')+'</b></td><td>'+esc(r.status==='paid'?'Payé · vérifié':r.status==='cancelled'?'Annulé':'En attente')+'<br>Email : '+esc(r.mail)+'</td><td>'+(r.status==='pending'?'<button onclick="action(\''+r.id+'\',\'confirm\')">Paiement vérifié → confirmer</button><button class="outline" onclick="action(\''+r.id+'\',\'cancel\')">Annuler</button>':'')+(r.status==='paid'&&r.mail!=='sent'?'<button onclick="action(\''+r.id+'\',\'confirm\')">Réessayer l’email</button>':'')+'</td></tr>').join('')}
-async function action(id,action){if(!confirm(action==='confirm'?'Confirmer que le paiement a bien été reçu et vérifié ?':'Annuler ce dossier et libérer les places ?'))return;try{let d=await api('action',{id,action});$('#adminmsg').textContent=d.message;await loadAdmin()}catch(e){$('#adminmsg').textContent=e.message}}
-if($('#settings'))$('#settings').onsubmit=async e=>{e.preventDefault();let f=new FormData(e.target),s=Object.fromEntries(f);s.open=f.has('open');try{await api('settings',s);$('#adminmsg').textContent='Paramètres enregistrés';await loadAdmin()}catch(e){$('#adminmsg').textContent=e.message}};
-function csv(){let rows=[['Dossier','Date','Format','Équipe','Prénom','Nom','Email contact','Téléphone','Pains saucisse inclus (dossier)','Suppléments supporters (dossier)','Médailles incluses (dossier)','Montant dossier (€)','Statut paiement','Email confirmation']];records.forEach(r=>r.runners.forEach(n=>rows.push([r.id,r.created,r.kind,r.team,n.first,n.last,r.email,r.phone,r.seats,r.extra_sausages||0,r.seats,r.amount,r.status,r.mail])));let text='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/^[=+@-]/,"'$&").replace(/"/g,'""')+'"').join(';')).join('\r\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download='Backyard_Magnee_inscriptions.csv';a.click();URL.revokeObjectURL(a.href)}
+      function updateTotal() {
+        if (!$("#total")) return;
+        let total =
+          document.querySelectorAll(".runner").length * 20 + (Number($("#extras").value) || 0) * 4;
+        $("#total").textContent = "Total à payer : " + total + " €";
+      }
+      async function refresh() {
+        try {
+          state = await api("state");
+          updateManagedContent();
+          if ($("#available")) $("#available").textContent = state.remaining + " / 250";
+          if ($("#caplabel")) $("#caplabel").textContent = "Places disponibles";
+          if ($("#opening"))
+            $("#opening").textContent = state.open
+              ? "Inscriptions ouvertes"
+              : "Les inscriptions ne sont pas encore ouvertes.";
+          if ($("#when"))
+            $("#when").textContent =
+              state.date +
+              " · " +
+              state.location +
+              " · Course : 10 h–22 h · Retrait des badges : 8 h 30–9 h 30.";
+          if ($("#eventinfo")) $("#eventinfo").textContent = state.date + " · " + state.location;
+          if ($("#description") && state.description)
+            $("#description").textContent = state.description;
+          if ($("#gpxlink") && state.hasGpx) {
+            $("#gpxlink").classList.remove("hidden");
+            loadTrack();
+          }
+          updateButton();
+        } catch (e) {
+          if ($("#opening"))
+            $("#opening").textContent = "Les inscriptions sont momentanément indisponibles.";
+        }
+      }
+      async function loadTrack() {
+        try {
+          let xml = new DOMParser().parseFromString(await getGpx(), "application/xml");
+          let pts = [
+            ...xml.getElementsByTagNameNS("*", "trkpt"),
+            ...xml.getElementsByTagNameNS("*", "rtept"),
+          ]
+            .map((n) => [Number(n.getAttribute("lon")), Number(n.getAttribute("lat"))])
+            .filter((p) => p.every(Number.isFinite));
+          if (pts.length < 2) {
+            $("#gpxstatus").textContent =
+              "GPX disponible au téléchargement. Aucun tracé affichable.";
+            return;
+          }
+          let xs = pts.map((p) => p[0]),
+            ys = pts.map((p) => p[1]),
+            x0 = Math.min(...xs),
+            x1 = Math.max(...xs),
+            y0 = Math.min(...ys),
+            y1 = Math.max(...ys),
+            c = Math.cos((((y0 + y1) / 2) * Math.PI) / 180),
+            scale = Math.min(560 / ((x1 - x0) * c || 1), 290 / (y1 - y0 || 1));
+          $("#track").setAttribute(
+            "points",
+            pts
+              .map((p) =>
+                [
+                  300 + (p[0] - (x0 + x1) / 2) * c * scale,
+                  165 - (p[1] - (y0 + y1) / 2) * scale,
+                ].join(","),
+              )
+              .join(" "),
+          );
+          $("#map").classList.remove("hidden");
+          $("#gpxstatus").textContent = "Parcours officiel · GPX téléchargeable";
+        } catch (e) {
+          $("#gpxstatus").textContent =
+            "Le tracé ne peut pas être affiché. Le fichier reste téléchargeable.";
+        }
+      }
+      choose("solo");
+      refresh();
+      if ($("#form"))
+        $("#form").onsubmit = async (e) => {
+          e.preventDefault();
+          $("#submit").disabled = true;
+          try {
+            let runners = [...document.querySelectorAll(".runner")].map((r) => ({
+              first: r.querySelectorAll("input")[0].value,
+              last: r.querySelectorAll("input")[1].value,
+            }));
+            let d = await api("register", {
+              kind,
+              team: $("#teamname").value,
+              email: $("#email").value,
+              phone: $("#phone").value,
+              extraSausages: Number($("#extras").value),
+              runners,
+            });
+            $("#result").innerHTML =
+              '<div class="success"><b>Demande reçue · ' +
+              esc(d.id) +
+              "</b><p>Votre place est réservée en attente de paiement. Un mail de demande reçue est placé dans la file d’envoi.</p><p>Virement : " +
+              esc(d.amount) +
+              " €<br>IBAN : " +
+              esc(d.iban) +
+              "<br>Bénéficiaire : " +
+              esc(d.beneficiary) +
+              "<br>Communication : <b>" +
+              esc(d.id) +
+              "</b></p><p>Conservez ces informations. Vous recevrez le mail de confirmation après vérification du paiement.</p></div>";
+            $("#form").reset();
+            updateTotal();
+            await refresh();
+          } catch (e) {
+            $("#result").textContent = e.message;
+            await refresh();
+          }
+        };
+      if ($("#login"))
+        $("#login").onsubmit = async (e) => {
+          e.preventDefault();
+          key = $("#key").value;
+          try {
+            await loadAdmin();
+            $("#login").classList.add("hidden");
+            $("#dashboard").classList.remove("hidden");
+          } catch (e) {
+            $("#adminmsg").textContent = e.message;
+          }
+        };
+      async function loadAdmin() {
+        let d = await api("admin");
+        records = d.records;
+        emailTemplates = { ...DEFAULT_MAIL_TEMPLATES, ...d.templates };
+        pageContents = { ...DEFAULT_PAGE_CONTENTS, ...d.contents };
+        selectMailTemplate();
+        selectContentPage();
+        if ($("#maillogs"))
+          $("#maillogs").innerHTML = (d.logs || [])
+            .map(
+              (l) =>
+                "<tr><td>" +
+                esc(l.registration_id) +
+                "</td><td>" +
+                esc(l.type) +
+                "</td><td>" +
+                esc(l.status) +
+                "</td><td>" +
+                esc(l.sent_at || "—") +
+                "</td><td>" +
+                (["failed", "unknown"].includes(l.status)
+                  ? "<button onclick=\"retryMail('" + esc(l.id) + "')\">Réessayer</button>"
+                  : "") +
+                "</td></tr>",
+            )
+            .join("");
+        $("#summary").textContent =
+          d.occupied +
+          " places réservées / 250 · " +
+          records.filter((r) => r.status === "paid").length +
+          " dossiers payés";
+        $("#reminderstate").textContent = d.remindersScheduled
+          ? "Planification active."
+          : "Planification non activée : connexion email et vérification requises.";
+        $("#mailstate").textContent = d.emailReady
+          ? "Service email configuré. Validez le paiement uniquement après vérification bancaire."
+          : "Envoi iCloud à connecter. Expéditeur prévu : Pionniers de Magnée <guillaumedesmare@gmail.com>. Les mails restent en attente tant que la connexion d’envoi n’est pas finalisée.";
+        for (let [k, v] of Object.entries(d.settings)) {
+          let el = $("#settings").elements[k];
+          if (el) el.type === "checkbox" ? (el.checked = v) : (el.value = v);
+        }
+        $("#records").innerHTML = records
+          .map(
+            (r) =>
+              "<tr><td><b>" +
+              esc(r.id) +
+              "</b><br>" +
+              esc(r.created.slice(0, 10)) +
+              "</td><td>" +
+              esc(r.team || "Individuel") +
+              "<br>" +
+              r.runners.map((n) => esc(n.first + " " + n.last)).join("<br>") +
+              "</td><td>" +
+              esc(r.email) +
+              "<br>" +
+              esc(r.phone) +
+              "</td><td>" +
+              r.runners
+                .map((n) => esc(n.first) + ": pain saucisse inclus" + " + médaille incluse")
+                .join("<br>") +
+              "<br>Suppléments supporters : " +
+              esc(r.extra_sausages || 0) +
+              "<br><b>" +
+              esc(r.amount == null ? "—" : r.amount + " €") +
+              "</b></td><td>" +
+              esc(
+                r.status === "paid"
+                  ? "Payé · vérifié"
+                  : r.status === "cancelled"
+                    ? "Annulé"
+                    : "En attente",
+              ) +
+              "<br>Email : " +
+              esc(r.mail) +
+              "</td><td>" +
+              (r.status === "pending"
+                ? "<button onclick=\"action('" +
+                  r.id +
+                  "','confirm')\">Paiement vérifié → confirmer</button><button class=\"outline\" onclick=\"action('" +
+                  r.id +
+                  "','cancel')\">Annuler</button>"
+                : "") +
+              (r.status === "paid" && r.mail !== "sent"
+                ? "<button onclick=\"action('" + r.id + "','confirm')\">Réessayer l’email</button>"
+                : "") +
+              "</td></tr>",
+          )
+          .join("");
+      }
+      async function action(id, action) {
+        if (
+          !confirm(
+            action === "confirm"
+              ? "Confirmer que le paiement a bien été reçu et vérifié ?"
+              : "Annuler ce dossier et libérer les places ?",
+          )
+        )
+          return;
+        try {
+          let d = await api("action", { id, action });
+          $("#adminmsg").textContent = d.message;
+          await loadAdmin();
+        } catch (e) {
+          $("#adminmsg").textContent = e.message;
+        }
+      }
+      if ($("#settings"))
+        $("#settings").onsubmit = async (e) => {
+          e.preventDefault();
+          let f = new FormData(e.target),
+            s = Object.fromEntries(f);
+          s.open = f.has("open");
+          try {
+            await api("settings", s);
+            $("#adminmsg").textContent = "Paramètres enregistrés";
+            await loadAdmin();
+          } catch (e) {
+            $("#adminmsg").textContent = e.message;
+          }
+        };
+      function csv() {
+        let rows = [
+          [
+            "Dossier",
+            "Date",
+            "Format",
+            "Équipe",
+            "Prénom",
+            "Nom",
+            "Email contact",
+            "Téléphone",
+            "Pains saucisse inclus (dossier)",
+            "Suppléments supporters (dossier)",
+            "Médailles incluses (dossier)",
+            "Montant dossier (€)",
+            "Statut paiement",
+            "Email confirmation",
+          ],
+        ];
+        records.forEach((r) =>
+          r.runners.forEach((n) =>
+            rows.push([
+              r.id,
+              r.created,
+              r.kind,
+              r.team,
+              n.first,
+              n.last,
+              r.email,
+              r.phone,
+              r.seats,
+              r.extra_sausages || 0,
+              r.seats,
+              r.amount,
+              r.status,
+              r.mail,
+            ]),
+          ),
+        );
+        let text =
+          "\ufeff" +
+          rows
+            .map((r) =>
+              r
+                .map(
+                  (v) =>
+                    '"' +
+                    String(v ?? "")
+                      .replace(/^[=+@-]/, "'$&")
+                      .replace(/"/g, '""') +
+                    '"',
+                )
+                .join(";"),
+            )
+            .join("\r\n");
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([text], { type: "text/csv;charset=utf-8" }));
+        a.download = "Backyard_Magnee_inscriptions.csv";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
 
-if($('#gpxform'))$('#gpxform').onsubmit=async e=>{e.preventDefault();let f=$('#gpxfile').files[0];if(!f)return;try{let gpx=await f.text();await api('gpx',{gpx});$('#adminmsg').textContent='GPX publié sur la page Parcours.'}catch(e){$('#adminmsg').textContent=e.message}};
+      if ($("#gpxform"))
+        $("#gpxform").onsubmit = async (e) => {
+          e.preventDefault();
+          let f = $("#gpxfile").files[0];
+          if (!f) return;
+          try {
+            let gpx = await f.text();
+            await api("gpx", { gpx });
+            $("#adminmsg").textContent = "GPX publié sur la page Parcours.";
+          } catch (e) {
+            $("#adminmsg").textContent = e.message;
+          }
+        };
 
+      let rankData = { rows: [], status: "draft" },
+        rankCategory = "solo";
+      const timeFormat = (s) => {
+        if (s == null) return "—";
+        let m = Math.round(s * 1000);
+        return (
+          Math.floor(m / 60000) +
+          ":" +
+          String(Math.floor((m % 60000) / 1000)).padStart(2, "0") +
+          (m % 1000 ? "," + String(m % 1000).padStart(3, "0") : "")
+        );
+      };
+      async function loadRanking() {
+        if (!$("#rankrows")) return;
+        try {
+          rankData = await api("results");
+          if ($("#rankingWaiting")) {
+            let ready = rankData.status === "final" && rankData.rows.length > 0;
+            $("#rankingWaiting").classList.toggle("hidden", ready);
+            $("#rankingContent").classList.toggle("hidden", !ready);
+            if (!ready) {
+              if (rankData.status === "draft") {
+                $("#waitingstatus").textContent = "Résultats en cours de validation";
+                $("#waitingtitle").textContent = "Résultats en cours de vérification";
+                $("#waitingtext").textContent =
+                  "La course est terminée. L’organisation vérifie les résultats avant de publier le classement définitif.";
+              }
+              return;
+            }
+            $("#rankingtitle").textContent = "Classement officiel";
+            $("#rankingintro").textContent =
+              "Retrouvez les résultats définitifs des individuels et des équipes de la Backyard de Magnée du 1er mai 2027.";
+          }
+          $("#rankingstatus").textContent =
+            rankData.status === "final" ? "Classement final" : "En attente de publication";
+          $("#rankingtime").textContent = rankData.rows.length
+            ? "Consulté le " + new Date().toLocaleString("fr-BE")
+            : "Aucun résultat publié pour le moment.";
+          let rows = rankData.rows,
+            total = rows.reduce((a, r) => a + r.laps, 0);
+          $("#statloops").textContent = rows.length ? total : "—";
+          $("#statkm").textContent = rows.length
+            ? (total * 4.1).toLocaleString("fr-BE", { maximumFractionDigits: 1 }) + " km"
+            : "—";
+          $("#statsolo").textContent = rows.length
+            ? rows.filter((r) => r.kind === "solo").length
+            : "—";
+          $("#statteam").textContent = rows.length
+            ? rows.filter((r) => r.kind === "team").length
+            : "—";
+          for (let c of ["solo", "team"]) {
+            let best = rows
+              .filter((r) => r.kind === c && r.best_seconds != null)
+              .sort((a, b) => a.best_seconds - b.best_seconds);
+            $("#" + c + "record").textContent = best.length
+              ? timeFormat(best[0].best_seconds)
+              : "—";
+            $("#" + c + "recordname").textContent = best.length
+              ? best
+                  .filter((r) => r.best_seconds === best[0].best_seconds)
+                  .map((r) => r.name)
+                  .join(" · ")
+              : "En attente de résultat";
+          }
+          renderRanking();
+        } catch (e) {
+          if ($("#waitingstatus"))
+            $("#waitingstatus").textContent = "Vérification momentanément indisponible";
+          $("#rankingtime").textContent =
+            "Chargement indisponible. Utilisez Actualiser pour réessayer.";
+        }
+      }
+      function setCategory(c) {
+        rankCategory = c;
+        $("#rankSolo").classList.toggle("active", c === "solo");
+        $("#rankTeam").classList.toggle("active", c === "team");
+        renderRanking();
+      }
+      function renderRanking() {
+        let q = $("#ranksearch").value.toLocaleLowerCase("fr"),
+          all = rankData.rows
+            .filter((r) => r.kind === rankCategory)
+            .sort(
+              (a, b) =>
+                b.laps - a.laps ||
+                (a.best_seconds ?? Infinity) - (b.best_seconds ?? Infinity) ||
+                a.name.localeCompare(b.name, "fr"),
+            );
+        let last = null,
+          rank = 0;
+        all = all.map((r, i) => {
+          let score = r.laps + ":" + (r.best_seconds ?? "missing");
+          if (score !== last) rank = i + 1;
+          last = score;
+          return { ...r, rank };
+        });
+        let rows = all.filter((r) => r.name.toLocaleLowerCase("fr").includes(q));
+        $("#rankrows").innerHTML = rows
+          .map(
+            (r) =>
+              "<tr" +
+              (r.rank === 1 ? ' class="leader"' : "") +
+              "><td>" +
+              r.rank +
+              (all.filter((x) => x.laps === r.laps && x.best_seconds === r.best_seconds).length > 1
+                ? " ex æquo"
+                : "") +
+              "</td><td><b>" +
+              esc(r.name) +
+              "</b></td><td>" +
+              r.laps +
+              "</td><td>" +
+              (r.laps * 4.1).toLocaleString("fr-BE", { maximumFractionDigits: 1 }) +
+              " km</td><td>" +
+              (r.laps * 100).toLocaleString("fr-BE") +
+              " m</td><td>" +
+              timeFormat(r.best_seconds) +
+              "</td></tr>",
+          )
+          .join("");
+        $("#ranktable").style.display = rows.length ? "block" : "none";
+        $("#rankempty").classList.toggle("hidden", rows.length > 0);
+        if (!rows.length && rankData.rows.length)
+          $("#rankempty").innerHTML =
+            "<h3>Aucun résultat dans cette sélection</h3><p>Changez de catégorie ou de recherche.</p>";
+        $("#rankingexport").disabled = !all.length;
+      }
+      function exportRanking() {
+        let rows = [
+          ["Format", "Nom", "Boucles", "Distance estimée (km)", "D+ estimé (m)", "Meilleur tour"],
+        ];
+        rankData.rows
+          .filter((r) => r.kind === rankCategory)
+          .sort(
+            (a, b) =>
+              b.laps - a.laps ||
+              (a.best_seconds ?? Infinity) - (b.best_seconds ?? Infinity) ||
+              a.name.localeCompare(b.name, "fr"),
+          )
+          .forEach((r) =>
+            rows.push([
+              r.kind,
+              r.name,
+              r.laps,
+              (r.laps * 4.1).toFixed(1),
+              r.laps * 100,
+              timeFormat(r.best_seconds),
+            ]),
+          );
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(
+          new Blob(
+            [
+              "\ufeff" +
+                rows
+                  .map((r) =>
+                    r
+                      .map(
+                        (v) =>
+                          '"' +
+                          String(v)
+                            .replace(/^[=+@-]/, "'$&")
+                            .replace(/"/g, '""') +
+                          '"',
+                      )
+                      .join(";"),
+                  )
+                  .join("\r\n"),
+            ],
+            { type: "text/csv;charset=utf-8" },
+          ),
+        );
+        a.download = "Classement_Backyard_Magnee_" + rankCategory + ".csv";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
+      if ($("#rankrows")) loadRanking();
+      if ($("#resultform"))
+        $("#resultform").onsubmit = async (e) => {
+          e.preventDefault();
+          let t = $("#resultbest").value,
+            secs = t ? t.split(":").reduce((a, b) => a * 60 + Number(b), 0) : null;
+          try {
+            await api("results", {
+              id: $("#resultid").value,
+              laps: Number($("#resultlaps").value),
+              points: null,
+              best_seconds: secs,
+            });
+            $("#resultmsg").textContent = "Résultats enregistrés.";
+          } catch (e) {
+            $("#resultmsg").textContent = e.message;
+          }
+        };
+      if ($("#publishresults"))
+        $("#publishresults").onsubmit = async (e) => {
+          e.preventDefault();
+          try {
+            await api("results-status", { status: $("#resultstatus").value });
+            $("#adminmsg").textContent = "Visibilité du classement mise à jour.";
+          } catch (e) {
+            $("#adminmsg").textContent = e.message;
+          }
+        };
 
-let rankData={rows:[],status:'draft'},rankCategory='solo';const timeFormat=s=>{if(s==null)return '—';let m=Math.round(s*1000);return Math.floor(m/60000)+':'+String(Math.floor(m%60000/1000)).padStart(2,'0')+(m%1000?','+String(m%1000).padStart(3,'0'):'')};
-async function loadRanking(){if(!$('#rankrows'))return;try{rankData=await api('results');if($('#rankingWaiting')){let ready=rankData.status==='final'&&rankData.rows.length>0;$('#rankingWaiting').classList.toggle('hidden',ready);$('#rankingContent').classList.toggle('hidden',!ready);if(!ready){if(rankData.status==='draft'){$('#waitingstatus').textContent='Résultats en cours de validation';$('#waitingtitle').textContent='Résultats en cours de vérification';$('#waitingtext').textContent='La course est terminée. L’organisation vérifie les résultats avant de publier le classement définitif.'}return}$('#rankingtitle').textContent='Classement officiel';$('#rankingintro').textContent='Retrouvez les résultats définitifs des individuels et des équipes de la Backyard de Magnée du 1er mai 2027.'}$('#rankingstatus').textContent=rankData.status==='final'?'Classement final':'En attente de publication';$('#rankingtime').textContent=rankData.rows.length?'Consulté le '+new Date().toLocaleString('fr-BE'):'Aucun résultat publié pour le moment.';let rows=rankData.rows,total=rows.reduce((a,r)=>a+r.laps,0);$('#statloops').textContent=rows.length?total:'—';$('#statkm').textContent=rows.length?(total*4.1).toLocaleString('fr-BE',{maximumFractionDigits:1})+' km':'—';$('#statsolo').textContent=rows.length?rows.filter(r=>r.kind==='solo').length:'—';$('#statteam').textContent=rows.length?rows.filter(r=>r.kind==='team').length:'—';for(let c of ['solo','team']){let best=rows.filter(r=>r.kind===c&&r.best_seconds!=null).sort((a,b)=>a.best_seconds-b.best_seconds);$('#'+c+'record').textContent=best.length?timeFormat(best[0].best_seconds):'—';$('#'+c+'recordname').textContent=best.length?best.filter(r=>r.best_seconds===best[0].best_seconds).map(r=>r.name).join(' · '):'En attente de résultat'}renderRanking()}catch(e){if($('#waitingstatus'))$('#waitingstatus').textContent='Vérification momentanément indisponible';$('#rankingtime').textContent='Chargement indisponible. Utilisez Actualiser pour réessayer.'}}
-function setCategory(c){rankCategory=c;$('#rankSolo').classList.toggle('active',c==='solo');$('#rankTeam').classList.toggle('active',c==='team');renderRanking()}
-function renderRanking(){let q=$('#ranksearch').value.toLocaleLowerCase('fr'),all=rankData.rows.filter(r=>r.kind===rankCategory).sort((a,b)=>b.laps-a.laps||(a.best_seconds??Infinity)-(b.best_seconds??Infinity)||a.name.localeCompare(b.name,'fr'));let last=null,rank=0;all=all.map((r,i)=>{let score=r.laps+':'+(r.best_seconds??'missing');if(score!==last)rank=i+1;last=score;return {...r,rank}});let rows=all.filter(r=>r.name.toLocaleLowerCase('fr').includes(q));$('#rankrows').innerHTML=rows.map(r=>'<tr'+(r.rank===1?' class="leader"':'')+'><td>'+r.rank+(all.filter(x=>x.laps===r.laps&&x.best_seconds===r.best_seconds).length>1?' ex æquo':'')+'</td><td><b>'+esc(r.name)+'</b></td><td>'+r.laps+'</td><td>'+(r.laps*4.1).toLocaleString('fr-BE',{maximumFractionDigits:1})+' km</td><td>'+(r.laps*100).toLocaleString('fr-BE')+' m</td><td>'+timeFormat(r.best_seconds)+'</td></tr>').join('');$('#ranktable').style.display=rows.length?'block':'none';$('#rankempty').classList.toggle('hidden',rows.length>0);if(!rows.length&&rankData.rows.length)$('#rankempty').innerHTML='<h3>Aucun résultat dans cette sélection</h3><p>Changez de catégorie ou de recherche.</p>';$('#rankingexport').disabled=!all.length}
-function exportRanking(){let rows=[['Format','Nom','Boucles','Distance estimée (km)','D+ estimé (m)','Meilleur tour']];rankData.rows.filter(r=>r.kind===rankCategory).sort((a,b)=>b.laps-a.laps||(a.best_seconds??Infinity)-(b.best_seconds??Infinity)||a.name.localeCompare(b.name,'fr')).forEach(r=>rows.push([r.kind,r.name,r.laps,(r.laps*4.1).toFixed(1),r.laps*100,timeFormat(r.best_seconds)]));let a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/^[=+@-]/,"'$&").replace(/"/g,'""')+'"').join(';')).join('\r\n')],{type:'text/csv;charset=utf-8'}));a.download='Classement_Backyard_Magnee_'+rankCategory+'.csv';a.click();URL.revokeObjectURL(a.href)}
-if($('#rankrows'))loadRanking();
-if($('#resultform'))$('#resultform').onsubmit=async e=>{e.preventDefault();let t=$('#resultbest').value,secs=t?t.split(':').reduce((a,b)=>a*60+Number(b),0):null;try{await api('results',{id:$('#resultid').value,laps:Number($('#resultlaps').value),points:null,best_seconds:secs});$('#resultmsg').textContent='Résultats enregistrés.'}catch(e){$('#resultmsg').textContent=e.message}};
-if($('#publishresults'))$('#publishresults').onsubmit=async e=>{e.preventDefault();try{await api('results-status',{status:$('#resultstatus').value});$('#adminmsg').textContent='Visibilité du classement mise à jour.'}catch(e){$('#adminmsg').textContent=e.message}};
+      let preparedImport = [];
+      async function previewResultsImport() {
+        try {
+          let file = $("#resultsfile").files[0];
+          if (!file) throw Error("Choisissez le fichier JSON des résultats.");
+          if (file.size > 2000000) throw Error("Fichier trop volumineux.");
+          let data = JSON.parse(await file.text()),
+            rows = Array.isArray(data.teams)
+              ? data.teams
+              : Array.isArray(data.results)
+                ? data.results
+                : null;
+          if (!rows || !rows.length || rows.length > 250)
+            throw Error("Le fichier doit contenir entre 1 et 250 résultats.");
+          const norm = (s) =>
+            String(s ?? "")
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase()
+              .replace(/\s+/g, " ")
+              .trim();
+          let paid = records.filter((r) => r.status === "paid");
+          preparedImport = rows.map((r, i) => {
+            if (
+              !Number.isInteger(r.laps) ||
+              r.laps < 0 ||
+              r.laps > 500 ||
+              Number(r.pending || 0) > 0
+            )
+              throw Error(
+                "Résultat à vérifier pour " +
+                  String(r.name || "ligne " + (i + 1)) +
+                  ". Résolvez les passages en attente dans le kit.",
+              );
+            let best = r.best ?? r.best_seconds ?? null;
+            if (
+              r.laps > 0 &&
+              !(typeof best === "number" && Number.isFinite(best) && best > 0 && best <= 43200)
+            )
+              throw Error("Meilleur tour manquant ou invalide pour " + r.name);
+            let matches = paid.filter(
+              (p) =>
+                norm(p.team || p.runners.map((n) => n.first + " " + n.last).join(", ")) ===
+                norm(r.name),
+            );
+            return {
+              name: String(r.name || ""),
+              laps: r.laps,
+              best_seconds: r.laps ? best : null,
+              id: matches.length === 1 ? matches[0].id : "",
+            };
+          });
+          $("#importpreview").innerHTML =
+            "<table><thead><tr><th>Nom dans le kit</th><th>Tours</th><th>Meilleur tour</th><th>Dossier d’inscription payé</th></tr></thead><tbody>" +
+            preparedImport
+              .map(
+                (r, i) =>
+                  "<tr><td>" +
+                  esc(r.name) +
+                  "</td><td>" +
+                  r.laps +
+                  "</td><td>" +
+                  timeFormat(r.best_seconds) +
+                  '</td><td><select aria-label="Dossier pour ' +
+                  esc(r.name) +
+                  '" id="match' +
+                  i +
+                  '"><option value="">Choisir le dossier correspondant</option>' +
+                  paid
+                    .map(
+                      (p) =>
+                        '<option value="' +
+                        esc(p.id) +
+                        '"' +
+                        (p.id === r.id ? " selected" : "") +
+                        ">" +
+                        esc(p.team || p.runners.map((n) => n.first + " " + n.last).join(", ")) +
+                        " · " +
+                        esc(p.id) +
+                        "</option>",
+                    )
+                    .join("") +
+                  "</select></td></tr>",
+              )
+              .join("") +
+            "</tbody></table>";
+          $("#importconfirm").classList.remove("hidden");
+          $("#resultmsg").textContent =
+            "Vérifiez les associations et complétez celles qui sont manquantes.";
+        } catch (e) {
+          preparedImport = [];
+          $("#importconfirm").classList.add("hidden");
+          $("#resultmsg").textContent = e.message;
+        }
+      }
+      async function commitResultsImport() {
+        try {
+          let rows = preparedImport.map((r, i) => ({
+            id: $("#match" + i).value,
+            laps: r.laps,
+            best_seconds: r.best_seconds,
+          }));
+          if (
+            !rows.length ||
+            rows.some((r) => !r.id) ||
+            new Set(rows.map((r) => r.id)).size !== rows.length
+          )
+            throw Error("Associez chaque résultat à un dossier distinct avant l’import.");
+          let d = await api("results-import", { rows });
+          $("#resultmsg").textContent =
+            d.count +
+            " résultats enregistrés en brouillon. Ils ne seront visibles qu’après publication finale à la fin de la course.";
+          $("#importconfirm").classList.add("hidden");
+        } catch (e) {
+          $("#resultmsg").textContent = e.message;
+        }
+      }
 
-let preparedImport=[];
-async function previewResultsImport(){try{let file=$('#resultsfile').files[0];if(!file)throw Error('Choisissez le fichier JSON des résultats.');if(file.size>2000000)throw Error('Fichier trop volumineux.');let data=JSON.parse(await file.text()),rows=Array.isArray(data.teams)?data.teams:Array.isArray(data.results)?data.results:null;if(!rows||!rows.length||rows.length>250)throw Error('Le fichier doit contenir entre 1 et 250 résultats.');const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();let paid=records.filter(r=>r.status==='paid');preparedImport=rows.map((r,i)=>{if(!Number.isInteger(r.laps)||r.laps<0||r.laps>500||Number(r.pending||0)>0)throw Error('Résultat à vérifier pour '+String(r.name||'ligne '+(i+1))+'. Résolvez les passages en attente dans le kit.');let best=r.best??r.best_seconds??null;if(r.laps>0&&!(typeof best==='number'&&Number.isFinite(best)&&best>0&&best<=43200))throw Error('Meilleur tour manquant ou invalide pour '+r.name);let matches=paid.filter(p=>norm(p.team||p.runners.map(n=>n.first+' '+n.last).join(', '))===norm(r.name));return {name:String(r.name||''),laps:r.laps,best_seconds:r.laps?best:null,id:matches.length===1?matches[0].id:''}});$('#importpreview').innerHTML='<table><thead><tr><th>Nom dans le kit</th><th>Tours</th><th>Meilleur tour</th><th>Dossier d’inscription payé</th></tr></thead><tbody>'+preparedImport.map((r,i)=>'<tr><td>'+esc(r.name)+'</td><td>'+r.laps+'</td><td>'+timeFormat(r.best_seconds)+'</td><td><select aria-label="Dossier pour '+esc(r.name)+'" id="match'+i+'"><option value="">Choisir le dossier correspondant</option>'+paid.map(p=>'<option value="'+esc(p.id)+'"'+(p.id===r.id?' selected':'')+'>'+esc(p.team||p.runners.map(n=>n.first+' '+n.last).join(', '))+' · '+esc(p.id)+'</option>').join('')+'</select></td></tr>').join('')+'</tbody></table>';$('#importconfirm').classList.remove('hidden');$('#resultmsg').textContent='Vérifiez les associations et complétez celles qui sont manquantes.'}catch(e){preparedImport=[];$('#importconfirm').classList.add('hidden');$('#resultmsg').textContent=e.message}}
-async function commitResultsImport(){try{let rows=preparedImport.map((r,i)=>({id:$('#match'+i).value,laps:r.laps,best_seconds:r.best_seconds}));if(!rows.length||rows.some(r=>!r.id)||new Set(rows.map(r=>r.id)).size!==rows.length)throw Error('Associez chaque résultat à un dossier distinct avant l’import.');let d=await api('results-import',{rows});$('#resultmsg').textContent=d.count+' résultats enregistrés en brouillon. Ils ne seront visibles qu’après publication finale à la fin de la course.';$('#importconfirm').classList.add('hidden')}catch(e){$('#resultmsg').textContent=e.message}}
-
-
-let emailTemplates=JSON.parse(JSON.stringify(DEFAULT_MAIL_TEMPLATES)),pageContents={...DEFAULT_PAGE_CONTENTS};
-function fillVariables(text,data){return text.replace(/{{([a-z_]+)}}/g,(m,k)=>data[k]??m)}
-function selectMailTemplate(){if(!$('#mailtype'))return;let t=emailTemplates[$('#mailtype').value];$('#mailsubject').value=t.subject;$('#mailbody').value=t.body;$('#mailpreview').classList.add('hidden')}
-function resetMailTemplate(){let type=$('#mailtype').value;emailTemplates[type]={...DEFAULT_MAIL_TEMPLATES[type]};selectMailTemplate();$('#mailtemplatemsg').textContent='Modèle initial chargé. Enregistrez pour le conserver.'}
-async function saveMailTemplate(){try{let type=$('#mailtype').value,t={subject:$('#mailsubject').value.trim(),body:$('#mailbody').value.trim()};if(!t.subject||!t.body)throw Error('Complétez l’objet et le texte.');await api('templates',{type,...t});emailTemplates[type]={...emailTemplates[type],...t};$('#mailtemplatemsg').textContent='Modèle enregistré pour les prochains envois.'}catch(e){$('#mailtemplatemsg').textContent=e.message}}
-function previewMail(){$('#mailpreviewsubject').textContent=fillVariables($('#mailsubject').value,MAIL_EXAMPLE);$('#mailpreviewbody').textContent=fillVariables($('#mailbody').value,MAIL_EXAMPLE);$('#mailpreview').classList.remove('hidden')}
-async function mailOperation(action){try{let d=await api(action,{});$('#adminmsg').textContent=d.message;await loadAdmin()}catch(e){$('#adminmsg').textContent=e.message}}
-async function retryMail(id){if(!confirm('Vérifiez d’abord le journal du service d’envoi pour éviter un double mail. Remettre ce mail dans la file ?'))return;try{let d=await api('retry-mail',{id});$('#adminmsg').textContent=d.message;await loadAdmin()}catch(e){$('#adminmsg').textContent=e.message}}
-function selectContentPage(){if($('#contentbody'))$('#contentbody').value=pageContents[$('#contentpage').value]||''}
-async function saveContentPage(){try{let page=$('#contentpage').value,text=$('#contentbody').value;await api('contents',{page,text});pageContents[page]=text;$('#contentmsg').textContent='Contenu enregistré et disponible sur la page publique.'}catch(e){$('#contentmsg').textContent=e.message}}
-function previewContent(){$('#contentpreview').innerHTML=renderPlainContent($('#contentbody').value);$('#contentpreview').classList.remove('hidden')}
-if($('#prepared-mails'))$('#prepared-mails').innerHTML=Object.values(DEFAULT_MAIL_TEMPLATES).map(t=>'<details><summary>'+esc(t.label)+'</summary><strong>'+esc(t.subject)+'</strong><pre style="white-space:pre-wrap;font:inherit;font-size:13px">'+esc(t.body)+'</pre></details>').join('');
-</script><script>
-(async function(){const el=document.getElementById('participants-list');try{const url=window.BACKYARD_CONFIG&&window.BACKYARD_CONFIG.apiUrl;if(!url)throw Error('Service non configuré');const res=await fetch(url,{method:'POST',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'participants',method:'GET',data:{}})});const data=await res.json();if(data.ok===false)throw Error(data.error||'Service indisponible');const people=data.participants||[];if(!people.length){el.textContent='Aucun participant confirmé pour le moment.';return;}const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const solos=people.filter(p=>p.kind==='solo');const teams={};people.filter(p=>p.kind==='team').forEach(p=>(teams[p.team]??=[]).push(p));el.innerHTML='<h3>Solo ('+solos.length+')</h3><ul>'+solos.map(p=>'<li>'+escape(p.first)+' '+escape(p.last)+' — Solo</li>').join('')+'</ul><h3>Équipes de 2 à 6 ('+Object.keys(teams).length+')</h3>'+Object.entries(teams).map(([team,members])=>'<h4>'+escape(team)+'</h4><ul>'+members.map(p=>'<li>'+escape(p.first)+' '+escape(p.last)+' — Équipe</li>').join('')+'</ul>').join('');}catch(e){el.textContent='Impossible de charger les participants : '+e.message;}})();
-</script><a class="btn mobile-register" href="inscription.html">S’inscrire à la Backyard</a></body></html>
+      let emailTemplates = JSON.parse(JSON.stringify(DEFAULT_MAIL_TEMPLATES)),
+        pageContents = { ...DEFAULT_PAGE_CONTENTS };
+      function fillVariables(text, data) {
+        return text.replace(/{{([a-z_]+)}}/g, (m, k) => data[k] ?? m);
+      }
+      function selectMailTemplate() {
+        if (!$("#mailtype")) return;
+        let t = emailTemplates[$("#mailtype").value];
+        $("#mailsubject").value = t.subject;
+        $("#mailbody").value = t.body;
+        $("#mailpreview").classList.add("hidden");
+      }
+      function resetMailTemplate() {
+        let type = $("#mailtype").value;
+        emailTemplates[type] = { ...DEFAULT_MAIL_TEMPLATES[type] };
+        selectMailTemplate();
+        $("#mailtemplatemsg").textContent = "Modèle initial chargé. Enregistrez pour le conserver.";
+      }
+      async function saveMailTemplate() {
+        try {
+          let type = $("#mailtype").value,
+            t = { subject: $("#mailsubject").value.trim(), body: $("#mailbody").value.trim() };
+          if (!t.subject || !t.body) throw Error("Complétez l’objet et le texte.");
+          await api("templates", { type, ...t });
+          emailTemplates[type] = { ...emailTemplates[type], ...t };
+          $("#mailtemplatemsg").textContent = "Modèle enregistré pour les prochains envois.";
+        } catch (e) {
+          $("#mailtemplatemsg").textContent = e.message;
+        }
+      }
+      function previewMail() {
+        $("#mailpreviewsubject").textContent = fillVariables($("#mailsubject").value, MAIL_EXAMPLE);
+        $("#mailpreviewbody").textContent = fillVariables($("#mailbody").value, MAIL_EXAMPLE);
+        $("#mailpreview").classList.remove("hidden");
+      }
+      async function mailOperation(action) {
+        try {
+          let d = await api(action, {});
+          $("#adminmsg").textContent = d.message;
+          await loadAdmin();
+        } catch (e) {
+          $("#adminmsg").textContent = e.message;
+        }
+      }
+      async function retryMail(id) {
+        if (
+          !confirm(
+            "Vérifiez d’abord le journal du service d’envoi pour éviter un double mail. Remettre ce mail dans la file ?",
+          )
+        )
+          return;
+        try {
+          let d = await api("retry-mail", { id });
+          $("#adminmsg").textContent = d.message;
+          await loadAdmin();
+        } catch (e) {
+          $("#adminmsg").textContent = e.message;
+        }
+      }
+      function selectContentPage() {
+        if ($("#contentbody"))
+          $("#contentbody").value = pageContents[$("#contentpage").value] || "";
+      }
+      async function saveContentPage() {
+        try {
+          let page = $("#contentpage").value,
+            text = $("#contentbody").value;
+          await api("contents", { page, text });
+          pageContents[page] = text;
+          $("#contentmsg").textContent = "Contenu enregistré et disponible sur la page publique.";
+        } catch (e) {
+          $("#contentmsg").textContent = e.message;
+        }
+      }
+      function previewContent() {
+        $("#contentpreview").innerHTML = renderPlainContent($("#contentbody").value);
+        $("#contentpreview").classList.remove("hidden");
+      }
+      if ($("#prepared-mails"))
+        $("#prepared-mails").innerHTML = Object.values(DEFAULT_MAIL_TEMPLATES)
+          .map(
+            (t) =>
+              "<details><summary>" +
+              esc(t.label) +
+              "</summary><strong>" +
+              esc(t.subject) +
+              '</strong><pre style="white-space:pre-wrap;font:inherit;font-size:13px">' +
+              esc(t.body) +
+              "</pre></details>",
+          )
+          .join("");</script
+    ><script>
+      (async function () {
+        const element = document.getElementById("participants-list");
+        try {
+          const url = window.BACKYARD_CONFIG?.apiUrl;
+          if (!url) throw Error("Service non configuré");
+          const response = await fetch(url, {
+            method: "POST",
+            redirect: "follow",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ action: "participants", method: "GET", data: {} }),
+          });
+          const data = await response.json();
+          if (!response.ok || data.ok === false) throw Error(data.error || "Service indisponible");
+          const people = data.participants || [];
+          if (!people.length) {
+            element.textContent = "Aucun participant confirmé pour le moment.";
+            return;
+          }
+          const escape = (text) =>
+            String(text ?? "").replace(
+              /[&<>"']/g,
+              (char) =>
+                ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
+            );
+          const solos = people.filter((person) => person.kind === "solo");
+          const teams = new Map();
+          people
+            .filter((person) => person.kind === "team")
+            .forEach((person) => {
+              const id = person.team_id || person.registration_id || person.team;
+              if (!teams.has(id)) teams.set(id, { name: person.team, members: [] });
+              teams.get(id).members.push(person);
+            });
+          element.innerHTML =
+            "<h3>Solo (" +
+            solos.length +
+            ")</h3><ul>" +
+            solos
+              .map(
+                (person) =>
+                  "<li>" + escape(person.first) + " " + escape(person.last) + " — Solo</li>",
+              )
+              .join("") +
+            "</ul><h3>Équipes de 2 à 6 (" +
+            teams.size +
+            ")</h3>" +
+            Array.from(teams.values())
+              .map(
+                (team) =>
+                  "<h4>" +
+                  escape(team.name) +
+                  " (" +
+                  team.members.length +
+                  " coureurs)</h4><ul>" +
+                  team.members
+                    .map(
+                      (person) =>
+                        "<li>" +
+                        escape(person.first) +
+                        " " +
+                        escape(person.last) +
+                        " — Équipe</li>",
+                    )
+                    .join("") +
+                  "</ul>",
+              )
+              .join("");
+        } catch (error) {
+          element.textContent = "Impossible de charger les participants : " + error.message;
+        }
+      })();</script
+    ><a class="btn mobile-register" href="inscription.html">S’inscrire à la Backyard</a></body
+  ></html
+>
