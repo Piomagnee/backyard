@@ -543,5 +543,25 @@
       // Preview with the exact original page layout, without publishing or changing public HTML.
       previewContent=function(){const page=document.getElementById('contentpage').value,raw=document.getElementById('contentbody').value,el=document.getElementById('contentpreview');el.classList.remove('hidden');el.innerHTML='';const frame=document.createElement('iframe');frame.className='preview-frame';frame.setAttribute('sandbox','allow-same-origin');frame.title='Aperçu du rendu public';frame.src=page+'.html?preview='+Date.now();el.append(frame);frame.addEventListener('load',()=>{try{const doc=frame.contentDocument,root=doc.getElementById('managedContent');if(!root)return;const parsed=raw.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean).map(x=>{const lines=x.replace(/^##\s*/,'').split('\n');return {title:(lines.shift()||'').trim(),body:lines.join('\n').trim()}});if(page==='reglement'){const cards=[...root.querySelectorAll('.rule')];if(parsed.length!==cards.length)throw Error('Le règlement doit comporter exactement '+cards.length+' rubriques.');parsed.forEach((v,i)=>{cards[i].querySelector('h3').textContent=v.title;cards[i].querySelector('p').textContent=v.body})}else{const facts=[...root.querySelectorAll('.fact')],faqs=[...doc.querySelectorAll('main details')].filter(x=>!root.contains(x));if(parsed.length!==facts.length+faqs.length)throw Error('Les informations pratiques doivent comporter '+(facts.length+faqs.length)+' rubriques.');parsed.slice(0,facts.length).forEach((v,i)=>{facts[i].querySelector('strong').textContent=v.title;facts[i].querySelector('p').textContent=v.body});parsed.slice(facts.length).forEach((v,i)=>{faqs[i].querySelector('summary').textContent=v.title;faqs[i].querySelector('p').textContent=v.body})}document.getElementById('contentmsg').textContent='Aperçu du rendu public : aucune modification publiée.'}catch(e){document.getElementById('contentmsg').textContent='Aperçu impossible : '+e.message}})};
     </script>
+    <script>
+      document
+        .querySelectorAll('.admin-sidebar a[href^="#"]')
+        .forEach(function (lien) {
+          lien.addEventListener('click', function () {
+            const identifiant = lien.getAttribute('href').slice(1);
+            const section = document.getElementById(identifiant);
+      
+            if (!section) return;
+      
+            const volet = Array.from(section.children).find(
+              function (element) {
+                return element.tagName === 'DETAILS';
+              }
+            );
+      
+            if (volet) volet.open = true;
+          });
+        });
+      </script>
   </body>
 </html>
