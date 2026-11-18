@@ -520,7 +520,271 @@
           <span id="action-feedback-text"></span>
         </div>
       <script>
-        function renderSausageAdmin(d){const t=d.sausageTotals||{},tot=document.getElementById('sausage-totals'),tbody=document.getElementById('sausage-orders');if(!tot||!tbody)return;tot.textContent='Inclus pour les coureurs : '+(t.included||0)+' · Suppléments des coureurs : '+(t.extras||0)+' · Commandes supporters : '+(t.supporters||0)+' · TOTAL À PRÉVOIR : '+(t.total||0)+' · Déjà payés : '+(t.confirmed||0)+' (les commandes en attente sont incluses dans le total à prévoir).';const safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));tbody.innerHTML=(d.sausageOrders||[]).map(o=>'<tr><td>'+safe(o.id)+'</td><td>'+safe(o.first+' '+o.last)+'</td><td>'+safe(o.email)+'</td><td>'+o.quantity+'</td><td>'+o.amount+' €</td><td>'+safe(o.status)+' · mail '+safe(o.mail)+'</td><td>'+(o.status==='pending'?'<button type="button" data-id="'+safe(o.id)+'" data-status="paid">Paiement vérifié</button> <button type="button" class="outline" data-id="'+safe(o.id)+'" data-status="cancelled">Annuler</button>':'—')+'</td></tr>').join('');tbody.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click',async()=>{const status=b.dataset.status;if(!confirm(status==='paid'?'Avez-vous réellement vérifié le virement ?':'Annuler cette commande ?'))return;const msg=document.getElementById('sausage-feedback');msg.textContent='Traitement en cours…';b.disabled=true;try{const r=await api('sausage-action',{id:b.dataset.id,status});await loadAdmin();msg.textContent=r.message||'Modification enregistrée.';}catch(e){msg.textContent='Erreur : '+e.message;b.disabled=false;}}));}
+        function renderSausageAdmin(d) {
+          const t = d.sausageTotals || {};
+          const tot = document.getElementById('sausage-totals');
+          const tbody = document.getElementById('sausage-orders');
+        
+          if (!tot || !tbody) return;
+        
+          const quantite = valeur => {
+            const nombre = Number(valeur);
+            return Number.isFinite(nombre) ? Math.max(0, nombre) : 0;
+          };
+        
+          const safe = valeur => String(valeur ?? '').replace(
+            /[&<>"']/g,
+            caractere => ({
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;'
+            })[caractere]
+          );
+        
+          const total = quantite(t.total);
+          const payes = quantite(t.confirmed);
+          const attente = Math.max(0, total - payes);
+        
+          const indicateurs = [
+            {
+              titre: 'Total à prévoir',
+              valeur: total,
+              precision: 'Paiements validés et en attente',
+              couleur: '#921e27',
+              fond: '#fbf3f3'
+            },
+            {
+              titre: 'Déjà payés',
+              valeur: payes,
+              precision: 'Quantité couverte par les paiements validés',
+              couleur: '#28613e',
+              fond: '#eff7f0'
+            },
+            {
+              titre: 'En attente de paiement',
+              valeur: attente,
+              precision: 'Déjà compris dans le total à prévoir',
+              couleur: '#856018',
+              fond: '#fcf7eb'
+            },
+            {
+              titre: 'Inclus dans les inscriptions',
+              valeur: quantite(t.included),
+              precision: 'Un pain saucisse par coureur',
+              couleur: '#24302b',
+              fond: '#ffffff'
+            },
+            {
+              titre: 'Suppléments à l’inscription',
+              valeur: quantite(t.extras),
+              precision: 'Ajoutés aux dossiers des coureurs',
+              couleur: '#24302b',
+              fond: '#ffffff'
+            },
+            {
+              titre: 'Commandes sans inscription',
+              valeur: quantite(t.supporters),
+              precision: 'Commandés séparément par les supporters',
+              couleur: '#24302b',
+              fond: '#ffffff'
+            }
+          ];
+        
+          tot.classList.remove('notice');
+          tot.style.margin = '20px 0 28px';
+        
+          tot.innerHTML = `
+            <div style="
+              display:grid;
+              grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));
+              gap:12px;
+            ">
+              ${indicateurs.map(info => `
+                <div style="
+                  min-width:0;
+                  padding:20px;
+                  border:1px solid #e1e5df;
+                  border-radius:8px;
+                  background:${info.fond};
+                ">
+                  <div style="
+                    font-size:13px;
+                    font-weight:600;
+                    line-height:1.5;
+                    color:${info.couleur};
+                  ">
+                    ${info.titre}
+                  </div>
+        
+                  <div style="
+                    margin:8px 0;
+                    font-size:32px;
+                    font-weight:700;
+                    line-height:1.2;
+                    color:${info.couleur};
+                  ">
+                    ${info.valeur.toLocaleString('fr-BE')}
+                  </div>
+        
+                  <div style="
+                    font-size:12px;
+                    line-height:1.6;
+                    color:#69716c;
+                  ">
+                    ${info.precision}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+        
+            <p style="
+              margin:14px 0 0;
+              font-size:12px;
+              line-height:1.7;
+              color:#69716c;
+            ">
+              Toutes les valeurs indiquent des
+              <strong>quantités de pains saucisse</strong>.
+              Le total additionne les pains inclus, les suppléments
+              et les commandes sans inscription.
+            </p>
+          `;
+        
+          const statutsPaiement = {
+            pending: 'En attente de paiement',
+            paid: 'Paiement vérifié',
+            cancelled: 'Annulée'
+          };
+        
+          const statutsMail = {
+            queued: 'Mail en attente',
+            sending: 'Mail en cours d’envoi',
+            sent: 'Mail envoyé',
+            failed: 'Échec du mail',
+            unknown: 'Envoi du mail à vérifier',
+            not_sent: 'Mail non envoyé'
+          };
+        
+          tbody.innerHTML = (d.sausageOrders || []).map(commande => `
+            <tr>
+              <td>
+                <strong>${safe(commande.id)}</strong>
+              </td>
+        
+              <td>
+                ${safe(commande.first)} ${safe(commande.last)}
+              </td>
+        
+              <td>
+                ${safe(commande.email)}
+              </td>
+        
+              <td>
+                ${quantite(commande.quantity).toLocaleString('fr-BE')}
+              </td>
+        
+              <td>
+                ${Number.isFinite(Number(commande.amount))
+                  ? Number(commande.amount).toLocaleString('fr-BE', {
+                      style: 'currency',
+                      currency: 'EUR'
+                    })
+                  : '—'}
+              </td>
+        
+              <td>
+                ${safe(statutsPaiement[commande.status] || commande.status)}
+                <br>
+                <span class="small">
+                  ${safe(statutsMail[commande.mail] || commande.mail || '—')}
+                </span>
+              </td>
+        
+              <td>
+                ${commande.status === 'pending' ? `
+                  <button
+                    type="button"
+                    data-id="${safe(commande.id)}"
+                    data-status="paid"
+                  >
+                    Paiement vérifié
+                  </button>
+        
+                  <button
+                    type="button"
+                    class="outline"
+                    data-id="${safe(commande.id)}"
+                    data-status="cancelled"
+                  >
+                    Annuler
+                  </button>
+                ` : '—'}
+              </td>
+            </tr>
+          `).join('');
+        
+          if (!(d.sausageOrders || []).length) {
+            tbody.innerHTML = `
+              <tr>
+                <td colspan="7" style="
+                  padding:24px;
+                  text-align:center;
+                  color:#69716c;
+                ">
+                  Aucune commande de supporters pour le moment.
+                </td>
+              </tr>
+            `;
+          }
+        
+          tbody.querySelectorAll('button[data-id]').forEach(bouton => {
+            bouton.addEventListener('click', async () => {
+              const id = bouton.dataset.id;
+              const status = bouton.dataset.status;
+        
+              const question = status === 'paid'
+                ? 'Avez-vous réellement vérifié le virement bancaire ?'
+                : 'Annuler cette commande ?';
+        
+              if (!confirm(question)) return;
+        
+              const message = document.getElementById('sausage-feedback');
+              const boutonsLigne = bouton.closest('tr').querySelectorAll('button');
+        
+              boutonsLigne.forEach(element => {
+                element.disabled = true;
+              });
+        
+              if (message) message.textContent = 'Traitement en cours…';
+        
+              try {
+                const resultat = await api('sausage-action', { id, status });
+        
+                if (message) {
+                  message.textContent = resultat.message || 'Modification enregistrée.';
+                }
+        
+                try {
+                  await loadAdmin();
+                } catch (erreurActualisation) {
+                  if (message) {
+                    message.textContent =
+                      'Modification enregistrée, mais l’actualisation a échoué. ' +
+                      'Cliquez sur Actualiser pour afficher le nouvel état.';
+                  }
+                }
+              } catch (erreur) {
+                if (message) message.textContent = 'Erreur : ' + erreur.message;
+        
+                boutonsLigne.forEach(element => {
+                  element.disabled = false;
+                });
+              }
+            });
+          });
+        }
       </script>
       <script>let latestAdminSnapshot=null,previousContentVersions=[];
         const oldLoadAdmin=loadAdmin;
