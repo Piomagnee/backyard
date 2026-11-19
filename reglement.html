@@ -304,56 +304,131 @@
           )
           .join("");
       }
-      function updateManagedContent() {
-        const root = $("#managedContent");
-        if (!root) return;
-        const page = root.dataset.page;
-        const raw = state.contents && state.contents[page];
-        if (typeof raw !== "string" || !raw.trim()) return;
-        const blocks = raw
-          .split(/\n\s*\n/)
-          .map((x) => x.trim())
-          .filter(Boolean);
-        const parsed = blocks.map((block) => {
-          let lines = block.replace(/^##\s*/, "").split("\n");
-          return { title: (lines.shift() || "").trim(), body: lines.join("\n").trim() };
-        });
-        // Preserve the original DOM and every CSS class: only edit text nodes.
+
+      function parseManagedSections(value) {
+        const text = String(value ?? "")
+          .replace(/^\uFEFF/, "")
+          .replace(/\r\n?/g, "\n")
+          .trim();
+      
+        const headings = [...text.matchAll(/^##[ \t]+(.+?)[ \t]*$/gm)];
+      
+        if (
+          !headings.length ||
+          text.slice(0, headings[0].index).trim()
+        ) {
+          throw new Error(
+            "Commencez chaque rubrique par ## suivi de son titre."
+          );
+        }
+      
+        return headings.map((heading, index) => ({
+          title: heading[1].trim(),
+          body: text.slice(
+            heading.index + heading[0].length,
+            index + 1 < headings.length
+              ? headings[index + 1].index
+              : text.length
+          ).trim()
+        }));
+      }
+      
+      function validateManagedContent(page, value, expected) {
+        const sections = parseManagedSections(value);
+      
+        if (sections.length !== expected) {
+          throw new Error(
+            "Conservez les " + expected + " rubriques de cette page : " +
+            sections.length + " détectée(s). Gardez les titres précédés de ##."
+          );
+        }
+      
+        if (sections.some(section => !section.title || !section.body)) {
+          throw new Error(
+            "Chaque rubrique doit contenir un titre et un texte."
+          );
+        }
+      
+        return sections;
+      }
+      
+      function renderManagedContent(doc, page, value) {
+        const root = doc.getElementById("managedContent");
+      
+        if (!root) {
+          throw new Error("La zone de contenu de la page est introuvable.");
+        }
+      
         if (page === "reglement") {
           const cards = [...root.querySelectorAll(".rule")];
-          if (parsed.length !== cards.length) {
-            console.warn("Règlement : structure différente, mise en page conservée.");
-            return;
-          }
-          parsed.forEach((part, i) => {
-            const h = cards[i].querySelector("h3"),
-              p = cards[i].querySelector("p");
-            if (h && p) {
-              h.textContent = part.title;
-              p.textContent = part.body;
-            }
+          const sections = validateManagedContent(page, value, cards.length);
+      
+          sections.forEach((section, index) => {
+            cards[index].querySelector("h3").textContent = section.title;
+      
+            const paragraph = cards[index].querySelector("p");
+            paragraph.textContent = section.body;
+            paragraph.style.whiteSpace = "pre-line";
           });
+      
         } else if (page === "infos") {
-          const facts = [...root.querySelectorAll(".fact")];
-          const faqs = [...document.querySelectorAll("main details")].filter(
-            (x) => !root.contains(x),
+          const cards = [...root.querySelectorAll(".fact")];
+      
+          const faqs = [...doc.querySelectorAll("main details")]
+            .filter(card => !root.contains(card));
+      
+          const sections = validateManagedContent(
+            page,
+            value,
+            cards.length + faqs.length
           );
-          if (parsed.length !== facts.length + faqs.length) {
-            console.warn("Infos : structure différente, mise en page conservée.");
-            return;
-          }
-          facts.forEach((card, i) => {
-            const h = card.querySelector("strong"),
-              p = card.querySelector("p");
-            if (h && p) {
-              h.textContent = parsed[i].title;
-              p.textContent = parsed[i].body;
+      
+          cards.forEach((card, index) => {
+            const section = sections[index];
+            const lines = section.body.split("\n");
+            const label = card.querySelector(":scope > span");
+      
+            if (label) {
+              label.textContent = section.title;
             }
+      
+            card.querySelector("strong").textContent =
+              lines.length > 1 ? lines.shift().trim() : section.title;
+      
+            const paragraph = card.querySelector("p");
+            paragraph.textContent = lines.join("\n").trim();
+            paragraph.style.whiteSpace = "pre-line";
           });
-          faqs.forEach((card, i) => {
-            const p = card.querySelector("p");
-            if (p) p.textContent = parsed[facts.length + i].body;
+      
+          faqs.forEach((card, index) => {
+            const section = sections[cards.length + index];
+      
+            card.querySelector("summary").textContent = section.title;
+      
+            const paragraph = card.querySelector("p");
+            paragraph.textContent = section.body;
+            paragraph.style.whiteSpace = "pre-line";
           });
+      
+        } else {
+          throw new Error("Page de contenu inconnue.");
+        }
+      }
+      
+      function updateManagedContent() {
+        const root = document.getElementById("managedContent");
+      
+        if (!root) return;
+      
+        const page = root.dataset.page;
+        const text = state.contents && state.contents[page];
+      
+        if (typeof text !== "string" || !text.trim()) return;
+      
+        try {
+          renderManagedContent(document, page, text);
+        } catch (error) {
+          console.warn("Contenu non appliqué : " + error.message);
         }
       }
 
