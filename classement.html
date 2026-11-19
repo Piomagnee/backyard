@@ -36,27 +36,15 @@
       </div>
       <section class="section" id="rankingWaiting">
         <div class="panel waitpanel">
-          <span class="pill pending" id="waitingstatus">Publication après la course</span>
-          <h2 id="waitingtitle">Les résultats seront disponibles ici.</h2>
-          <p id="waitingtext"
-            >Le classement définitif sera publié après l’épreuve du 1er mai 2027 et la vérification
-            des résultats du système de badges.</p
-          >
-          <p class="small"
-            >Le classement en direct sera affiché uniquement sur un écran sur place. Les résultats
-            définitifs seront publiés sur ce site après l’événement.</p
-          >
+          <span class="pill pending" id="waitingstatus">Édition du 1er mai 2027</span>
+          <h2 id="waitingtitle">Rendez-vous après la course pour les résultats.</h2>
+          <p id="waitingtext">Les classements définitifs des individuels et des équipes seront publiés ici après les 12 heures de course et la vérification des passages enregistrés par les badges.</p>
           <div class="waitrules">
-            <h3>Modalités de classement</h3>
-            <p class="small"
-              >Deux classements distincts : individuels et équipes. Le nombre de boucles validées
-              détermine le rang ; à égalité, le meilleur tour le plus rapide départage les
-              participants.</p
-            >
+            <h3>Pendant l’événement</h3>
+            <p class="small">Le classement en direct sera consultable uniquement sur l’écran installé sur place.</p>
+            <h3>Comment est établi le classement ?</h3>
+            <p class="small">Les individuels et les équipes disposent de deux classements distincts. Le plus grand nombre de boucles validées détermine le rang. À égalité, le meilleur temps sur une boucle départage les coureurs ou les équipes. Si ces deux valeurs sont identiques, le rang est ex æquo.</p>
             <a class="small" href="reglement.html">Consulter le règlement</a>
-          </div>
-          <div class="actionrow">
-            <button class="outline" onclick="loadRanking()">Actualiser les résultats</button>
           </div>
         </div>
       </section>
@@ -82,7 +70,6 @@
         <div class="rankbar">
           <span class="pill pending" id="rankingstatus">En attente de publication</span>
           <span class="small" id="rankingtime">Aucun résultat publié pour le moment.</span>
-          <button class="outline" onclick="loadRanking()">Actualiser</button>
         </div>
         <div class="recordcards">
           <div class="panel">
@@ -144,15 +131,14 @@
         <a class="btn outline" href="reglement.html">Consulter les modalités du classement ↗</a>
       </section>
       <section class="section" style="padding-top: 10px; padding-bottom: 10px">
-        <a class="btn outline" href="#participants-section">
-          Voir directement la liste des participants
-        </a>
+        <button class="outline" id="participants-toggle" type="button" aria-expanded="false" aria-controls="participants-section">
+          Voir la liste des participants
+        </button>
       </section>
-      <section class="section" id="participants-section">
+      <section class="section" id="participants-section" hidden>
         <h2>Participants inscrits</h2>
         <p class="small"
-          >Seules les inscriptions confirmées après paiement sont affichées. Prénom, nom et
-          catégorie uniquement.</p
+          >Seules les inscriptions confirmées après paiement sont affichées. Individuels et membres des équipes, regroupés par nom d’équipe.</p
         >
         <div aria-live="polite" class="panel" id="participants-list"
           >Chargement des participants…</div
@@ -725,7 +711,7 @@
             $("#rankingWaiting").classList.toggle("hidden", ready);
             $("#rankingContent").classList.toggle("hidden", !ready);
             if (!ready) {
-              if (rankData.status === "draft") {
+              if (rankData.status === "draft" && Date.now() >= Date.parse("2027-05-01T20:00:00Z")) {
                 $("#waitingstatus").textContent = "Résultats en cours de validation";
                 $("#waitingtitle").textContent = "Résultats en cours de vérification";
                 $("#waitingtext").textContent =
@@ -773,7 +759,7 @@
           if ($("#waitingstatus"))
             $("#waitingstatus").textContent = "Vérification momentanément indisponible";
           $("#rankingtime").textContent =
-            "Chargement indisponible. Utilisez Actualiser pour réessayer.";
+            "Chargement indisponible. Rechargez cette page pour réessayer.";
         }
       }
       function setCategory(c) {
@@ -1119,7 +1105,7 @@
           )
           .join("");</script
     ><script>
-      (async function () {
+      async function loadParticipants() {
         const element = document.getElementById("participants-list");
         try {
           const url = window.BACKYARD_CONFIG?.apiUrl;
@@ -1180,7 +1166,25 @@
         } catch (error) {
           element.textContent = "Impossible de charger les participants : " + error.message;
         }
-      })();</script
+      }
+      const participantsToggle = document.getElementById("participants-toggle");
+      const participantsSection = document.getElementById("participants-section");
+      let participantsLoaded = false;
+      participantsToggle.addEventListener("click", () => {
+        const opening = participantsSection.hidden;
+        participantsSection.hidden = !opening;
+        participantsToggle.setAttribute("aria-expanded", String(opening));
+        participantsToggle.textContent = opening
+          ? "Masquer la liste des participants"
+          : "Voir la liste des participants";
+        if (opening) {
+          if (!participantsLoaded) {
+            participantsLoaded = true;
+            loadParticipants();
+          }
+          participantsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });</script
     ><a class="btn mobile-register" href="inscription.html">S’inscrire à la Backyard</a></body
   ></html
 >
