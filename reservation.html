@@ -344,6 +344,8 @@
             correctLevel: QRCode.CorrectLevel.M,
           });
         } catch (error) {
+          console.error("Erreur génération QR :", error);
+          console.error("Longueur des données QR :", dataText.length);
           container.textContent =
             "Le QR ne peut pas être affiché. Les informations de virement ci-dessus restent disponibles.";
         }
