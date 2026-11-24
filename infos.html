@@ -618,7 +618,7 @@
           : "Planification non activée : connexion email et vérification requises.";
         $("#mailstate").textContent = d.emailReady
           ? "Service email configuré. Validez le paiement uniquement après vérification bancaire."
-          : "Envoi iCloud à connecter. Expéditeur prévu : Pionniers de Magnée <gpionnierdemagnee@gmail.com>. Les mails restent en attente tant que la connexion d’envoi n’est pas finalisée.";
+          : "Envoi iCloud à connecter. Expéditeur prévu : Pionniers de Magnée <pionnierdemagnee@gmail.com>. Les mails restent en attente tant que la connexion d’envoi n’est pas finalisée.";
         for (let [k, v] of Object.entries(d.settings)) {
           let el = $("#settings").elements[k];
           if (el) el.type === "checkbox" ? (el.checked = v) : (el.value = v);
