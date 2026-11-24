@@ -11,7 +11,7 @@
     <title>Inscription · Backyard Magnée</title>
     <link href="assets/style.css" rel="stylesheet" />
     <script src="config.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
     ><style>
       .waiting-form-alert {
         padding: 18px;
@@ -447,7 +447,7 @@
         }
         const container = target.querySelector(".payment-qr");
         const dataText = paymentQRData(data);
-        if (!dataText || typeof QRCode === "undefined") {
+        if (!dataText || typeof qrcode === "undefined") {
           container.textContent =
             "QR indisponible : utilisez les informations de virement ci-dessus.";
           return;
@@ -458,19 +458,28 @@
         label.textContent =
           "QR de virement SEPA — vérifiez le montant, le bénéficiaire et la référence dans votre application bancaire.";
         container.append(qr, label);
+        
         try {
-          new QRCode(qr, {
-            text: dataText,
-            width: 160,
-            height: 160,
-            correctLevel: QRCode.CorrectLevel.M,
-          });
+          qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+        
+          const qrCode = qrcode(0, "M");
+          qrCode.addData(dataText, "Byte");
+          qrCode.make();
+        
+          qr.innerHTML = qrCode.createSvgTag(5, 20);
+        
+          const svg = qr.querySelector("svg");
+          svg.style.width = "220px";
+          svg.style.height = "220px";
+          svg.style.maxWidth = "100%";
+          svg.style.backgroundColor = "#ffffff";
+        
         } catch (error) {
           console.error("Erreur génération QR :", error);
-          console.error("Longueur des données QR :", dataText.length);
           container.textContent =
             "Le QR ne peut pas être affiché. Les informations de virement ci-dessus restent disponibles.";
         }
+
       }
       async function api(action, data) {
         const url = window.BACKYARD_CONFIG?.apiUrl;
